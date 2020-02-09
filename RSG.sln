@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.View", "RSG.View\RSG.View.csproj", "{1FFE6A1D-F6C9-482F-99C4-67E47937A646}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Library", "RSG.Library\RSG.Library.csproj", "{A83CEE72-300A-477B-9189-E744AC86E1FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSG.Web", "RSG.Web\RSG.Web.csproj", "{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FFE6A1D-F6C9-482F-99C4-67E47937A646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FFE6A1D-F6C9-482F-99C4-67E47937A646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFE6A1D-F6C9-482F-99C4-67E47937A646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FFE6A1D-F6C9-482F-99C4-67E47937A646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A83CEE72-300A-477B-9189-E744AC86E1FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83CEE72-300A-477B-9189-E744AC86E1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83CEE72-300A-477B-9189-E744AC86E1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83CEE72-300A-477B-9189-E744AC86E1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31596EDD-0318-46C1-BBA5-14B4F26383A8}
+	EndGlobalSection
+EndGlobal
