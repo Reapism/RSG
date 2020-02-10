@@ -1,6 +1,6 @@
 ﻿using RSG.Library.Enums;
 
-namespace RSG.Library.Utilities.Random
+namespace RSG.Library.Utilities
 {
     public static class RsgRandom
     {

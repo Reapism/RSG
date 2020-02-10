@@ -1,11 +1,10 @@
-﻿using RSG.Library.Utilities.Random;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
 namespace RSG.Library.Utilities
 {
-    public static class RandomStringUtility
+    public static class RandomString
     {
         public static IEnumerable<string> GenerateRandomStrings(int numberOfIterations, int length)
         {

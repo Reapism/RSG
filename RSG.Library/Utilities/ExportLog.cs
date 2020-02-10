@@ -3,7 +3,7 @@ using System.Text;
 
 namespace RSG.Library.Utilities
 {
-    public static class RsgExportLog
+    public static class ExportLog
     {
         public static void ExportLogFile(SimpleStatistics statistics, string path, Encoding encoding)
         {

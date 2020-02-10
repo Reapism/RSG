@@ -1,4 +1,4 @@
-﻿using RSG.Library.Utilities.Random;
+﻿using RSG.Library.Utilities;
 using System;
 
 namespace RSG.Library.Configuration
