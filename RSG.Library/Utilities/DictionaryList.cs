@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RSG.Library.Utilities
 {
-    class Dictionary
+    public class DictionaryList
     {
     }
 }

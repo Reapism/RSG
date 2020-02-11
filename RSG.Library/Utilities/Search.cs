@@ -8,13 +8,15 @@ namespace RSG.Library.Utilities
     public class Search
     {
         private string _searchString;
-        private BigInteger _searchIterations;
+
+        public BigInteger SearchIterations { get; set; }
 
         public static bool CanSearch { get; set; }
-      
+
         public Search(string searchString)
         {
             _searchString = searchString;
+            SearchIterations = BigInteger.Zero;
         }
         
         /// <summary>
@@ -34,7 +36,7 @@ namespace RSG.Library.Utilities
                     return true;
                 else
                 {
-                    _searchIterations += BigInteger.One;
+                    SearchIterations += BigInteger.One;
                     if (searchString.Length + 1 < _searchString.Length)
                     {
                         var newSearchString = searchString + characterList[i];
