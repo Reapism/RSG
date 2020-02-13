@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
-namespace RSG.Library.Utilities
+namespace RSG.Library.Service
 {
-    public class Search
+    public class SearchService
     {
         private string _searchString;
 
@@ -13,12 +10,12 @@ namespace RSG.Library.Utilities
 
         public static bool CanSearch { get; set; }
 
-        public Search(string searchString)
+        public SearchService(string searchString)
         {
             _searchString = searchString;
             SearchIterations = BigInteger.Zero;
         }
-        
+
         /// <summary>
         /// The original search algorithm.
         /// </summary>

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.View", "RSG.View\RSG.Vi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Library", "RSG.Library\RSG.Library.csproj", "{A83CEE72-300A-477B-9189-E744AC86E1FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSG.Web", "RSG.Web\RSG.Web.csproj", "{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Web", "RSG.Web\RSG.Web.csproj", "{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
