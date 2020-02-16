@@ -2,9 +2,9 @@
 using System.Numerics;
 using System.Text;
 
-namespace RSG.Library
+namespace RSG.Library.Utilities
 {
-    public class SimpleStatistics
+    public class Statistics
     {
         public BigInteger StringLength { get; set; }
         public BigInteger Iterations { get; set; }
@@ -17,7 +17,7 @@ namespace RSG.Library
         public RandomizationType Randomization { get; set; }
 
         /// <summary>
-        /// Return a string representation of the <see cref="SimpleStatistics"/> instance.
+        /// Return a string representation of the <see cref="Statistics"/> instance.
         /// </summary>
         /// <returns></returns>
         public override string ToString()

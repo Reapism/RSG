@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace RSG.Library.Service
+namespace RSG.Library.Utilities
 {
     public class SearchService
     {

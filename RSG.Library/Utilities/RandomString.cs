@@ -31,11 +31,11 @@ namespace RSG.Library.Utilities
         private static string GenerateRandomString(BigInteger length)
         {
             var stringBuilder = new StringBuilder();
-            var maxLength = CharacterList.CharacterSet.Length;
+            var maxLength = Characters.CharacterSet.Length;
 
             for (var bi = BigInteger.Zero; bi < length; bi++)
             {
-                stringBuilder.Append(CharacterList.CharacterSet[RsgRandom.Rnd.Next(maxLength)]);
+                stringBuilder.Append(Characters.CharacterSet[RsgRandom.Rnd.Next(maxLength)]);
             }
 
             return stringBuilder.ToString();

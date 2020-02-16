@@ -15,8 +15,9 @@ namespace RSG.Library.Utilities
             _reapRandom = new System.Random(_psuedoRandom.Next(int.MaxValue));
         }
 
-        public static System.Random Rnd {
-            get 
+        public static System.Random Rnd
+        {
+            get
             {
                 return SelectedRandomizationType switch
                 {
@@ -24,7 +25,7 @@ namespace RSG.Library.Utilities
                     RandomizationType.ReapRandom => _reapRandom,
                     _ => _psuedoRandom,
                 };
-            } 
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>
