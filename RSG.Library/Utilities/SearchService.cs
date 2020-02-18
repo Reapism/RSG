@@ -7,8 +7,7 @@ namespace RSG.Library.Utilities
         private string _searchString;
 
         public BigInteger SearchIterations { get; set; }
-
-        public static bool CanSearch { get; set; }
+        public bool CanSearch { get; set; }
 
         public SearchService(string searchString)
         {
@@ -31,19 +30,17 @@ namespace RSG.Library.Utilities
             {
                 if ((searchString + characterList[i]).Equals(_searchString))
                     return true;
-                else
+
+                SearchIterations += BigInteger.One;
+                if (searchString.Length + 1 < _searchString.Length)
                 {
-                    SearchIterations += BigInteger.One;
-                    if (searchString.Length + 1 < _searchString.Length)
-                    {
-                        var newSearchString = searchString + characterList[i];
-                        if (OriginalSearch(ref newSearchString, ref characterList))
-                            return true;
-                    }
+                    var newSearchString = searchString + characterList[i];
+                    if (OriginalSearch(ref newSearchString, ref characterList))
+                        return true;
                 }
             }
-
             return false;
         }
     }
 }
+

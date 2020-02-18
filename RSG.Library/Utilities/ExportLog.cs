@@ -14,6 +14,5 @@ namespace RSG.Library.Utilities
             streamWriter.WriteLine(logFile.ToString());
         }
 
-        public static
     }
 }

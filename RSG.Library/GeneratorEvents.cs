@@ -4,18 +4,10 @@ namespace RSG.Library
 {
     public class GeneratorEvents
     {
-        public event Action<object, GeneratorEventArgs> GenerateStart
-        {
-            add
-            {
-                GenerateStart += value;
-            }
-            remove
-            {
-                GenerateStart -= value;
-            }
-        }
-
+        public event EventHandler<GeneratorEventArgs> Start;
+        public event EventHandler<GeneratorEventArgs> Progress;
+        public event EventHandler<GeneratorEventArgs> End;
     }
 }
+
 
