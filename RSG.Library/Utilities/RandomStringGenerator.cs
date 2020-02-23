@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RSG.Library.Utilities
 {
-    public static class RandomString
+    public static class RandomStringGenerator
     {
         public static IEnumerable<string> GenerateRandomStrings(int numberOfIterations, int length)
         {

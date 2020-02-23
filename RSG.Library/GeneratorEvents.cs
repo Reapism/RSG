@@ -9,5 +9,3 @@ namespace RSG.Library
         public event EventHandler<GeneratorEventArgs> End;
     }
 }
-
-

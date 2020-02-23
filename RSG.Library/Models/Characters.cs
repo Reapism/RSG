@@ -2,6 +2,7 @@
 {
     public struct Characters
     {
-        public string CharacterSet { get; set; }
+        public string Set { get; set; }
+
     }
 }
