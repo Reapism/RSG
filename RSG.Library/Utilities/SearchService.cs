@@ -41,6 +41,11 @@ namespace RSG.Library.Utilities
             }
             return false;
         }
+
+        public string GetIterations()
+        {
+            return SearchIterations.ToString("n0");
+        }
     }
 }
 

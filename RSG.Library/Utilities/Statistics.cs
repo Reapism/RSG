@@ -1,20 +1,20 @@
-﻿using RSG.Library.Enums;
+﻿using RSG.Library.Interfaces;
 using System.Numerics;
 using System.Text;
 
 namespace RSG.Library.Utilities
 {
-    public class Statistics
+    public class Statistics : IStatistics, ICharacterFrequency
     {
         public BigInteger StringLength { get; set; }
         public BigInteger Iterations { get; set; }
+        public BigInteger Permutations { get; set; }
+        public string RandomizationType { get; set; }
+        public string CharacterList { get; set; }
         public BigInteger MostFrequentCharacterNumber { get; set; }
         public BigInteger LeastFrequentCharacterNumber { get; set; }
-        public BigInteger Permutations { get; set; }
         public char MostFrequentCharacter { get; set; }
         public char LeastFrequentCharacter { get; set; }
-        public string CharacterList { get; set; }
-        public RandomizationType Randomization { get; set; }
 
         /// <summary>
         /// Return a string representation of the <see cref="Statistics"/> instance.
@@ -32,7 +32,7 @@ namespace RSG.Library.Utilities
                 .AppendLine($"Most Frequent Character: {MostFrequentCharacter} ({MostFrequentCharacterNumber.ToString("n0")})")
                 .AppendLine($"String Length: {LeastFrequentCharacter}")
                 .AppendLine($"String Length: {LeastFrequentCharacterNumber}")
-                .AppendLine($"Randomization Type: {Randomization.ToString()}")
+                .AppendLine($"Randomization Type: {RandomizationType}")
                 .AppendLine($"Permutations: {Permutations.ToString("n0")}")
                 .AppendLine($"Probability: 1/({Permutations.ToString("n0")})");
 

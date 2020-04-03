@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.View", "RSG.View\RSG.Vi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Library", "RSG.Library\RSG.Library.csproj", "{A83CEE72-300A-477B-9189-E744AC86E1FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Web", "RSG.Web\RSG.Web.csproj", "{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{A83CEE72-300A-477B-9189-E744AC86E1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A83CEE72-300A-477B-9189-E744AC86E1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A83CEE72-300A-477B-9189-E744AC86E1FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEDF94A2-4F8C-4424-BD69-B0D678FBF6E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

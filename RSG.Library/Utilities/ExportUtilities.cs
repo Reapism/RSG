@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RSG.Library.Utilities
 {
-    public static class ExportLog
+    public static class ExportUtilities
     {
         public static void ExportLogFile(Log logFile, string path, Encoding encoding)
         {
