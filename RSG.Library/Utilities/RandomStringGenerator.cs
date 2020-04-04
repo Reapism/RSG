@@ -1,17 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using RSG.Library.Services;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
 namespace RSG.Library.Utilities
 {
-    public static class RandomStringGenerator
+    public class RandomStringGenerator
     {
-        public static IEnumerable<string> GenerateRandomStrings(int numberOfIterations, int length)
+        private CharacterSetService _characterSetService;
+        private char[] _characterList;
+
+        internal RandomStringGenerator(CharacterSetService characterSetService)
+        {
+            _characterSetService = characterSetService;
+            _characterList = _characterSetService.GetNewCharacterList();
+        }
+
+        public IEnumerable<string> GenerateRandomStrings(int numberOfIterations, int length)
         {
             return GenerateRandomStrings(BigInteger.Parse(numberOfIterations.ToString()), BigInteger.Parse(length.ToString()));
         }
 
-        public static IEnumerable<string> GenerateRandomStrings(BigInteger numberOfIterations, BigInteger length)
+        public IEnumerable<string> GenerateRandomStrings(BigInteger numberOfIterations, BigInteger length)
         {
             var queue = new Queue<string>();
 
@@ -23,19 +33,14 @@ namespace RSG.Library.Utilities
             return queue;
         }
 
-        private static string GenerateRandomString(int length)
-        {
-            return GenerateRandomString(BigInteger.Parse(length.ToString()));
-        }
-
-        private static string GenerateRandomString(BigInteger length)
+        private string GenerateRandomString(BigInteger length)
         {
             var stringBuilder = new StringBuilder();
-            var maxLength = Characters.CharacterSet.Length;
+            var maxLength = _characterList.Length;
 
             for (var bi = BigInteger.Zero; bi < length; bi++)
             {
-                stringBuilder.Append(Characters.CharacterSet[RsgRandom.Rnd.Next(maxLength)]);
+                stringBuilder.Append(_characterList[RandomProvider.Rnd.Next(maxLength)]);
             }
 
             return stringBuilder.ToString();
