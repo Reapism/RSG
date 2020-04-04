@@ -5,10 +5,10 @@ namespace RSG.Library.Models
 {
     internal class Dictionary
     {
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public BigInteger Size { get; private set; }
-        public BigInteger Length { get; private set; }
-        public IEnumerable<string> Words { get; private set; }
+        public string Name { get; internal set; }
+        public string Description { get; internal set; }
+        public BigInteger Size { get; internal set; }
+        public BigInteger Length { get; internal set; }
+        public IEnumerable<string> Words { get; internal set; }
     }
 }

@@ -1,35 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RSG.Library.Models
 {
-    public class CharacterSet
+    /// <summary>
+    /// Represents a set of characters with a name, and whether its enabled.
+    /// </summary>
+    [Serializable]
+    internal class CharacterSet
     {
-        public CharacterSet()
+        /// <summary>
+        /// Initialize a parameterized <see cref="CharacterSet"/>.
+        /// </summary>
+        /// <param name="name">The name representing this <see cref="CharacterSet"/>.</param>
+        /// <param name="characters">The characters representing this <see cref="CharacterSet"/>.</param>
+        /// <param name="enabled">Whether this set is enabled for use.</param>
+        public CharacterSet(string name, string characters, bool enabled)
         {
-            UseCustom = false;
-            UseLowercase = true;
-            UseNumbers = true;
-            UsePunctuation = false;
-            UseSymbols = false;
-            UseUppercase = true;
+            Name = name;
+            Characters = characters;
+            Enabled = enabled;
         }
 
-        public string Current { get; set; }
-        
-        public bool UseLowercase { get; set; }
-        public bool UseUppercase { get; set; }
-        public bool UseNumbers { get; set; }
-        public bool UseSymbols { get; set; }
-        public bool UsePunctuation { get; set; }
-        public bool UseCustom { get; set; }
+        /// <summary>
+        /// The name representing this <see cref="CharacterSet"/>.
+        /// </summary>
+        public string Name { get; set; }
 
-        // Static 
-        private static string Lowercase { get; }
-        private static string Uppercase { get; }
-        private static string Numbers { get; }
-        private static string Symbols { get; }
-        private static string Punctuation { get; }
+        /// <summary>
+        /// The characters representing this <see cref="CharacterSet"/>.
+        /// </summary>
+        public string Characters { get; set; }
+
+        /// <summary>
+        /// Whether this set is enabled for use.
+        /// </summary>
+        public bool Enabled { get; set; }
     }
 }
