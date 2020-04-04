@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace RSG.Library.Models
 {
     internal class ProcessInfo
     {
+        [Description("Thread Count")]
         public int ThreadCount { get; set; }
         public string Priority { get; set; }
         public string Affinity { get; set; }
+        [Description("Working Set")]
         public string WorkingSet { get; set; }
+        [Description("Running Times")]
         public string RunningTime { get; set; }
         public IEnumerable<ProcessReference> References { get; set; }
         public IEnumerable<ThreadReference> Threads { get; set; }

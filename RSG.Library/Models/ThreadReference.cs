@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace RSG.Library.Models
 {
@@ -17,6 +18,7 @@ namespace RSG.Library.Models
         public int Id { get; internal set; }
         public string State { get; internal set; }
         public int Priority { get; internal set; }
+        [Description("Boost when focused")]
         public bool BoostProcessWhenFocused { get; set; }
     }
 }
