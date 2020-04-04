@@ -40,7 +40,7 @@ namespace RSG.Library.Utilities
 
             for (var bi = BigInteger.Zero; bi < length; bi++)
             {
-                stringBuilder.Append(_characterList[RandomProvider.Rnd.Next(maxLength)]);
+                stringBuilder.Append(_characterList[RandomProvider.Random.Next(maxLength)]);
             }
 
             return stringBuilder.ToString();

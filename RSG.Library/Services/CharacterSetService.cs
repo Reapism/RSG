@@ -18,7 +18,7 @@ namespace RSG.Library.Services
         private char[] ScrambleCharacterList()
         {
             var allCharacters = CleanCharacterList().ToCharArray();
-            ScrambleStringUtility.KnuthShuffle(allCharacters, RandomProvider.Rnd);
+            ScrambleStringUtility.KnuthShuffle(allCharacters, RandomProvider.Random);
 
             return allCharacters;
         }

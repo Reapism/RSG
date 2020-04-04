@@ -2,7 +2,7 @@
 
 namespace RSG.Library.Utilities
 {
-    public static class ScrambleStringUtility
+    internal static class ScrambleStringUtility
     {
         public static void KnuthShuffle<T>(T[] array, Random random)
         {
