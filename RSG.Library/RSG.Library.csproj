@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Service\**" />
+    <EmbeddedResource Remove="Service\**" />
+    <None Remove="Service\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
     <Folder Include="Resources\" />
-    <Folder Include="Service\" />
   </ItemGroup>
 
   <ItemGroup>
