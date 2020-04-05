@@ -18,7 +18,7 @@ namespace RSG.Library.Models
         public int Id { get; internal set; }
         public string State { get; internal set; }
         public int Priority { get; internal set; }
-        [Description("Boost when focused")]
+        [Description("Boost When Focused")]
         public bool BoostProcessWhenFocused { get; set; }
     }
 }

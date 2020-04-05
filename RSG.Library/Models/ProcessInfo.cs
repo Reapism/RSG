@@ -13,7 +13,7 @@ namespace RSG.Library.Models
         public string Affinity { get; set; }
         [Description("Working Set")]
         public string WorkingSet { get; set; }
-        [Description("Running Times")]
+        [Description("Running Time")]
         public string RunningTime { get; set; }
         public IEnumerable<ProcessReference> References { get; set; }
         public IEnumerable<ThreadReference> Threads { get; set; }

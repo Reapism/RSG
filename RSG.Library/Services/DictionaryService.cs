@@ -13,6 +13,5 @@ namespace RSG.Library.Services
 
         }
 
-        public IEnumerable<string>
     }
 }

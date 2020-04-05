@@ -4,7 +4,9 @@ using System.Text;
 
 namespace RSG.Library.Services
 {
-    class NoiseDecorator
+    internal class NoiseDecorator
     {
+
+
     }
 }
