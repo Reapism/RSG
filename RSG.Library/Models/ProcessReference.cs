@@ -5,7 +5,7 @@ namespace RSG.Library.Models
     internal class ProcessReference
     {
         public string Name { get; set; }
-        [Description("Required Memory for Startup")]
+        [DisplayName("Required Memory for Startup")]
         public int RequiredMemoryForStartup { get; set; }
     }
 

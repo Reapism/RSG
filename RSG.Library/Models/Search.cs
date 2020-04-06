@@ -2,7 +2,7 @@
 
 namespace RSG.Library.Models
 {
-    internal class Search
+    public class Search
     {
         [DisplayName("Search String")]
         public string SearchString { get; set; }

@@ -7,13 +7,13 @@ namespace RSG.Library.Models
 {
     internal class ProcessInfo
     {
-        [Description("Thread Count")]
+        [DisplayName("Thread Count")]
         public int ThreadCount { get; set; }
         public string Priority { get; set; }
         public string Affinity { get; set; }
-        [Description("Working Set")]
+        [DisplayName("Working Set")]
         public string WorkingSet { get; set; }
-        [Description("Running Time")]
+        [DisplayName("Running Time")]
         public string RunningTime { get; set; }
         public IEnumerable<ProcessReference> References { get; set; }
         public IEnumerable<ThreadReference> Threads { get; set; }

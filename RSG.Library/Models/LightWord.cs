@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RSG.Library.Models
+﻿namespace RSG.Library.Models
 {
     internal class LightWord
     {
