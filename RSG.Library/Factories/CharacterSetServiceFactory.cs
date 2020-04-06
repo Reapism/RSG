@@ -1,7 +1,7 @@
-﻿using RSG.Library.Models;
+﻿using RSG.Library.Constants;
+using RSG.Library.Models;
 using RSG.Library.Services;
-using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace RSG.Library.Factories
 {
@@ -11,16 +11,15 @@ namespace RSG.Library.Factories
         {
             var service = new CharacterSetService()
             {
-                CharacterSets = new ConcurrentDictionary<string, CharacterSet>()
+                CharacterSets = new Dictionary<string, CharacterSet>()
             };
 
-            service.CharacterSets.TryAdd(Guid.NewGuid().ToString(), new CharacterSet("Lowercase", "abcdefghijklmnopqrstuvwxyz", true));
-            service.CharacterSets.TryAdd(Guid.NewGuid().ToString(), new CharacterSet("Uppercase", "ABCDEFGHIJKLMNAOPQRSTUVWXYZ", true));
-            service.CharacterSets.TryAdd(Guid.NewGuid().ToString(), new CharacterSet("Numbers", "0123456789", true));
-            service.CharacterSets.TryAdd(Guid.NewGuid().ToString(), new CharacterSet("Punctuation", "!,.?", true));
-            service.CharacterSets.TryAdd(Guid.NewGuid().ToString(), new CharacterSet("Space", " ", true));
-            service.CharacterSets.TryAdd(Guid.NewGuid().ToString(), new CharacterSet("Symbols", " !@#$%^&*()-=_+,./;\'\\<>?:\"[]{}|`~", true));
-            service.CharacterSets.TryAdd(Guid.NewGuid().ToString(), new CharacterSet("Custom", "", true));
+            service.CharacterSets.Add(CharacterSetConstants.LOWERCASE, new CharacterSet(CharacterSetConstants.LOWERCASE_SET, true));
+            service.CharacterSets.Add(CharacterSetConstants.UPPERCASE, new CharacterSet(CharacterSetConstants.UPPERCASE_SET, true));
+            service.CharacterSets.Add(CharacterSetConstants.NUMBERS, new CharacterSet(CharacterSetConstants.NUMBERS_SET, true));
+            service.CharacterSets.Add(CharacterSetConstants.PUNCTUATION, new CharacterSet(CharacterSetConstants.PUNCTUATION_SET, true));
+            service.CharacterSets.Add(CharacterSetConstants.SPACE, new CharacterSet(CharacterSetConstants.SPACE_SET, true));
+            service.CharacterSets.Add(CharacterSetConstants.SYMBOLS, new CharacterSet(CharacterSetConstants.SYMBOLS_SET, true));
 
             return service;
         }
