@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RSG.Library.Constants
+﻿namespace RSG.Library.Constants
 {
     public static class GenerationConstants
     {
