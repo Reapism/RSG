@@ -1,14 +1,15 @@
-﻿using RSG.Library.Models;
+﻿using RSG.Library.Interfaces;
+using RSG.Library.Models;
 using RSG.Library.Utilities;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace RSG.Library.Services
 {
-    internal class CharacterSetService
+    internal class CharacterSetService : ICharacterSet
     {
-        public ConcurrentDictionary<string, CharacterSet> CharacterSets { get; set; }
+        public Dictionary<string, CharacterSet> CharacterSets { get; set; }
 
         public char[] GetNewCharacterList()
         {
@@ -35,9 +36,7 @@ namespace RSG.Library.Services
             var enabledCharacterSets = CharacterSets.Values.Where(set => set.Enabled);
 
             foreach (var set in enabledCharacterSets)
-            {
                 strBuilder.Append(set.Characters);
-            }
 
             return strBuilder.ToString();
         }
