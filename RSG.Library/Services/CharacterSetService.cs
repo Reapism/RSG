@@ -9,7 +9,7 @@ namespace RSG.Library.Services
 {
     internal class CharacterSetService : ICharacterSet
     {
-        public Dictionary<string, CharacterSet> CharacterSets { get; set; }
+        public IDictionary<string, CharacterSet> ICharacterSet.CharacterSets { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public char[] GetNewCharacterList()
         {
