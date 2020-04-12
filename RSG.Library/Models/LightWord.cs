@@ -1,8 +1,11 @@
-﻿namespace RSG.Library.Models
+﻿using RSG.Core.Interfaces;
+
+namespace RSG.Core.Models
 {
-    internal class LightWord
+    public class LightWord : IWord
     {
-        public string Word { get; }
+        /// <inheritdoc/>
+        public string Word { get; set; }
 
         public LightWord(string word)
         {

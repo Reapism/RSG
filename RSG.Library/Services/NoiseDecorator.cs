@@ -1,9 +1,9 @@
-﻿using RSG.Library.Models;
-using System;
+﻿using System;
 using System.Numerics;
 using System.Threading.Tasks;
+using RSG.Core.Models;
 
-namespace RSG.Library.Services
+namespace RSG.Core.Services
 {
     internal class NoiseDecorator
     {

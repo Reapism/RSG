@@ -1,43 +1,67 @@
-﻿using System.Collections.Concurrent;
+﻿using RSG.Core.Interfaces;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace RSG.Library.Models
+namespace RSG.Core.Models
 {
-    internal class Words
+    /// <summary>
+    /// Represents a collection of words.
+    /// </summary>
+    public class Words
     {
         /// <summary>
-        /// Maps a partitioned collection of a word indexes(key) to its <see cref="NoisyWord"/> (value).
+        /// Initializes a new instance of the <see cref="Words"/> class
+        /// with a <paramref name="partitionSize"/>.
         /// </summary>
-        public IEnumerable<ConcurrentDictionary<int, NoisyWord>> NoisyWordsPartition { get; set; }
+        /// <param name="partitionSize">The size of the partition.</param>
+        public Words(int partitionSize, bool isNoisy)
+        {
+            PartitionSize = partitionSize;
+            IsNoisy = isNoisy;
+            _wordsPartition = new ConcurrentQueue<ConcurrentQueue<IWord>>();
+        }
 
         /// <summary>
-        /// Maps a partitioned collection of a word indexes(key) to its <see cref="LightWord"/> (value).
+        /// Maps a partitioned collection of <see cref="LightWord"/>(s).
         /// </summary>
-        public IEnumerable<ConcurrentDictionary<int, LightWord>> LightWordsPartition { get; set; }
+        private IEnumerable<ConcurrentQueue<IWord>> _wordsPartition;
 
-        /// <summary>
-        /// Gets or sets the size of each index <see cref="WordsPartition"/>.
-        /// </summary>
+
         public int PartitionSize { get; set; }
 
         /// <summary>
-        /// Determines whether this <see cref="Words"/> instance is using the <see cref="NoisyWordsPartition"/>.
+        /// Gets a value indicating whether this <see cref="Words"/> instance contains noise.
         /// </summary>
         public bool IsNoisy { get; set; }
 
-        /// <summary>
-        /// Initializes a <see cref="Words"/> with a particular 
-        /// <see cref="PartitionSize"/>.
-        /// </summary>
-        /// <param name="partitionSize"></param>
-        public Words(int partitionSize)
+
+        public ConcurrentQueue<IWord> GetWordsAtIndex(int index)
         {
-            NoisyWordsPartition = new ConcurrentQueue<ConcurrentDictionary<int, NoisyWord>>();
-            LightWordsPartition = new ConcurrentQueue<ConcurrentDictionary<int, LightWord>>();
-            PartitionSize = partitionSize;
-            IsNoisy = false;
+            if (IsNoisy)
+            {
+                return GetNoisyWordsAtIndex(index);
+            }
+
+            return GetLightWordsAtIndex(index).Cast<ConcurrentQueue<LightWord>>();
+        }
+
+        private ConcurrentQueue<LightWord> GetLightWordsAtIndex(int index)
+        {
+            var count = _lightWordsPartition.Count();
+            var emptyQueue = new ConcurrentQueue<LightWord>();
+
+            if (index < 0 || index >= count)
+                return emptyQueue;
+
+            return _lightWordsPartition.ElementAt(1);
+        }
+
+        private ConcurrentQueue<IWord> GetNoisyWordsAtIndex(int index)
+        {
+
         }
 
         /// <summary>
@@ -45,7 +69,7 @@ namespace RSG.Library.Models
         /// </summary>
         public BigInteger Count()
         {
-            if (NoisyWordsPartition.Any())
+            if (IsNoisy)
                 return NoisyCount();
 
             return LightCount();

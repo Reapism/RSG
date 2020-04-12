@@ -1,9 +1,9 @@
-﻿using RSG.Library.Interfaces;
-using RSG.Library.Models;
+﻿using RSG.Core.Interfaces;
+using RSG.Core.Models;
 using System.Linq;
 using System.Text;
 
-namespace RSG.Library.Services
+namespace RSG.Core.Services
 {
     /// <summary>
     /// Allows changing of the search model on the client side using this api.

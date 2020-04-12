@@ -1,14 +1,15 @@
-﻿using RSG.Library.Interfaces;
-using RSG.Library.Models;
-using RSG.Library.Utilities;
+﻿using RSG.Core.Interfaces;
+using RSG.Core.Models;
+using RSG.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RSG.Library.Services
+namespace RSG.Core.Services
 {
-    internal class CharacterSetService : ICharacterSet
+    public class CharacterSetService : ICharacterSet
     {
+        /// <inheritdoc/>
         public IDictionary<string, CharacterSet> CharacterSets { get; set; }
 
         public char[] GetNewCharacterList()
@@ -18,16 +19,20 @@ namespace RSG.Library.Services
 
         private char[] ScrambleCharacterList()
         {
-            var allCharacters = CleanCharacterList().ToCharArray();
-            ScrambleStringUtility.KnuthShuffle(allCharacters, RandomProvider.Random);
+            var allCharacters = CleanCharacterList();
+            var allCharactersArray = allCharacters.ToCharArray();
+            ScrambleStringUtility.KnuthShuffle(allCharactersArray, RandomProvider.Random);
 
-            return allCharacters;
+            return allCharactersArray;
         }
 
         private string CleanCharacterList()
         {
             var characterList = GetCharacterList();
-            return characterList.Distinct().ToString();
+            var distinctCharList = characterList.Distinct().ToArray();
+            var returnStr = new string(distinctCharList);
+
+            return returnStr;
         }
 
         private string GetCharacterList()

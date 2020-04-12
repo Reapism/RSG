@@ -1,19 +1,28 @@
-﻿using RSG.Library.Interfaces;
+﻿using RSG.Core.Interfaces;
 using System.Numerics;
 using System.Text;
 
-namespace RSG.Library.Utilities
+namespace RSG.Core.Utilities
 {
     public class Statistics : IStatistics, ICharacterFrequency
     {
+        /// <inheritdoc/>
         public BigInteger StringLength { get; set; }
+        /// <inheritdoc/>
         public BigInteger Iterations { get; set; }
+        /// <inheritdoc/>
         public BigInteger Permutations { get; set; }
+        /// <inheritdoc/>
         public string RandomizationType { get; set; }
+        /// <inheritdoc/>
         public string CharacterList { get; set; }
+        /// <inheritdoc/>
         public BigInteger MostFrequentCharacterNumber { get; set; }
+        /// <inheritdoc/>
         public BigInteger LeastFrequentCharacterNumber { get; set; }
+        /// <inheritdoc/>
         public char MostFrequentCharacter { get; set; }
+        /// <inheritdoc/>
         public char LeastFrequentCharacter { get; set; }
 
         /// <summary>

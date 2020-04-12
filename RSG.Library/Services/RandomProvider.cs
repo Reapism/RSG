@@ -1,7 +1,7 @@
-﻿using RSG.Library.Constants;
+﻿using RSG.Core.Constants;
 using System.ComponentModel;
 
-namespace RSG.Library.Services
+namespace RSG.Core.Services
 {
     public static class RandomProvider
     {

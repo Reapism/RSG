@@ -1,7 +1,7 @@
-﻿using RSG.Library.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using RSG.Core.Models;
 
-namespace RSG.Library.Services
+namespace RSG.Core.Services
 {
     public class DictionaryService
     {

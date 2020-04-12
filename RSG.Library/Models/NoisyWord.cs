@@ -1,22 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using RSG.Core.Interfaces;
+using System.Collections.Generic;
 
-namespace RSG.Library.Models
+namespace RSG.Core.Models
 {
-    internal class NoisyWord
+    public class NoisyWord : IWord
     {
+        public NoisyWord(string word, IDictionary<int, char> characterPositions)
+        {
+            Word = word;
+            CharactersPositions = characterPositions;
+        }
+
         /// <summary>
-        /// The word
+        /// Gets or sets the word.
         /// </summary>
         public string Word { get; set; }
 
         /// <summary>
-        /// Characters appended within a word.
+        /// Gets or sets characters postions appended within a word.
+        /// Key{}
         /// </summary>
-        public IEnumerable<char> Characters { get; set; }
-
-        /// <summary>
-        /// Postions within the word string where the characters are.
-        /// </summary>
-        public IEnumerable<int> Positions { get; set; }
+        public IDictionary<int, char> CharactersPositions { get; set; }
     }
 }

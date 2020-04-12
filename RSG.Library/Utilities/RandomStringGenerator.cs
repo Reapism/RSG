@@ -1,19 +1,20 @@
-﻿using RSG.Library.Services;
+﻿using RSG.Core.Services;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
-namespace RSG.Library.Utilities
+namespace RSG.Core.Utilities
 {
     public class RandomStringGenerator
     {
         private CharacterSetService _characterSetService;
         private char[] _characterList;
 
-        internal RandomStringGenerator(CharacterSetService characterSetService)
+        public RandomStringGenerator(CharacterSetService characterSetService)
         {
             _characterSetService = characterSetService;
             _characterList = _characterSetService.GetNewCharacterList();
+            var test = new string(_characterList);
         }
 
         public IEnumerable<string> GenerateRandomStrings(int numberOfIterations, int length)

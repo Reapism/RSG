@@ -1,4 +1,4 @@
-﻿namespace RSG.Library.Interfaces
+﻿namespace RSG.Core.Interfaces
 {
     internal interface IUpdateService
     {

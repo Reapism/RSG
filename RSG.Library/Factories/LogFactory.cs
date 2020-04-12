@@ -1,4 +1,4 @@
-﻿namespace RSG.Library.Factories
+﻿namespace RSG.Core.Factories
 {
     public static class LogFactory
     {

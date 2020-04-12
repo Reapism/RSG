@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RSG.Library.Models
+namespace RSG.Core.Models
 {
     /// <summary>
     /// Represents a set of characters and whether its enabled.
@@ -9,7 +9,7 @@ namespace RSG.Library.Models
     public class CharacterSet
     {
         /// <summary>
-        /// Initialize a parameterized <see cref="CharacterSet"/>.
+        /// Initializes a new instance of the <see cref="CharacterSet"/> class.
         /// </summary>
         /// <param name="characters">The characters representing this <see cref="CharacterSet"/>.</param>
         /// <param name="enabled">Whether this set is enabled for use.</param>
@@ -20,12 +20,12 @@ namespace RSG.Library.Models
         }
 
         /// <summary>
-        /// The characters representing this <see cref="CharacterSet"/>.
+        /// Gets or sets the characters representing this <see cref="CharacterSet"/>.
         /// </summary>
         public string Characters { get; set; }
 
         /// <summary>
-        /// Whether this set is enabled for use.
+        /// Gets or sets a value indicating whether whether this set is enabled for use.
         /// </summary>
         public bool Enabled { get; set; }
     }

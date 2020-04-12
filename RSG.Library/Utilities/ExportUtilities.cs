@@ -1,8 +1,8 @@
-﻿using RSG.Library.Models;
+﻿using RSG.Core.Models;
 using System.IO;
 using System.Text;
 
-namespace RSG.Library.Utilities
+namespace RSG.Core.Utilities
 {
     public static class ExportUtilities
     {

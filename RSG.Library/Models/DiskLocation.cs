@@ -1,4 +1,4 @@
-﻿namespace RSG.Library.Models
+﻿namespace RSG.Core.Models
 {
     public class DiskLocation
     {

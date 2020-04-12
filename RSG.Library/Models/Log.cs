@@ -1,8 +1,8 @@
-﻿using RSG.Library.Utilities;
+﻿using RSG.Core.Utilities;
 using System;
 using System.ComponentModel;
 
-namespace RSG.Library.Models
+namespace RSG.Core.Models
 {
     /// <summary>
     /// Represents a <see cref="Log"/> file
@@ -24,23 +24,23 @@ namespace RSG.Library.Models
         { }
 
         /// <summary>
-        /// The name of the log.
+        /// Gets or sets the name of the log.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// The description of the log.
+        /// Gets or sets the description of the log.
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// The date and time in which this log was created.
+        /// Gets or sets the date and time in which this log was created.
         /// </summary>
         [DisplayName("Date Created")]
         public DateTime DateCreated { get; set; }
 
         /// <summary>
-        /// Represents the detailed statics for the log.
+        /// Gets or sets represents the detailed statics for the log.
         /// </summary>
         public StatisticsDetailed Statistics { get; set; }
     }

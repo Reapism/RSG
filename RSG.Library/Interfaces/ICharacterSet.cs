@@ -1,7 +1,7 @@
-﻿using RSG.Library.Models;
+﻿using RSG.Core.Models;
 using System.Collections.Generic;
 
-namespace RSG.Library.Interfaces
+namespace RSG.Core.Interfaces
 {
     public interface ICharacterSet
     {

@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
 
-namespace RSG.Library.Models
+namespace RSG.Core.Models
 {
-    internal class RsgDictionary
+    public class RsgDictionary
     {
         public string Name { get; internal set; }
         public string Description { get; internal set; }

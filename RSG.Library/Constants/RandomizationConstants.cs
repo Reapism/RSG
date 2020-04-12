@@ -1,4 +1,4 @@
-﻿namespace RSG.Library.Constants
+﻿namespace RSG.Core.Constants
 {
     public static class RandomizationConstants
     {

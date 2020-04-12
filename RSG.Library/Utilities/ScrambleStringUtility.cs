@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RSG.Library.Utilities
+namespace RSG.Core.Utilities
 {
     internal static class ScrambleStringUtility
     {

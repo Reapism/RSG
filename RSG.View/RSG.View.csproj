@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RSG.Library\RSG.Library.csproj" />
+    <Folder Include="Pages\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\" />
+    <ProjectReference Include="..\RSG.Library\RSG.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

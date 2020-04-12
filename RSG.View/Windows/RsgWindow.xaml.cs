@@ -1,7 +1,6 @@
-﻿using System;
+﻿using RSG.Core.Factories;
+using RSG.Core.Utilities;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace RSG.View.Windows
 {
@@ -13,6 +12,15 @@ namespace RSG.View.Windows
         public RsgWindow()
         {
             InitializeComponent();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var characters = new CharacterSetServiceFactory().Create();
+            var generator = new RandomStringGenerator(characters);
+            var rndStrs = generator.GenerateRandomStrings(10, 10);
+            foreach (var rndStr in rndStrs)
+                MessageBox.Show(rndStr);
         }
     }
 }

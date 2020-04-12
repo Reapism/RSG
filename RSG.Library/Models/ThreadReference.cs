@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 
-namespace RSG.Library.Models
+namespace RSG.Core.Models
 {
     internal class ThreadReference
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RSG.Library.Configuration
+namespace RSG.Core.Configuration
 {
     [Serializable]
     public static class RsgConfiguration
