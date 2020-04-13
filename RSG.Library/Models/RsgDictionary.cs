@@ -8,6 +8,6 @@ namespace RSG.Core.Models
         public string Description { get; internal set; }
         public BigInteger Size { get; internal set; }
         public BigInteger Length { get; internal set; }
-        public Words Words { get; internal set; }
+        public WordsCollection Words { get; internal set; }
     }
 }
