@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RSG.Core.Interfaces;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
-using RSG.Core.Interfaces;
 
 namespace RSG.Core.Models
 {
@@ -53,11 +53,17 @@ namespace RSG.Core.Models
             var lastPartition = GetNumberOfPartitionsAndLastPartition(numberOfWords).Item2;
             var threads = GetThreads(numberOfWords);
             ExecuteThreads(threads, numberOfWords);
+
+            foreach (var thread in threads)
+            {
+                thread.
+            }
         }
 
         /// <summary>
         /// The total number of words stored in partition.
         /// </summary>
+        /// <returns>The number of words.</returns>
         public BigInteger Count()
         {
             var partitionCount = BigInteger.Parse((WordsPartition.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
@@ -66,15 +72,20 @@ namespace RSG.Core.Models
             return count;
         }
 
-        public ConcurrentQueue<IWord> GetWordsAtIndex(int index)
+        /// <summary>
+        /// Returns a specific partition of words given the partition index.
+        /// </summary>
+        /// <param name="partitionIndex">The index of the parent collection.</param>
+        /// <returns>A specific partition </returns>
+        public ConcurrentQueue<IWord> GetWordsAtIndex(int partitionIndex)
         {
             var count = WordsPartition.Count();
             var emptyQueue = new ConcurrentQueue<IWord>();
 
-            if (index < 0 || index >= count)
+            if (partitionIndex < 0 || partitionIndex >= count)
                 return emptyQueue;
 
-            return WordsPartition.ElementAt(index);
+            return WordsPartition.ElementAt(partitionIndex);
         }
 
         private Tuple<BigInteger, BigInteger> GetNumberOfPartitionsAndLastPartition(BigInteger numberOfWords)
@@ -85,7 +96,7 @@ namespace RSG.Core.Models
             return lastPartition;
         }
 
-        private IEnumerable<Thread> GetThreads(BigInteger numberOfWords)
+        private IEnumerable<Thread> GetThreads(BigInteger numberOfWords, ThreadPriority threadPriority)
         {
             var queue = new Queue<Thread>();
             var partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
@@ -93,10 +104,17 @@ namespace RSG.Core.Models
 
             for (var currentPartition = BigInteger.Zero; currentPartition < fullPartitions;)
             {
-                queue.Enqueue(new Thread(new ThreadStart(PopulateWords)));
+                queue.Enqueue(
+                    new Thread(
+                        new ThreadStart(PopulateWords))
+                    {
+                        IsBackground = true,
+                        Priority = threadPriority,
+                        Name = $"{nameof(WordsCollection)}_{currentPartition}",
+                    });
             }
 
-            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords)));
+            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords)) { });
 
             return queue;
         }

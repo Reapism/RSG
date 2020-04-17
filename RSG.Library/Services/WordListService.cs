@@ -1,9 +1,7 @@
-﻿using RSG.Core.Interfaces;
-using System;
-using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using RSG.Core.Interfaces;
 
 namespace RSG.Core.Services
 {
@@ -11,7 +9,7 @@ namespace RSG.Core.Services
     {
         public WordListService()
         {
-            WordLists = new ConcurrentDictionary<string, IEnumerable<string>>();
+            WordLists = new SortedDictionary<string, IEnumerable<string>>();
         }
 
         /// <summary>
@@ -30,11 +28,15 @@ namespace RSG.Core.Services
 
         public void Load(string wordListName)
         {
-            if (!WordLists.ContainsKey(wordListName))
+            if (!this[wordListName].Any())
                 throw new ArgumentException($"The wordlist {wordListName} was not found!");
 
-
+            
         }
 
+        public void Unload()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
