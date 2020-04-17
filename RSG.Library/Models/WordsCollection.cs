@@ -110,11 +110,16 @@ namespace RSG.Core.Models
                     {
                         IsBackground = true,
                         Priority = threadPriority,
-                        Name = $"{nameof(WordsCollection)}_{currentPartition}",
+                        Name = $"WordsGen_PartitionIndex_{currentPartition}",
                     });
             }
 
-            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords)) { });
+            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords)) 
+            { 
+                IsBackground = true,
+                Priority = threadPriority,
+                Name = $"WordsGen_PartitionIndex_{fullPartitions}",
+            });
 
             return queue;
         }
