@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace RSG.Core.Extensions
 {
+    /// <summary>
+    /// Extensions for the <see cref="Type"/> class.
+    /// </summary>
     public static class TypeExtensions
     {
         /// <summary>
@@ -12,9 +15,10 @@ namespace RSG.Core.Extensions
         /// given a <paramref name="type"/>.
         /// </summary>
         /// <typeparam name="T">The type of public constants to search.</typeparam>
-        /// <param name="type">The class containing the public constants of type 
+        /// <param name="type">The class containing the public constants of type
         /// <typeparamref name="T"/>.</param>
-        /// <returns></returns>
+        /// <returns>A collection of public constants of type <typeparamref name="T"/>
+        /// in the class <paramref name="type"/>.</returns>
         public static IEnumerable<T> GetPublicConstants<T>(this Type type)
         {
             return type

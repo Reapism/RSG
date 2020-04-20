@@ -13,14 +13,28 @@
                 <GradientStop Color="#7F474747"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Grid HorizontalAlignment="Left" MinWidth="20" Width="20">
-            <Grid.Background>
-                <RadialGradientBrush>
-                    <GradientStop Color="#7F000000" Offset="1"/>
-                    <GradientStop Color="#7F474747"/>
-                </RadialGradientBrush>
-            </Grid.Background>
-            <Button x:Name="button" Content="" HorizontalAlignment="Right" Margin="0,10,-5,0" VerticalAlignment="Top" Width="30" Padding="0,0,0,0" Click="button_Click"/>
-        </Grid>
+        <Rectangle Name="MyRectangle" HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100" VerticalAlignment="Stretch">
+            <Rectangle.Fill>
+                <SolidColorBrush x:Name="MySolidColorBrush" Color="GreenYellow" />
+            </Rectangle.Fill>
+            <Rectangle.Triggers>
+                <EventTrigger RoutedEvent="Rectangle.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="20" To="75" Duration="0:0:0.5" />
+                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="DarkGray" To="Gray" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Rectangle.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="75" To="20" Duration="0:0:1" />
+                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="Gray" To="DarkGray" Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Rectangle.Triggers>
+        </Rectangle>
     </Grid>
 </Window>

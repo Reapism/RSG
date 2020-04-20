@@ -1,11 +1,12 @@
 ﻿using RSG.Core.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
-namespace RSG.Core.Utilities
+namespace RSG.Core.Models
 {
-    public class StatisticsDetailed : IStatistics, IIterationsFrequency, ICharacterFrequency
+    public class DetailedStatistics : IStatistics, IIterationsFrequency, ICharacterFrequency
     {
         /// <inheritdoc/>
         public BigInteger StringLength { get; set; }
@@ -18,13 +19,13 @@ namespace RSG.Core.Utilities
         /// <inheritdoc/>
         public string CharacterList { get; set; }
         /// <inheritdoc/>
-        public BigInteger MostFrequentCharacterNumber { get; set; }
+        public IEnumerable<int> MostFrequentCharacterCount { get; set; }
         /// <inheritdoc/>
-        public BigInteger LeastFrequentCharacterNumber { get; set; }
+        public IEnumerable<int> LeastFrequentCharacterCount { get; set; }
         /// <inheritdoc/>
-        public char MostFrequentCharacter { get; set; }
+        public IEnumerable<char> MostFrequentCharacter { get; set; }
         /// <inheritdoc/>
-        public char LeastFrequentCharacter { get; set; }
+        public IEnumerable<char> LeastFrequentCharacter { get; set; }
         /// <inheritdoc/>
         public TimeSpan Duration { get; set; }
         /// <inheritdoc/>

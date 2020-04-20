@@ -18,8 +18,9 @@ namespace RSG.View.Windows
         {
             var characters = new CharacterSetServiceFactory().Create();
             var generator = new RandomStringGenerator(characters);
-            var rndStrs = generator.GenerateRandomStrings(10, 10);
-            foreach (var rndStr in rndStrs)
+            var result = generator.GenerateRandomStrings(10, 10);
+            
+            foreach (var rndStr in result.Strings)
                 MessageBox.Show(rndStr);
         }
     }

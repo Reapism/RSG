@@ -1,12 +1,16 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace RSG.Core.Interfaces
 {
     internal interface ICharacterFrequency
     {
-        BigInteger MostFrequentCharacterNumber { get; set; }
-        BigInteger LeastFrequentCharacterNumber { get; set; }
-        char MostFrequentCharacter { get; set; }
-        char LeastFrequentCharacter { get; set; }
+        IEnumerable<int> MostFrequentCharacterCount { get; set; }
+
+        IEnumerable<int> LeastFrequentCharacterCount { get; set; }
+
+        IEnumerable<char> MostFrequentCharacter { get; set; }
+
+        IEnumerable<char> LeastFrequentCharacter { get; set; }
     }
 }

@@ -51,12 +51,12 @@ namespace RSG.Core.Models
         public void AddWords(BigInteger numberOfWords)
         {
             var lastPartition = GetNumberOfPartitionsAndLastPartition(numberOfWords).Item2;
-            var threads = GetThreads(numberOfWords);
+            var threads = GetThreads(numberOfWords, ThreadPriority.Normal);
             ExecuteThreads(threads, numberOfWords);
 
             foreach (var thread in threads)
             {
-                thread.
+                //thread.
             }
         }
 

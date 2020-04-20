@@ -5,13 +5,8 @@ namespace RSG.Core.Services
 {
     public static class RandomProvider
     {
-        [Description(RandomizationConstants.PSEUDORANDOM)]
         private static System.Random PsuedoRandom;
-
-        [Description(RandomizationConstants.REAP_RANDOM)]
         private static System.Random ReapRandom;
-
-        public static string SelectedRandomizationType { get; set; }
 
         static RandomProvider()
         {
@@ -19,14 +14,16 @@ namespace RSG.Core.Services
             ReapRandom = new System.Random(PsuedoRandom.Next(int.MinValue, int.MaxValue));
         }
 
+        public static string RandomizationType { get; set; }
+
         public static System.Random Random
         {
             get
             {
-                return SelectedRandomizationType switch
+                return RandomizationType switch
                 {
-                    RandomizationConstants.PSEUDORANDOM => PsuedoRandom,
-                    RandomizationConstants.REAP_RANDOM => ReapRandom,
+                    RandomizationConstants.Pseudorandom => PsuedoRandom,
+                    RandomizationConstants.ReapRandom => ReapRandom,
                     _ => PsuedoRandom,
                 };
             }

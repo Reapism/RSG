@@ -8,21 +8,21 @@
         /// <summary>
         /// Default generation.
         /// </summary>
-        public const string DEFAULT = "Default";
+        public const string Default = nameof(Default);
 
         /// <summary>
         /// Generation that has a customized character set.
         /// </summary>
-        public const string CUSTOM = "Custom";
+        public const string Custom = nameof(Custom);
 
         /// <summary>
         /// Generation specific for primes.
         /// </summary>
-        public const string PRIME = "Prime";
+        public const string Prime = nameof(Prime);
 
         /// <summary>
         /// Generation specific for passwords.
         /// </summary>
-        public const string PASSWORD = "Password";
+        public const string Password = nameof(Password);
     }
 }
