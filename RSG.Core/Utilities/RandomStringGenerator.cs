@@ -1,4 +1,5 @@
-﻿using RSG.Core.Models;
+﻿using RSG.Core.Extensions;
+using RSG.Core.Models;
 using RSG.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,7 @@ namespace RSG.Core.Utilities
                 CharacterList = _characterList.ToString() ?? string.Empty,
                 StringLength = stringLength,
                 Iterations = numberOfIterations,
-                RandomizationType = RandomProvider.RandomizationType,
+                RandomizationType = RandomProvider.SelectedRandomizationType.GetDescription(),
                 Strings = queue,
                 StartTime = startTime,
                 EndTime = endTime,

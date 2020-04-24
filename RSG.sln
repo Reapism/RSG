@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Core", "RSG.Library\RSG.Core.csproj", "{A83CEE72-300A-477B-9189-E744AC86E1FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Core", "RSG.Core\RSG.Core.csproj", "{A83CEE72-300A-477B-9189-E744AC86E1FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.View", "RSG.View\RSG.View.csproj", "{6A961048-1B93-472F-9103-490CFE66F734}"
 EndProject

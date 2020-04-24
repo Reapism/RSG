@@ -1,4 +1,5 @@
 ﻿using RSG.Core.Constants;
+using RSG.Core.Enums;
 using System.ComponentModel;
 
 namespace RSG.Core.Services
@@ -14,16 +15,16 @@ namespace RSG.Core.Services
             ReapRandom = new System.Random(PsuedoRandom.Next(int.MinValue, int.MaxValue));
         }
 
-        public static string RandomizationType { get; set; }
+        public static RandomizationType SelectedRandomizationType { get; set; }
 
         public static System.Random Random
         {
             get
             {
-                return RandomizationType switch
+                return SelectedRandomizationType switch
                 {
-                    RandomizationConstants.Pseudorandom => PsuedoRandom,
-                    RandomizationConstants.ReapRandom => ReapRandom,
+                    RandomizationType.Pseudorandom => PsuedoRandom,
+                    RandomizationType.ReapRandom => ReapRandom,
                     _ => PsuedoRandom,
                 };
             }
