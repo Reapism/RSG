@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RSG.Core.Interfaces
-{ 
+{
     public interface IWordList
     {
-        IDictionary<string, IEnumerable<string>> WordLists { get; set; }
+        IEnumerable<string> Words { get; set; }
+
     }
 }

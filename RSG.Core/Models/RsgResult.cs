@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RSG.Core.Enums;
+using RSG.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,7 +20,7 @@ namespace RSG.Core.Models
         /// <summary>
         /// Gets or sets the randomization type used during this generation instance.
         /// </summary>
-        public string RandomizationType { get; set; }
+        public RandomizationType RandomizationType { get; set; }
 
         /// <summary>
         /// Gets or sets the random strings produced by the generation.

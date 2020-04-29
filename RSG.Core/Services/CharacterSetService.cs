@@ -45,6 +45,5 @@ namespace RSG.Core.Services
 
             return strBuilder.ToString();
         }
-
     }
 }

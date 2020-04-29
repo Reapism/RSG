@@ -1,4 +1,5 @@
-﻿using RSG.Core.Extensions;
+﻿using RSG.Core.Enums;
+using RSG.Core.Extensions;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using System;
@@ -36,7 +37,7 @@ namespace RSG.Core.Utilities
         /// <paramref name="stringLength"/>.
         /// </summary>
         /// <param name="numberOfIterations">The number of strings to generate.</param>
-        /// <param name="stringLength"></param>
+        /// <param name="stringLength">The length of the string to generate.</param>
         /// <returns></returns>
         public RsgResult GenerateRandomStrings(BigInteger numberOfIterations, BigInteger stringLength)
         {
@@ -49,13 +50,12 @@ namespace RSG.Core.Utilities
             }
 
             var endTime = DateTime.Now;
-
             var result = new RsgResult()
             {
                 CharacterList = _characterList.ToString() ?? string.Empty,
                 StringLength = stringLength,
                 Iterations = numberOfIterations,
-                RandomizationType = RandomProvider.SelectedRandomizationType.GetDescription(),
+                RandomizationType = RandomProvider.SelectedRandomizationType,
                 Strings = queue,
                 StartTime = startTime,
                 EndTime = endTime,

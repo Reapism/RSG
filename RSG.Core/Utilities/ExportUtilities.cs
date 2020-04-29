@@ -4,6 +4,10 @@ using System.Text;
 
 namespace RSG.Core.Utilities
 {
+    /// <summary>
+    /// Provides static utlity functions for exporting
+    /// certain objects.
+    /// </summary>
     public static class ExportUtilities
     {
         public static void ExportLogFile(Log logFile, string path, Encoding encoding)
@@ -13,6 +17,7 @@ namespace RSG.Core.Utilities
 
             streamWriter.WriteLine(logFile.ToString());
         }
+
 
     }
 }

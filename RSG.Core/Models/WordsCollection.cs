@@ -61,7 +61,7 @@ namespace RSG.Core.Models
         }
 
         /// <summary>
-        /// The total number of words stored in partition.
+        /// The total number of words stored in all partition.
         /// </summary>
         /// <returns>The number of words.</returns>
         public BigInteger Count()

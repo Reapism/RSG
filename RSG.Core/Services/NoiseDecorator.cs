@@ -7,7 +7,7 @@ namespace RSG.Core.Services
 {
     internal class NoiseDecorator
     {
-        public async static void Decorate(WordsCollection words, int lowPercentage, int highPercentage)
+        public static async void Decorate(WordsCollection words, int lowPercentage, int highPercentage)
         {
             var result = ValidatePercentageRange(lowPercentage, highPercentage);
 

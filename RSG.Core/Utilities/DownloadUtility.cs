@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
 {
+    /// <summary>
+    /// Provides static functions for downloading information
+    /// from the web.
+    /// </summary>
     public static class DownloadUtility
     {
         /// <summary>
@@ -13,12 +18,12 @@ namespace RSG.Core.Utilities
         /// </summary>
         /// <param name="directUrl">The direct URL to download from.</param>
         /// <returns>The resource as a <see langword="string"/>.</returns>
-        public static string DownloadFileAsString(string directUrl)
+        public static async Task<string> DownloadFileAsString(string directUrl)
         {
             using var webClient = new WebClient();
-            var reply = webClient.DownloadStringTaskAsync(directUrl);
+            var reply = await webClient.DownloadStringTaskAsync(directUrl);
 
-            return reply.Result;
+            return reply;
         }
     }
 }
