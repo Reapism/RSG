@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using RSG.Core.Constants;
+﻿using RSG.Core.Constants;
 using RSG.Core.Models;
 using RSG.Core.Services;
+using System.Collections.Generic;
 
 namespace RSG.Core.Factories
 {

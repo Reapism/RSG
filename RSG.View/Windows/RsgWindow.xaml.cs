@@ -1,5 +1,9 @@
 ﻿using RSG.Core.Factories;
+using RSG.Core.Models;
+using RSG.Core.Services;
 using RSG.Core.Utilities;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace RSG.View.Windows
@@ -22,6 +26,19 @@ namespace RSG.View.Windows
             
             foreach (var rndStr in result.Strings)
                 MessageBox.Show(rndStr);
+        }
+
+        private void button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var path = @"C:\Users\ireap\Desktop\hi\dictionaries.json";
+            //var dic = new DictionaryService();
+            
+        }
+
+        private async void button1_Click(object sender, RoutedEventArgs e)
+        {
+            var service = await DictionaryServiceFactory.CreateAsync();
+
         }
     }
 }

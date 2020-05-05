@@ -1,5 +1,4 @@
 ﻿using RSG.Core.Enums;
-using RSG.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -10,7 +9,7 @@ namespace RSG.Core.Models
     /// The necessary resulting information of generating random strings
     /// to construct a <see cref="StatisticsDetailed"/> instance.
     /// </summary>
-    public class RsgResult
+    public class Result
     {
         /// <summary>
         /// Gets or sets the character list used to generate the strings.

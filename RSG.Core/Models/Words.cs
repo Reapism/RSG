@@ -11,15 +11,15 @@ namespace RSG.Core.Models
     /// <summary>
     /// Represents a collection of words.
     /// </summary>
-    public struct WordsCollection
+    public struct Words
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WordsCollection"/> struct
+        /// Initializes a new instance of the <see cref="Words"/> struct
         /// with a <paramref name="partitionSize"/>.
         /// </summary>
         /// <param name="partitionSize">The size of the partition.</param>
         /// <param name="isNoisy">Whether this instance is Noisy.</param>
-        public WordsCollection(int partitionSize)
+        public Words(int partitionSize)
         {
             PartitionSize = partitionSize;
             IsNoisy = false;
@@ -43,7 +43,7 @@ namespace RSG.Core.Models
         public int PartitionSize { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="WordsCollection"/>
+        /// Gets or sets a value indicating whether this <see cref="Words"/>
         /// instance contains noise.
         /// </summary>
         public bool IsNoisy { get; set; }
@@ -114,8 +114,8 @@ namespace RSG.Core.Models
                     });
             }
 
-            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords)) 
-            { 
+            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords))
+            {
                 IsBackground = true,
                 Priority = threadPriority,
                 Name = $"WordsGen_PartitionIndex_{fullPartitions}",

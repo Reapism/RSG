@@ -1,5 +1,4 @@
-﻿using RSG.Core.Utilities;
-using System;
+﻿using System;
 using System.ComponentModel;
 
 namespace RSG.Core.Models

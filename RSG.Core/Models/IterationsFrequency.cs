@@ -1,5 +1,5 @@
-﻿using System;
-using RSG.Core.Interfaces;
+﻿using RSG.Core.Interfaces;
+using System;
 
 namespace RSG.Core.Models
 {

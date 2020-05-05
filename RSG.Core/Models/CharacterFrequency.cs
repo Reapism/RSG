@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using RSG.Core.Interfaces;
+﻿using RSG.Core.Interfaces;
+using System.Collections.Generic;
 
 namespace RSG.Core.Models
 {

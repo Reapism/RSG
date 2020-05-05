@@ -11,3 +11,6 @@ dotnet_diagnostic.SA1101.severity = none
 
 # SA1503: Braces should not be omitted
 dotnet_diagnostic.SA1503.severity = none
+
+# SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1413.severity = none

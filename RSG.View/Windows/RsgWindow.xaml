@@ -21,8 +21,8 @@
                 <EventTrigger RoutedEvent="Rectangle.MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="20" To="75" Duration="0:0:0.25" />
-                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="DarkGray" To="Gray" Duration="0:0:0.25" />
+                            <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="20" To="75" Duration="0:0:0.55" />
+                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="DarkGray" To="Green" Duration="0:0:0.55" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -30,11 +30,13 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="75" To="20" Duration="0:0:0.1" />
-                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="Gray" To="DarkGray" Duration="0:0:0.1" />
+                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="Gray" To="Green" Duration="0:0:0.1" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
             </Rectangle.Triggers>
         </Rectangle>
+        <Button x:Name="button" Content="generate json" HorizontalAlignment="Left" Margin="218,136,0,0" VerticalAlignment="Top" Click="button_Click_1"/>
+        <Button x:Name="button1" Content="Read" HorizontalAlignment="Left" Margin="317,136,0,0" VerticalAlignment="Top" Click="button1_Click"/>
     </Grid>
 </Window>

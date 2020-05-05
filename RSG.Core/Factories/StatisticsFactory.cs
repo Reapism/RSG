@@ -1,4 +1,5 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Extensions;
+using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -11,19 +12,19 @@ namespace RSG.Core.Factories
     {
         /// <summary>
         /// Creates a <see cref="DetailedStatistics"/> instance based on
-        /// a <see cref="RsgResult"/> instance.
+        /// a <see cref="Result"/> instance.
         /// </summary>
-        /// <param name="result">A <see cref="RsgResult"/> instance used to
+        /// <param name="result">A <see cref="Result"/> instance used to
         /// construct the <see cref="DetailedStatistics"/> instance.</param>
         /// <returns>A <see cref="DetailedStatistics"/> instance.</returns>
-        public static DetailedStatistics CreateDetailedStatistics(in RsgResult result)
+        public static DetailedStatistics CreateDetailedStatistics(in Result result)
         {
             var statistics = new DetailedStatistics()
             {
                 CharacterList = result.CharacterList,
                 Duration = result.EndTime - result.StartTime,
                 Iterations = result.Iterations,
-                RandomizationType = result.RandomizationType,
+                RandomizationType = result.RandomizationType.GetDescription(),
                 StringLength = result.StringLength,
             };
 
@@ -52,18 +53,18 @@ namespace RSG.Core.Factories
 
         /// <summary>
         /// Creates a <see cref="Statistics"/> instance based on
-        /// a <see cref="RsgResult"/> instance.
+        /// a <see cref="Result"/> instance.
         /// </summary>
-        /// <param name="result">A <see cref="RsgResult"/> instance used to
+        /// <param name="result">A <see cref="Result"/> instance used to
         /// construct the <see cref="Statistics"/> instance.</param>
         /// <returns>A <see cref="Statistics"/> instance.</returns>
-        public static Statistics CreateStatistics(in RsgResult result)
+        public static Statistics CreateStatistics(in Result result)
         {
             var statistics = new Statistics()
             {
                 CharacterList = result.CharacterList,
                 Iterations = result.Iterations,
-                RandomizationType = result.RandomizationType,
+                RandomizationType = result.RandomizationType.GetDescription(),
                 StringLength = result.StringLength,
             };
 

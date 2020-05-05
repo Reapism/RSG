@@ -1,13 +1,13 @@
-﻿using System;
+﻿using RSG.Core.Models;
+using System;
 using System.Numerics;
 using System.Threading.Tasks;
-using RSG.Core.Models;
 
 namespace RSG.Core.Services
 {
     internal class NoiseDecorator
     {
-        public static async void Decorate(WordsCollection words, int lowPercentage, int highPercentage)
+        public static async void Decorate(Words words, int lowPercentage, int highPercentage)
         {
             var result = ValidatePercentageRange(lowPercentage, highPercentage);
 
@@ -30,7 +30,7 @@ namespace RSG.Core.Services
             }
         }
 
-        private static void DecorateHelper(in WordsCollection words, int lowPercentage, int highPercentage)
+        private static void DecorateHelper(in Words words, int lowPercentage, int highPercentage)
         {
             var randomPercentage = RandomProvider.Random.Next(lowPercentage, highPercentage);
             var partioned = BigInteger.DivRem(words.Count(), BigInteger.Parse(randomPercentage.ToString()), out var remainder);
