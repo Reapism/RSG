@@ -19,6 +19,7 @@ namespace RSG.Core.Utilities
         /// <param name="type">The instance to deserialize into.</param>
         /// <param name="inputPath">The path to the serialized file.</param>
         /// <returns>Returns the deserialized object from the json file.</returns>
+        /// <exception cref="FileNotFoundException">Thrown if the file is not found.</exception>
         public static async Task<T> DeserializeJsonASync<T>(T type, string inputPath)
         {
             if (!IOUtility.DoesFileExist(inputPath))

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RSG.Core
+namespace RSG.Core.Events
 {
     public class GeneratorEventArgs : EventArgs
     {

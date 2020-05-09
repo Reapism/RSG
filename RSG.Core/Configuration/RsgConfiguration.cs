@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RSG.Core.Interfaces;
+using System;
 
 namespace RSG.Core.Configuration
 {
-    [Serializable]
-    public static class RsgConfiguration
+    public class RsgConfiguration : IRsgConfiguration
     {
 
     }
