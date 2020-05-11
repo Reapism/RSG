@@ -1,11 +1,7 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Extensions;
 using RSG.Core.Models;
-using RSG.Core.Utilities;
-using System;
-using System.Collections.Generic;
+using RSG.Core.Services;
 using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Factories
@@ -29,33 +25,13 @@ namespace RSG.Core.Factories
                 Name = name,
                 Description = desc,
                 Source = source,
-                IsSourceLocal = isSourceLocal,
-                WordList = new WordList()
+                IsSourceLocal = isSourceLocal
             };
 
-            await SetWordList(dictionary);
-            SetSize(dictionary.WordList);
+            dictionary.WordList = await WordListService.CreateWordList(dictionary);
+            dictionary.Count = dictionary.WordList.Count().ToBigInteger();
 
             return dictionary;
         }
-
-        private static async Task SetWordList(IRsgDictionary dictionary)
-        {
-            if (dictionary.IsSourceLocal)
-            {
-                dictionary.WordList.Words = await IOUtility.ReadLinesASync(dictionary.Source);
-                return;
-            }
-
-            var wordsString = await DownloadUtility.DownloadFileAsString(dictionary.Source);
-            dictionary.WordList.Words = wordsString.Split("\n");
-            dictionary.Count = SetSize(dictionary.WordList);
-        }
-
-        private static BigInteger SetSize(IWordList wordList)
-        {
-            return BigInteger.Parse(wordList.Words.Count().ToString());
-        }
-
     }
 }

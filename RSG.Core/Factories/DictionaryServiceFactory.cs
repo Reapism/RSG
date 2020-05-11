@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿using RSG.Core.Extensions;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Factories
@@ -14,12 +12,14 @@ namespace RSG.Core.Factories
     {
         private static async Task<IEnumerable<RsgDictionary>> GetDefaultDictionaries()
         {
-            var queue = new Queue<RsgDictionary>(10);
+            using var stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
+            var queue = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
 
-            var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly(), "Resources");
-            var fileInfo = embeddedProvider.GetFileInfo("DefaultDictionaries.json");
-            using var stream = fileInfo.CreateReadStream();
-            queue = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
+            foreach (var dictionary in queue)
+            {
+                dictionary.WordList = await WordListService.CreateWordList(dictionary);
+                dictionary.Count = dictionary.WordList.Count().ToBigInteger();
+            }
 
             return queue;
         }

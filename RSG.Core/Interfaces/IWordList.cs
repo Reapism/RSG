@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
+using System.Text;
 
 namespace RSG.Core.Interfaces
 {
-    /// <summary>
-    /// Represents a word list.
-    /// </summary>
     public interface IWordList
     {
-        /// <summary>
-        /// Gets or sets the word list.
-        /// </summary>
-        IEnumerable<string> Words { get; set; }
+        IEnumerable<string> WordList { get; set; }
+
+        BigInteger Count { get; set; }
     }
 }

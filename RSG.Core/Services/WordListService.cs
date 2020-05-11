@@ -2,6 +2,7 @@
 using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -11,15 +12,17 @@ namespace RSG.Core.Services
     /// Contains methods for generating wordlists from an
     /// <see cref="IRsgDictionary"/>.
     /// </summary>
-    public class WordListService
+    public static class WordListService
     {
         /// <summary>
         /// Creates a wordlist from an <see cref="IRsgDictionary"/>.
+        /// <para>Returns an empty sequence if unable to read/download dictionary from
+        /// the source.</para>
         /// </summary>
-        /// <param name="dictionary">A contract of type 
+        /// <param name="dictionary">A contract representing a
         /// <see cref="IRsgDictionary"/>.</param>
-        /// <returns>A new <see cref="IWordList"/></returns>
-        public async Task<IWordList> CreateWordList(IRsgDictionary dictionary)
+        /// <returns>A new <see cref="IEnumerable{string}"/> containing the new word list.</returns>
+        public static async Task<IEnumerable<string>> CreateWordList(IRsgDictionary dictionary)
         {
             var wordList = dictionary.IsSourceLocal
                 ? await CreateWordListFromFile(dictionary.Source)
@@ -28,28 +31,32 @@ namespace RSG.Core.Services
             return wordList;
         }
 
-        private async Task<IWordList> CreateWordListFromFile(string source)
+        private static async Task<IEnumerable<string>> CreateWordListFromFile(string source)
         {
-            using var fileStream = new FileStream(source, FileMode.Open, FileAccess.Read);
-            using var streamReader = new StreamReader(source);
-
-            var wordList = new WordList();
-            var words = await streamReader.ReadToEndAsync();
-
-            wordList.Words = words.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-
-            return wordList;
+            try
+            {
+                var wordList = await IOUtility.ReadLinesASync(source);
+                return wordList;
+            }
+            catch
+            {
+                return new string[] { };
+            }
         }
 
-        private async Task<IWordList> CreateWordListFromHttp(string source)
+        private static async Task<IEnumerable<string>> CreateWordListFromHttp(string source)
         {
-            var resource = await DownloadUtility.DownloadFileAsString(source);
-            var wordList = new WordList
+            try
             {
-                Words = resource.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
-            };
+                var resource = await DownloadUtility.DownloadFileAsString(source);
+                var wordList = resource.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
-            return wordList;
+                return wordList;
+            }
+            catch
+            {
+                return new string[] { };
+            }
         }
     }
 }

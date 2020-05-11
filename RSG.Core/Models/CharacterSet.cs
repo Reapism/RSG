@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace RSG.Core.Models
+﻿namespace RSG.Core.Models
 {
     /// <summary>
     /// Represents a set of characters and whether its enabled.
     /// </summary>
-    [Serializable]
     public class CharacterSet
     {
         /// <summary>

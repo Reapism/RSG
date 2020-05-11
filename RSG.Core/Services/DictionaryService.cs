@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.FileProviders;
+﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Services
@@ -14,52 +13,48 @@ namespace RSG.Core.Services
     public class DictionaryService
     {
         private SortedDictionary<string, RsgDictionary> dictionaries;
-        private IRsgDictionary selectedDictionary;
+        private RsgDictionary selectedDictionary;
 
         public DictionaryService(SortedDictionary<string, RsgDictionary> dictionaries)
         {
             this.dictionaries = dictionaries;
-        }
-
-        public IRsgDictionary GetDictionary()
-        {
-            return GetSelectedDictionary();
+            selectedDictionary = dictionaries.FirstOrDefault().Value;
         }
 
         public void SelectDictionary(string dictionaryName)
         {
             var success = dictionaries.TryGetValue(dictionaryName, out var dictionary);
-            if (success)
+            if (!success)
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
 
             selectedDictionary = dictionary;
-
         }
 
-        private IRsgDictionary GetSelectedDictionary()
+        public RsgDictionary GetSelectedDictionary()
         {
             return selectedDictionary;
         }
 
-        public void AddDictionary(RsgDictionary dictionaryToAdd)
+        public async void AddDictionary(IRsgDictionary dictionaryToAdd)
         {
-            var succedded = dictionaries.TryAdd(dictionaryToAdd.Name, dictionaryToAdd);
-        }
+            if (dictionaries.Any(d => d.Key.Equals(dictionaryToAdd.Name, StringComparison.OrdinalIgnoreCase)))
+                throw new ArgumentException("Cannot add dictionary, name must be unique!");
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IEnumerable<RsgDictionary>> GetDefaultDictionaries()
-        {
-            var queue = new Queue<RsgDictionary>(10);
+            var model = new RsgDictionary()
+            {
+                Description = dictionaryToAdd.Description,
+                Name = dictionaryToAdd.Name,
+                IsSourceLocal = dictionaryToAdd.IsSourceLocal,
+                Source = dictionaryToAdd.Source
+            };
 
-            var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly(), "Resources");
-            var fileInfo = embeddedProvider.GetFileInfo("DefaultDictionaries.json");
-            using var stream = fileInfo.CreateReadStream();
-            queue = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
+            var wordList = await WordListService.CreateWordList(dictionaryToAdd);
 
-            return queue;
+            model.WordList = wordList;
+            model.Count = wordList.Count().ToBigInteger();
+
+            // TryAdd due to asynchronous nature.
+            dictionaries.TryAdd(model.Name, model);
         }
     }
 }

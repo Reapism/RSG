@@ -1,4 +1,5 @@
-﻿using RSG.Core.Models;
+﻿using RSG.Core.Interfaces;
+using RSG.Core.Models;
 using RSG.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace RSG.Core.Utilities
         /// <param name="numberOfIterations">The number of strings to generate.</param>
         /// <param name="stringLength">The string length to generate.</param>
         /// <returns></returns>
-        public Result GenerateRandomStrings(int numberOfIterations, int stringLength)
+        public IStringResult GenerateRandomStrings(int numberOfIterations, int stringLength)
         {
             return GenerateRandomStrings(BigInteger.Parse(numberOfIterations.ToString()), BigInteger.Parse(stringLength.ToString()));
         }
@@ -37,7 +38,7 @@ namespace RSG.Core.Utilities
         /// <param name="numberOfIterations">The number of strings to generate.</param>
         /// <param name="stringLength">The length of the string to generate.</param>
         /// <returns></returns>
-        public Result GenerateRandomStrings(BigInteger numberOfIterations, BigInteger stringLength)
+        public IStringResult GenerateRandomStrings(BigInteger numberOfIterations, BigInteger stringLength)
         {
             var startTime = DateTime.Now;
             var queue = new Queue<string>();
@@ -48,9 +49,9 @@ namespace RSG.Core.Utilities
             }
 
             var endTime = DateTime.Now;
-            var result = new Result()
+            var result = new StringResult()
             {
-                CharacterList = _characterList.ToString() ?? string.Empty,
+                Characters = _characterList.ToString() ?? string.Empty,
                 StringLength = stringLength,
                 Iterations = numberOfIterations,
                 RandomizationType = RandomProvider.SelectedRandomizationType,

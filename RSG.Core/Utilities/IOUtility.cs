@@ -12,17 +12,19 @@ namespace RSG.Core.Utilities
     public static class IOUtility
     {
         /// <summary>
-        /// Read lines a 
+        /// Read lines from a file asynchronously using a specific
+        /// delimiter for spliting each string.
         /// </summary>
         /// <param name="filePath">The path of the file.</param>
         /// <param name="delimiter">The delimiter to split the contents of the file by.</param>
         /// <returns>A sequence of strings delimited by new line characters.</returns>
+        /// <exception cref="FileNotFoundException">Thrown if the file doesnt exist.</exception>
         public static async Task<IEnumerable<string>> ReadLinesASync(string filePath, string delimiter = "\n")
         {
             if (!DoesFileExist(filePath))
                 throw new FileNotFoundException($"Cannot find file located at '{filePath}'.");
 
-            using var fileStream = new FileStream(filePath, FileMode.Open);
+            using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             using var streamReader = new StreamReader(fileStream);
 
             var fileText = await streamReader.ReadToEndAsync();

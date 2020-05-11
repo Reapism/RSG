@@ -1,9 +1,7 @@
 ﻿using RSG.Core.Enums;
 using RSG.Core.Interfaces;
 using System;
-using System.ComponentModel;
 using System.Numerics;
-using System.Text.Json.Serialization;
 
 namespace RSG.Core.Models
 {
