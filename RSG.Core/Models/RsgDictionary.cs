@@ -22,6 +22,9 @@ namespace RSG.Core.Models
         public string Source { get; set; }
 
         [JsonIgnore]
+        public bool IsActive { get; set; }
+
+        [JsonIgnore]
         public IEnumerable<string> WordList { get; set; }
 
         [JsonIgnore]

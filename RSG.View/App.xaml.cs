@@ -4,6 +4,7 @@ using RSG.Core.Factories;
 using RSG.Core.Interfaces.Configuration;
 using RSG.View.Windows;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -22,15 +23,14 @@ namespace RSG.View
         {
             var container = await Initalize();
             Container = container;
-
             base.OnStartup(e);
+
             if (container.Provider != null)
             {
-                var window = new RsgWindow();
-                window.Show();
+                var mainWindow = Current.Windows.OfType<RsgWindow>().FirstOrDefault();
+                mainWindow.button1.IsEnabled = true;
                 MessageBox.Show("Loaded asynchronously");
             }
-
         }
 
         private static async Task<IocContainer> Initalize()
@@ -60,6 +60,11 @@ namespace RSG.View
             // Register scoped types 
         }
 
+        /// <summary>
+        /// Register asynchronous types that require IO to be constructed.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <returns></returns>
         private static async Task<IServiceProvider> RegisterTypesAsync(IocContainer container)
         {
             container.Services

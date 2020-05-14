@@ -7,6 +7,7 @@ using RSG.Core.Services;
 using RSG.Core.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -41,7 +42,7 @@ namespace RSG.View.Windows
         private async void button1_Click(object sender, RoutedEventArgs e)
         {
             var service = App.Container.Provider.GetService<DictionaryService>();
-            var dictionary = service. GetSelectedDictionary();
+            var dictionary = service.GetSelectedDictionary();
             MessageBox.Show($"{dictionary.Name} - {dictionary.Description}");
         }
     }

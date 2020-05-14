@@ -30,5 +30,10 @@ namespace RSG.Core.Interfaces
         /// <para>Can be a local file path or from a web source.</para>
         /// </summary>
         string Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this dictionary is active.
+        /// </summary>
+        bool IsActive { get; set; }
     }
 }
