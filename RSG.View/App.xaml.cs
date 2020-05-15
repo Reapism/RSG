@@ -21,11 +21,11 @@ namespace RSG.View
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            var container = await Initalize();
-            Container = container;
+            Container = Initialize();
+            Container.Provider = await InitializeAsync();
             base.OnStartup(e);
 
-            if (container.Provider != null)
+            if (Container.Provider != null)
             {
                 var mainWindow = Current.Windows.OfType<RsgWindow>().FirstOrDefault();
                 mainWindow.button1.IsEnabled = true;
@@ -33,18 +33,22 @@ namespace RSG.View
             }
         }
 
-        private static async Task<IocContainer> Initalize()
+        private static IocContainer Initialize()
         {
-            IocContainer container;
-            container = new IocContainer()
+            Container = new IocContainer()
             {
                 Services = new ServiceCollection()
             };
 
-            RegisterTypes(container);
-            container.Provider = await RegisterTypesAsync(container);
+            RegisterTypes(Container);
 
-            return container;
+            return Container;
+        }
+
+        private static async Task<IServiceProvider> InitializeAsync()
+        {
+            Container.Provider = await RegisterTypesAsync(Container);
+            return Container.Provider;
         }
 
         private static void RegisterTypes(IocContainer container)
