@@ -24,10 +24,10 @@ namespace RSG.Core.Utilities
             if (!DoesFileExist(filePath))
                 throw new FileNotFoundException($"Cannot find file located at '{filePath}'.");
 
-            using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            using var streamReader = new StreamReader(fileStream);
+            using FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using StreamReader streamReader = new StreamReader(fileStream);
 
-            var fileText = await streamReader.ReadToEndAsync();
+            string fileText = await streamReader.ReadToEndAsync();
 
             return fileText.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
         }

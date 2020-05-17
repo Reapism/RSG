@@ -34,7 +34,7 @@ namespace RSG.Core.Services
                 SearchIterations += BigInteger.One;
                 if (searchString.Length + 1 < _searchString.Length)
                 {
-                    var newSearchString = searchString + characterList[i];
+                    string newSearchString = searchString + characterList[i];
                     if (OriginalSearch(ref newSearchString, ref characterList))
                         return true;
                 }

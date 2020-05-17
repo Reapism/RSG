@@ -15,17 +15,11 @@ namespace RSG.Core.Services
 
         public static RandomizationType SelectedRandomizationType { get; set; }
 
-        public static System.Random Random
+        public static System.Random Random => SelectedRandomizationType switch
         {
-            get
-            {
-                return SelectedRandomizationType switch
-                {
-                    RandomizationType.Pseudorandom => PsuedoRandom,
-                    RandomizationType.ReapRandom => ReapRandom,
-                    _ => PsuedoRandom,
-                };
-            }
-        }
+            RandomizationType.Pseudorandom => PsuedoRandom,
+            RandomizationType.ReapRandom => ReapRandom,
+            _ => PsuedoRandom,
+        };
     }
 }

@@ -13,7 +13,7 @@
                 <GradientStop Color="#7F474747"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Rectangle Name="MyRectangle" HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100" VerticalAlignment="Stretch">
+        <Rectangle Name="MyRectangle" HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100">
             <Rectangle.Fill>
                 <SolidColorBrush x:Name="MySolidColorBrush" Color="GreenYellow" />
             </Rectangle.Fill>
@@ -36,7 +36,7 @@
                 </EventTrigger>
             </Rectangle.Triggers>
         </Rectangle>
-        <Button x:Name="button" Content="generate json" HorizontalAlignment="Left" Margin="218,136,0,0" VerticalAlignment="Top" Click="button_Click_1"/>
-        <Button x:Name="button1" Content="Read" HorizontalAlignment="Left" Margin="317,136,0,0" VerticalAlignment="Top" Click="button1_Click" Height="165" Width="349" IsEnabled="False"/>
+        <Button x:Name="button" Content="generate json" HorizontalAlignment="Left" Margin="218,136,0,0" VerticalAlignment="Top" Click="button_Click_1" Grid.ColumnSpan="2"/>
+        <Button x:Name="button1" Content="Read" HorizontalAlignment="Left" Margin="51,136,0,0" VerticalAlignment="Top" Click="button1_Click" Height="165" Width="349" IsEnabled="False" Grid.Column="1"/>
     </Grid>
 </Window>

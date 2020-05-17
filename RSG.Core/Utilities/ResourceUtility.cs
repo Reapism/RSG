@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
@@ -24,19 +23,19 @@ namespace RSG.Core.Utilities
 
         public static IEnumerable<string> GetResourcesNames()
         {
-            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            string[] names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
             return names;
         }
 
         public static async Task<Stream> GetResourceStream(string fileName)
         {
-            var resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
+            string resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
 
             if (resourceName == null)
                 throw new FileNotFoundException($"Cannot find file {fileName}");
 
-            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
 
             return resourceStream;
         }

@@ -44,7 +44,7 @@ namespace RSG.Core.Models
         /// <inheritdoc/>
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder
                 .AppendLine(Duration.Ticks.ToString("n0"))

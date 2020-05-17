@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-
-namespace RSG.Core.Interfaces
+﻿namespace RSG.Core.Interfaces
 {
     /// <summary>
     /// Represents the minimal information needed for a

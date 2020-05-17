@@ -19,7 +19,7 @@ namespace RSG.Core.Factories
         /// <returns>A <see cref="DetailedStatistics"/> instance.</returns>
         public static DetailedStatistics CreateDetailedStatistics(in Result result)
         {
-            var statistics = new DetailedStatistics()
+            DetailedStatistics statistics = new DetailedStatistics()
             {
                 CharacterList = result.CharacterList,
                 Duration = result.EndTime - result.StartTime,
@@ -28,7 +28,7 @@ namespace RSG.Core.Factories
                 StringLength = result.StringLength,
             };
 
-            var durationModel = GetDurations(statistics.Duration.Ticks, result.Iterations);
+            IIterationsFrequency durationModel = GetDurations(statistics.Duration.Ticks, result.Iterations);
 
             statistics.IterationsPerSecond = durationModel.IterationsPerSecond;
             statistics.IterationsPerMinute = durationModel.IterationsPerMinute;
@@ -41,7 +41,7 @@ namespace RSG.Core.Factories
                 BigInteger.Parse(result.CharacterList.Length.ToString()),
                 result.StringLength);
 
-            var characterModel = GetCommonCharacters(result.Strings);
+            ICharacterFrequency characterModel = GetCommonCharacters(result.Strings);
 
             statistics.LeastFrequentCharacter = characterModel.LeastFrequentCharacter;
             statistics.LeastFrequentCharacterCount = characterModel.LeastFrequentCharacterCount;
@@ -60,7 +60,7 @@ namespace RSG.Core.Factories
         /// <returns>A <see cref="Statistics"/> instance.</returns>
         public static Statistics CreateStatistics(in Result result)
         {
-            var statistics = new Statistics()
+            Statistics statistics = new Statistics()
             {
                 CharacterList = result.CharacterList,
                 Iterations = result.Iterations,
@@ -72,7 +72,7 @@ namespace RSG.Core.Factories
                 BigInteger.Parse(result.CharacterList.Length.ToString()),
                 result.StringLength);
 
-            var characterModel = GetCommonCharacters(
+            ICharacterFrequency characterModel = GetCommonCharacters(
                 new List<string> { result.Strings.FirstOrDefault() });
 
             statistics.LeastFrequentCharacter = characterModel.LeastFrequentCharacter;
@@ -85,7 +85,7 @@ namespace RSG.Core.Factories
 
         private static BigInteger GetPermutations(BigInteger value, BigInteger exponent)
         {
-            if (!int.TryParse(exponent.ToString(), out var exp))
+            if (!int.TryParse(exponent.ToString(), out int exp))
                 return BigInteger.Zero;
 
             return BigInteger.Pow(value, exp);
@@ -93,8 +93,8 @@ namespace RSG.Core.Factories
 
         private static IIterationsFrequency GetDurations(long currentTicks, BigInteger iterations)
         {
-            var model = new IterationsFrequency();
-            var timeSpan = new TimeSpan(currentTicks);
+            IterationsFrequency model = new IterationsFrequency();
+            TimeSpan timeSpan = new TimeSpan(currentTicks);
 
             model.IterationsPerSecond = timeSpan.Divide(TimeSpan.TicksPerSecond);
             model.IterationsPerMinute = timeSpan.Divide(TimeSpan.TicksPerMinute);
@@ -108,19 +108,19 @@ namespace RSG.Core.Factories
 
         private static ICharacterFrequency GetCommonCharacters(IEnumerable<string> strings)
         {
-            var count = strings.Count();
+            int count = strings.Count();
 
-            var leastFreqCharQueue = new Queue<char>(count);
-            var leastFreqCharCountQueue = new Queue<int>(count);
-            var mostFreqCharQueue = new Queue<char>(count);
-            var mostFreqCharCountQueue = new Queue<int>(count);
+            Queue<char> leastFreqCharQueue = new Queue<char>(count);
+            Queue<int> leastFreqCharCountQueue = new Queue<int>(count);
+            Queue<char> mostFreqCharQueue = new Queue<char>(count);
+            Queue<int> mostFreqCharCountQueue = new Queue<int>(count);
 
-            foreach (var str in strings)
+            foreach (string str in strings)
             {
-                var leastFreqCharCount = str.Min(asciiCharMin => str.Count(count => count == asciiCharMin));
-                var leastFreqChar = str.First(asciiCharMin => str.Count(count => count == asciiCharMin) == leastFreqCharCount);
-                var mostFreqCharCount = str.Max(asciiCharMax => str.Count(count => count == asciiCharMax));
-                var mostFreqChar = str.First(asciiCharMax => str.Count(count => count == asciiCharMax) == mostFreqCharCount);
+                int leastFreqCharCount = str.Min(asciiCharMin => str.Count(count => count == asciiCharMin));
+                char leastFreqChar = str.First(asciiCharMin => str.Count(count => count == asciiCharMin) == leastFreqCharCount);
+                int mostFreqCharCount = str.Max(asciiCharMax => str.Count(count => count == asciiCharMax));
+                char mostFreqChar = str.First(asciiCharMax => str.Count(count => count == asciiCharMax) == mostFreqCharCount);
 
                 leastFreqCharCountQueue.Enqueue(leastFreqCharCount);
                 leastFreqCharQueue.Enqueue(leastFreqChar);
@@ -128,7 +128,7 @@ namespace RSG.Core.Factories
                 mostFreqCharQueue.Enqueue(mostFreqChar);
             }
 
-            var model = new CharacterFrequency()
+            CharacterFrequency model = new CharacterFrequency()
             {
                 LeastFrequentCharacter = leastFreqCharQueue,
                 LeastFrequentCharacterCount = leastFreqCharCountQueue,
@@ -141,7 +141,7 @@ namespace RSG.Core.Factories
 
         private static long GetTicksPerIteration(long currentTicks, BigInteger totalIterations)
         {
-            if (!long.TryParse(totalIterations.ToString(), out var totalIters))
+            if (!long.TryParse(totalIterations.ToString(), out long totalIters))
                 return 0L;
 
             return currentTicks / totalIters;

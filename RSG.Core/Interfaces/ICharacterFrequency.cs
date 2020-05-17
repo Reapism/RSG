@@ -2,7 +2,7 @@
 
 namespace RSG.Core.Interfaces
 {
-    internal interface ICharacterFrequency
+    public interface ICharacterFrequency
     {
         IEnumerable<int> MostFrequentCharacterCount { get; set; }
 

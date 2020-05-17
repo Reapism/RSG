@@ -1,12 +1,10 @@
 ﻿using RSG.Core.Extensions;
+using RSG.Core.Factories;
 using RSG.Core.Interfaces;
 using RSG.Core.Models;
-using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using System.Threading.Tasks;
 
 namespace RSG.Core.Services
 {
@@ -14,16 +12,20 @@ namespace RSG.Core.Services
     {
         private SortedDictionary<string, RsgDictionary> dictionaries;
         private RsgDictionary selectedDictionary;
+        private DictionaryServiceFactory dictionaryServiceFactory;
 
-        public DictionaryService(SortedDictionary<string, RsgDictionary> dictionaries)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DictionaryService"/> class.
+        /// </summary>
+        /// <param name="factory"></param>
+        public DictionaryService(DictionaryServiceFactory factory)
         {
-            this.dictionaries = dictionaries;
-            selectedDictionary = dictionaries.FirstOrDefault().Value;
+            dictionaryServiceFactory = factory;
         }
 
         public void SelectDictionary(string dictionaryName)
         {
-            var success = dictionaries.TryGetValue(dictionaryName, out var dictionary);
+            bool success = dictionaries.TryGetValue(dictionaryName, out RsgDictionary dictionary);
             if (!success)
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
 
@@ -40,7 +42,7 @@ namespace RSG.Core.Services
             if (dictionaries.Any(d => d.Key.Equals(dictionaryToAdd.Name, StringComparison.OrdinalIgnoreCase)))
                 throw new ArgumentException("Cannot add dictionary, name must be unique!");
 
-            var model = new RsgDictionary()
+            RsgDictionary model = new RsgDictionary()
             {
                 Description = dictionaryToAdd.Description,
                 Name = dictionaryToAdd.Name,
@@ -48,7 +50,7 @@ namespace RSG.Core.Services
                 Source = dictionaryToAdd.Source
             };
 
-            var wordList = await WordListService.CreateWordList(dictionaryToAdd);
+            IEnumerable<string> wordList = await WordListService.CreateWordList(dictionaryToAdd);
 
             model.WordList = wordList;
             model.Count = wordList.Count().ToBigInteger();

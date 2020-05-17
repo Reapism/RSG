@@ -5,6 +5,7 @@ using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,17 @@ namespace RSG.View.Windows
     /// </summary>
     public partial class RsgWindow : Window
     {
+        private DictionaryService dictionaryService;
+
         public RsgWindow()
         {
             InitializeComponent();
+            InitializeDependencies();
+        }
+
+        private void InitializeDependencies()
+        {
+            dictionaryService = App.Container.Provider.GetService<DictionaryService>();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

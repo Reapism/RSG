@@ -12,8 +12,8 @@ namespace RSG.Core.Utilities
     {
         public static void ExportLogFile(Log logFile, string path, Encoding encoding)
         {
-            using var fileStream = new FileStream(path, FileMode.Create);
-            using var streamWriter = new StreamWriter(fileStream, encoding);
+            using FileStream fileStream = new FileStream(path, FileMode.Create);
+            using StreamWriter streamWriter = new StreamWriter(fileStream, encoding);
 
             streamWriter.WriteLine(logFile.ToString());
         }

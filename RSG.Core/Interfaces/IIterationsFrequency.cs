@@ -2,7 +2,7 @@
 
 namespace RSG.Core.Interfaces
 {
-    internal interface IIterationsFrequency
+    public interface IIterationsFrequency
     {
         TimeSpan Duration { get; set; }
 

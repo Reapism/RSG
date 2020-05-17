@@ -1,9 +1,7 @@
 ﻿using RSG.Core.Interfaces;
-using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Services
@@ -12,8 +10,15 @@ namespace RSG.Core.Services
     /// Contains methods for generating wordlists from an
     /// <see cref="IRsgDictionary"/>.
     /// </summary>
-    public static class WordListService
+    public class WordListService
     {
+        public IRsgDictionary rsgDictionary;
+
+        public WordListService(IRsgDictionary dictionary)
+        {
+            rsgDictionary = dictionary;
+        }
+
         /// <summary>
         /// Creates a wordlist from an <see cref="IRsgDictionary"/>.
         /// <para>Returns an empty sequence if unable to read/download dictionary from
@@ -24,7 +29,7 @@ namespace RSG.Core.Services
         /// <returns>A new <see cref="IEnumerable{string}"/> containing the new word list.</returns>
         public static async Task<IEnumerable<string>> CreateWordList(IRsgDictionary dictionary)
         {
-            var wordList = dictionary.IsSourceLocal
+            IEnumerable<string> wordList = dictionary.IsSourceLocal
                 ? await CreateWordListFromFile(dictionary.Source)
                 : await CreateWordListFromHttp(dictionary.Source);
 
@@ -35,7 +40,7 @@ namespace RSG.Core.Services
         {
             try
             {
-                var wordList = await IOUtility.ReadLinesASync(source);
+                IEnumerable<string> wordList = await IOUtility.ReadLinesASync(source);
                 return wordList;
             }
             catch
@@ -48,8 +53,8 @@ namespace RSG.Core.Services
         {
             try
             {
-                var resource = await DownloadUtility.DownloadFileAsString(source);
-                var wordList = resource.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+                string resource = await DownloadUtility.DownloadFileAsString(source);
+                string[] wordList = resource.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
                 return wordList;
             }

@@ -40,16 +40,16 @@ namespace RSG.Core.Utilities
         /// <returns></returns>
         public IStringResult GenerateRandomStrings(BigInteger numberOfIterations, BigInteger stringLength)
         {
-            var startTime = DateTime.Now;
-            var queue = new Queue<string>();
+            DateTime startTime = DateTime.Now;
+            Queue<string> queue = new Queue<string>();
 
             for (BigInteger bi = 0; bi < numberOfIterations; bi++)
             {
                 queue.Enqueue(GenerateRandomString(stringLength));
             }
 
-            var endTime = DateTime.Now;
-            var result = new StringResult()
+            DateTime endTime = DateTime.Now;
+            StringResult result = new StringResult()
             {
                 Characters = _characterList.ToString() ?? string.Empty,
                 StringLength = stringLength,
@@ -65,10 +65,10 @@ namespace RSG.Core.Utilities
 
         private string GenerateRandomString(BigInteger length)
         {
-            var stringBuilder = new StringBuilder();
-            var maxLength = _characterList.Length;
+            StringBuilder stringBuilder = new StringBuilder();
+            int maxLength = _characterList.Length;
 
-            for (var bi = BigInteger.Zero; bi < length; bi++)
+            for (BigInteger bi = BigInteger.Zero; bi < length; bi++)
             {
                 stringBuilder.Append(_characterList[RandomProvider.Random.Next(maxLength)]);
             }

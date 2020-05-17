@@ -2,7 +2,7 @@
 
 namespace RSG.Core.Interfaces
 {
-    internal interface IStatistics
+    public interface IStatistics
     {
         BigInteger StringLength { get; set; }
         BigInteger Iterations { get; set; }

@@ -50,11 +50,11 @@ namespace RSG.Core.Models
 
         public void AddWords(BigInteger numberOfWords)
         {
-            var lastPartition = GetNumberOfPartitionsAndLastPartition(numberOfWords).Item2;
-            var threads = GetThreads(numberOfWords, ThreadPriority.Normal);
+            BigInteger lastPartition = GetNumberOfPartitionsAndLastPartition(numberOfWords).Item2;
+            IEnumerable<Thread> threads = GetThreads(numberOfWords, ThreadPriority.Normal);
             ExecuteThreads(threads, numberOfWords);
 
-            foreach (var thread in threads)
+            foreach (Thread thread in threads)
             {
                 //thread.
             }
@@ -66,9 +66,9 @@ namespace RSG.Core.Models
         /// <returns>The number of words.</returns>
         public BigInteger Count()
         {
-            var partitionCount = BigInteger.Parse((WordsPartition.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
-            var lastPartitionCount = BigInteger.Parse(WordsPartition.Last().Count.ToString());
-            var count = partitionCount + lastPartitionCount;
+            BigInteger partitionCount = BigInteger.Parse((WordsPartition.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
+            BigInteger lastPartitionCount = BigInteger.Parse(WordsPartition.Last().Count.ToString());
+            BigInteger count = partitionCount + lastPartitionCount;
             return count;
         }
 
@@ -79,8 +79,8 @@ namespace RSG.Core.Models
         /// <returns>A specific partition </returns>
         public ConcurrentQueue<IWord> GetWordsAtIndex(int partitionIndex)
         {
-            var count = WordsPartition.Count();
-            var emptyQueue = new ConcurrentQueue<IWord>();
+            int count = WordsPartition.Count();
+            ConcurrentQueue<IWord> emptyQueue = new ConcurrentQueue<IWord>();
 
             if (partitionIndex < 0 || partitionIndex >= count)
                 return emptyQueue;
@@ -90,19 +90,19 @@ namespace RSG.Core.Models
 
         private Tuple<BigInteger, BigInteger> GetNumberOfPartitionsAndLastPartition(BigInteger numberOfWords)
         {
-            var numberOfPartitions = BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out var remainder);
-            var lastPartition = Tuple.Create(numberOfPartitions, remainder);
+            BigInteger numberOfPartitions = BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out BigInteger remainder);
+            Tuple<BigInteger, BigInteger> lastPartition = Tuple.Create(numberOfPartitions, remainder);
 
             return lastPartition;
         }
 
         private IEnumerable<Thread> GetThreads(BigInteger numberOfWords, ThreadPriority threadPriority)
         {
-            var queue = new Queue<Thread>();
-            var partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
-            var fullPartitions = partitions.Item1 - BigInteger.One;
+            Queue<Thread> queue = new Queue<Thread>();
+            Tuple<BigInteger, BigInteger> partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
+            BigInteger fullPartitions = partitions.Item1 - BigInteger.One;
 
-            for (var currentPartition = BigInteger.Zero; currentPartition < fullPartitions;)
+            for (BigInteger currentPartition = BigInteger.Zero; currentPartition < fullPartitions;)
             {
                 queue.Enqueue(
                     new Thread(
@@ -126,10 +126,10 @@ namespace RSG.Core.Models
 
         private void ExecuteThreads(IEnumerable<Thread> threads, BigInteger lastPartition)
         {
-            var fullPartitionedThreads = threads.Count() - 1;
-            for (var i = 0; i < fullPartitionedThreads; i++, threads.GetEnumerator().MoveNext())
+            int fullPartitionedThreads = threads.Count() - 1;
+            for (int i = 0; i < fullPartitionedThreads; i++, threads.GetEnumerator().MoveNext())
             {
-                var thread = threads.GetEnumerator().Current;
+                Thread thread = threads.GetEnumerator().Current;
                 thread.Start();
             }
 

@@ -24,11 +24,11 @@ namespace RSG.Core.Services
 
         private void UpdateExpectedCharacterListHelper(in ICharacterSet characterSet)
         {
-            var expectedCharacterListBuilder = new StringBuilder();
+            StringBuilder expectedCharacterListBuilder = new StringBuilder();
 
-            foreach (var set in characterSet.CharacterSets.Values)
+            foreach (CharacterSet set in characterSet.CharacterSets.Values)
             {
-                var containsSet = set.Characters.Any(ch => set.Characters.Contains(ch));
+                bool containsSet = set.Characters.Any(ch => set.Characters.Contains(ch));
                 if (containsSet)
                     expectedCharacterListBuilder.Append(set.Characters);
             }

@@ -9,7 +9,7 @@ namespace RSG.Core.Services
     {
         public static async void Decorate(Words words, int lowPercentage, int highPercentage)
         {
-            var result = ValidatePercentageRange(lowPercentage, highPercentage);
+            int result = ValidatePercentageRange(lowPercentage, highPercentage);
 
             switch (result)
             {
@@ -32,12 +32,12 @@ namespace RSG.Core.Services
 
         private static void DecorateHelper(in Words words, int lowPercentage, int highPercentage)
         {
-            var randomPercentage = RandomProvider.Random.Next(lowPercentage, highPercentage);
-            var partioned = BigInteger.DivRem(words.Count(), BigInteger.Parse(randomPercentage.ToString()), out var remainder);
+            int randomPercentage = RandomProvider.Random.Next(lowPercentage, highPercentage);
+            BigInteger partioned = BigInteger.DivRem(words.Count(), BigInteger.Parse(randomPercentage.ToString()), out BigInteger remainder);
 
-            foreach (var partitionedDictionary in words.WordsPartition)
+            foreach (System.Collections.Concurrent.ConcurrentQueue<Interfaces.IWord> partitionedDictionary in words.WordsPartition)
             {
-                foreach (var noisyWord in partitionedDictionary)
+                foreach (Interfaces.IWord noisyWord in partitionedDictionary)
                 {
                 }
             }

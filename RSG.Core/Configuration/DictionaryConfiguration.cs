@@ -1,5 +1,4 @@
-﻿using RSG.Core.Interfaces;
-using RSG.Core.Interfaces.Configuration;
+﻿using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using System.Collections.Generic;
 

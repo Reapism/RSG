@@ -19,14 +19,14 @@ namespace RSG.Core.Extensions
         public static string GetDescription<TEnum>(this TEnum enumValue)
             where TEnum : struct, IConvertible
         {
-            var type = enumValue.GetType();
+            Type type = enumValue.GetType();
             if (!type.IsEnum)
                 throw new ArgumentException("T must be an enumerated type.");
 
-            var memberInfo = type.GetMember(enumValue.ToString());
+            System.Reflection.MemberInfo[] memberInfo = type.GetMember(enumValue.ToString());
             if (memberInfo.Length > 0)
             {
-                var attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                object[] attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
 
                 if (attrs.Length > 0)
                     return ((DescriptionAttribute)attrs[0]).Description;

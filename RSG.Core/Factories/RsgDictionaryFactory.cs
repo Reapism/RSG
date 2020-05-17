@@ -20,7 +20,7 @@ namespace RSG.Core.Factories
         /// <returns>An <see cref="RsgDictionary"/> instance.</returns>
         public static async Task<RsgDictionary> Create(string name, string desc, string source, bool isSourceLocal)
         {
-            var dictionary = new RsgDictionary()
+            RsgDictionary dictionary = new RsgDictionary()
             {
                 Name = name,
                 Description = desc,
