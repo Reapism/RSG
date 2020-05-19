@@ -6,6 +6,6 @@ namespace RSG.Core.Interfaces.Configuration
     {
         BigInteger StringLength { get; set; }
 
-        ICharacterSet CharacterSet { get; set; }
+        ICharacterSets CharacterSet { get; set; }
     }
 }

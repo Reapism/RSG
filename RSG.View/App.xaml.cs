@@ -32,7 +32,6 @@ namespace RSG.View
             if (Container.Provider != null)
             {
                 var mainWindow = Current.Windows.OfType<RsgWindow>().FirstOrDefault();
-                mainWindow.button1.IsEnabled = true;
                 MessageBox.Show("Loaded asynchronously");
             }
         }
@@ -68,7 +67,7 @@ namespace RSG.View
             container.Services
                 .AddScoped<IRsgDictionary, RsgDictionary>()
                 .AddScoped<ICharacterFrequency, CharacterFrequency>()
-                .AddScoped<ICharacterSet, CharacterSet>()
+                .AddScoped<ICharacterSets, CharacterSet>()
                 .AddScoped<IDictionaryResult, DictionaryResult>()
                 .AddScoped<IIterationsFrequency, IterationsFrequency>()
                 .AddScoped<IStatistics, Statistics>()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RSG.Core.Interfaces
 {
-    public interface ICharacterSet
+    public interface ICharacterSets
     {
         IDictionary<string, CharacterSet> CharacterSets { get; set; }
     }

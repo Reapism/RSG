@@ -36,7 +36,5 @@
                 </EventTrigger>
             </Rectangle.Triggers>
         </Rectangle>
-        <Button x:Name="button" Content="generate json" HorizontalAlignment="Left" Margin="218,136,0,0" VerticalAlignment="Top" Click="button_Click_1" Grid.ColumnSpan="2"/>
-        <Button x:Name="button1" Content="Read" HorizontalAlignment="Left" Margin="51,136,0,0" VerticalAlignment="Top" Click="button1_Click" Height="165" Width="349" IsEnabled="False" Grid.Column="1"/>
     </Grid>
 </Window>

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RSG.Core.Services
 {
-    public class CharacterSetService : ICharacterSet
+    public class CharacterSetService : ICharacterSets
     {
         /// <inheritdoc/>
         public IDictionary<string, CharacterSet> CharacterSets { get; set; }

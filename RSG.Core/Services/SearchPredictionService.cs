@@ -17,12 +17,12 @@ namespace RSG.Core.Services
             Search = search;
         }
 
-        public void UpdateExpectedCharacterList(in ICharacterSet characterSet)
+        public void UpdateExpectedCharacterList(in ICharacterSets characterSet)
         {
             UpdateExpectedCharacterListHelper(characterSet);
         }
 
-        private void UpdateExpectedCharacterListHelper(in ICharacterSet characterSet)
+        private void UpdateExpectedCharacterListHelper(in ICharacterSets characterSet)
         {
             StringBuilder expectedCharacterListBuilder = new StringBuilder();
 
