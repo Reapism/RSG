@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace RSG.Core.Interfaces
 {
-    public interface IWordList
+    public interface IDictionaryWordList
     {
         IEnumerable<string> WordList { get; set; }
 

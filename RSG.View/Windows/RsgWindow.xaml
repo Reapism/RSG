@@ -13,28 +13,39 @@
                 <GradientStop Color="#7F474747"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Rectangle Name="MyRectangle" HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100">
-            <Rectangle.Fill>
-                <SolidColorBrush x:Name="MySolidColorBrush" Color="GreenYellow" />
-            </Rectangle.Fill>
-            <Rectangle.Triggers>
-                <EventTrigger RoutedEvent="Rectangle.MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="20" To="75" Duration="0:0:0.55" />
-                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="DarkGray" To="Green" Duration="0:0:0.55" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="Rectangle.MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="75" To="20" Duration="0:0:0.1" />
-                            <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="Gray" To="Green" Duration="0:0:0.1" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Rectangle.Triggers>
-        </Rectangle>
+        <Grid HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100">
+            <Rectangle Name="MyRectangle" HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100">
+                <Rectangle.Fill>
+                    <SolidColorBrush x:Name="MySolidColorBrush" Color="#FFA2A2A2" />
+                </Rectangle.Fill>
+                <Rectangle.Triggers>
+                    <EventTrigger RoutedEvent="Rectangle.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="20" To="75" Duration="0:0:0.15" />
+                                <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="DarkGray" To="LightBlue" Duration="0:0:0.35" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                    <EventTrigger RoutedEvent="Rectangle.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="75" To="20" Duration="0:0:0.05" />
+                                <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="LightBlue" To="DarkGray" Duration="0:0:0.35" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Rectangle.Triggers>
+            </Rectangle>
+        </Grid>
+
+
+        <Button x:Name="autoGenerateButton" Content="AutoGen" HorizontalAlignment="Left" Margin="5,30,0,0" VerticalAlignment="Top" BorderBrush="White" Background="#00DDDDDD" Height="50" Width="50" Foreground="White">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+
     </Grid>
 </Window>

@@ -1,7 +1,9 @@
 ﻿using RSG.Core.Extensions;
+using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,31 +12,33 @@ namespace RSG.Core.Factories
 {
     public class DictionaryServiceFactory
     {
-        private async Task<IEnumerable<RsgDictionary>> GetDefaultDictionaries()
+        public async Task<ConcurrentDictionary<string, IRsgDictionary>> CreateAsync()
         {
-            using System.IO.Stream stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
-            Queue<RsgDictionary> dictionaries = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
+            var defaultDictionaries = await GetDefaultDictionariesAsync();
+            var dictionaries = new ConcurrentDictionary<string, IRsgDictionary>();
 
-            foreach (RsgDictionary dictionary in dictionaries)
+            foreach (var dict in defaultDictionaries)
             {
-                dictionary.WordList = await WordListService.CreateWordList(dictionary);
-                dictionary.Count = dictionary.WordList.Count().ToBigInteger();
+                dictionaries.TryAdd(dict.Name, dict);
             }
 
             return dictionaries;
         }
 
-        public async Task<SortedDictionary<string, RsgDictionary>> CreateAsync()
+        public async Task<bool> LoadFirstDictionaryAsync(RsgDictionary rsgDictionary)
         {
-            IEnumerable<RsgDictionary> dictionaries = await GetDefaultDictionaries();
-            SortedDictionary<string, RsgDictionary> sortedDictionary = new SortedDictionary<string, RsgDictionary>();
+            rsgDictionary.WordList = await WordListService.CreateWordList(rsgDictionary);
+            rsgDictionary.Count = rsgDictionary.WordList.Count().ToBigInteger();
 
-            foreach (RsgDictionary dict in dictionaries)
-            {
-                sortedDictionary.Add(dict.Name, dict);
-            }
+            return rsgDictionary.WordList.Any() ? true : false;
+        }
 
-            return sortedDictionary;
+        private async Task<IEnumerable<IRsgDictionary>> GetDefaultDictionariesAsync()
+        {
+            using var stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
+            Queue<RsgDictionary> dictionaries = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
+
+            return dictionaries;
         }
     }
 }

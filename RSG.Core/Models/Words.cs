@@ -9,38 +9,33 @@ using System.Threading;
 namespace RSG.Core.Models
 {
     /// <summary>
-    /// Represents a collection of words.
+    /// Represents a collection of generated words.
     /// </summary>
     public struct Words
     {
+        private const int DefaultPartitionSize = 1000;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Words"/> struct
-        /// with a <paramref name="partitionSize"/>.
+        /// and whether its <paramref name="isNoisy"/> or not.
         /// </summary>
-        /// <param name="partitionSize">The size of the partition.</param>
         /// <param name="isNoisy">Whether this instance is Noisy.</param>
-        public Words(int partitionSize)
+        public Words(bool isNoisy)
         {
-            PartitionSize = partitionSize;
-            IsNoisy = false;
-            WordsPartition = new ConcurrentQueue<ConcurrentQueue<IWord>>();
-            NoisyCharacterPositions = new Dictionary<int, char>();
+            PartitionSize = DefaultPartitionSize;
+            IsNoisy = isNoisy;
+            WordsPartition = new ConcurrentQueue<ConcurrentQueue<IGeneratedWord>>();
         }
 
         /// <summary>
-        /// Gets or sets a value that maps a partitioned collection of <see cref="IWord"/>(s).
+        /// Gets or sets a value that maps a partitioned collection of <see cref="IGeneratedWord"/>(s).
         /// </summary>
-        public ConcurrentQueue<ConcurrentQueue<IWord>> WordsPartition { get; set; }
+        public ConcurrentQueue<ConcurrentQueue<IGeneratedWord>> WordsPartition { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating positions of characters.
+        /// Gets the size of each partition of words.
         /// </summary>
-        public IDictionary<int, char> NoisyCharacterPositions { get; set; }
-
-        /// <summary>
-        /// Gets or sets the size of each partition of words.
-        /// </summary>
-        public int PartitionSize { get; set; }
+        public int PartitionSize { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Words"/>
@@ -48,7 +43,7 @@ namespace RSG.Core.Models
         /// </summary>
         public bool IsNoisy { get; set; }
 
-        public void AddWords(BigInteger numberOfWords)
+        public async void AddWords(BigInteger numberOfWords)
         {
             BigInteger lastPartition = GetNumberOfPartitionsAndLastPartition(numberOfWords).Item2;
             IEnumerable<Thread> threads = GetThreads(numberOfWords, ThreadPriority.Normal);
@@ -68,7 +63,9 @@ namespace RSG.Core.Models
         {
             BigInteger partitionCount = BigInteger.Parse((WordsPartition.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
             BigInteger lastPartitionCount = BigInteger.Parse(WordsPartition.Last().Count.ToString());
+
             BigInteger count = partitionCount + lastPartitionCount;
+
             return count;
         }
 
@@ -77,10 +74,10 @@ namespace RSG.Core.Models
         /// </summary>
         /// <param name="partitionIndex">The index of the parent collection.</param>
         /// <returns>A specific partition </returns>
-        public ConcurrentQueue<IWord> GetWordsAtIndex(int partitionIndex)
+        public ConcurrentQueue<IGeneratedWord> GetWordsAtIndex(int partitionIndex)
         {
             int count = WordsPartition.Count();
-            ConcurrentQueue<IWord> emptyQueue = new ConcurrentQueue<IWord>();
+            ConcurrentQueue<IGeneratedWord> emptyQueue = new ConcurrentQueue<IGeneratedWord>();
 
             if (partitionIndex < 0 || partitionIndex >= count)
                 return emptyQueue;
@@ -88,7 +85,7 @@ namespace RSG.Core.Models
             return WordsPartition.ElementAt(partitionIndex);
         }
 
-        private Tuple<BigInteger, BigInteger> GetNumberOfPartitionsAndLastPartition(BigInteger numberOfWords)
+        private Tuple<BigInteger, BigInteger> GetNumberOfPartitionsAndLastPartition(in BigInteger numberOfWords)
         {
             BigInteger numberOfPartitions = BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out BigInteger remainder);
             Tuple<BigInteger, BigInteger> lastPartition = Tuple.Create(numberOfPartitions, remainder);
@@ -96,7 +93,7 @@ namespace RSG.Core.Models
             return lastPartition;
         }
 
-        private IEnumerable<Thread> GetThreads(BigInteger numberOfWords, ThreadPriority threadPriority)
+        private IEnumerable<Thread> GetThreads(in BigInteger numberOfWords, ThreadPriority threadPriority)
         {
             Queue<Thread> queue = new Queue<Thread>();
             Tuple<BigInteger, BigInteger> partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
@@ -110,7 +107,7 @@ namespace RSG.Core.Models
                     {
                         IsBackground = true,
                         Priority = threadPriority,
-                        Name = $"WordsGen_PartitionIndex_{currentPartition}",
+                        Name = $"Words_PartitionIndex_{currentPartition}",
                     });
             }
 
@@ -118,13 +115,13 @@ namespace RSG.Core.Models
             {
                 IsBackground = true,
                 Priority = threadPriority,
-                Name = $"WordsGen_PartitionIndex_{fullPartitions}",
+                Name = $"Words_PartitionIndex_{fullPartitions}",
             });
 
             return queue;
         }
 
-        private void ExecuteThreads(IEnumerable<Thread> threads, BigInteger lastPartition)
+        private void ExecuteThreads(IEnumerable<Thread> threads, in BigInteger lastPartition)
         {
             int fullPartitionedThreads = threads.Count() - 1;
             for (int i = 0; i < fullPartitionedThreads; i++, threads.GetEnumerator().MoveNext())

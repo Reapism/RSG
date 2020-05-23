@@ -7,10 +7,10 @@ using System.Text;
 
 namespace RSG.Core.Services
 {
-    public class CharacterSetService : ICharacterSets
+    public class CharacterSetService : ICharacterSet
     {
         /// <inheritdoc/>
-        public IDictionary<string, CharacterSet> CharacterSets { get; set; }
+        public IDictionary<string, CharSet> CharacterSets { get; set; }
 
         public char[] GetNewCharacterList()
         {
@@ -38,9 +38,9 @@ namespace RSG.Core.Services
         private string GetCharacterList()
         {
             StringBuilder strBuilder = new StringBuilder();
-            IEnumerable<CharacterSet> enabledCharacterSets = CharacterSets.Values.Where(set => set.Enabled);
+            IEnumerable<CharSet> enabledCharacterSets = CharacterSets.Values.Where(set => set.Enabled);
 
-            foreach (CharacterSet set in enabledCharacterSets)
+            foreach (CharSet set in enabledCharacterSets)
                 strBuilder.Append(set.Characters);
 
             return strBuilder.ToString();

@@ -18,15 +18,15 @@ namespace RSG.Core.Factories
         {
             CharacterSetService service = new CharacterSetService()
             {
-                CharacterSets = new Dictionary<string, CharacterSet>(),
+                CharacterSets = new Dictionary<string, CharSet>(),
             };
 
-            service.CharacterSets.Add(CharacterSetConstants.Lowercase, new CharacterSet(CharacterSetConstants.LowercaseSet, true));
-            service.CharacterSets.Add(CharacterSetConstants.Uppercase, new CharacterSet(CharacterSetConstants.UppercaseSet, true));
-            service.CharacterSets.Add(CharacterSetConstants.Numbers, new CharacterSet(CharacterSetConstants.NumbersSet, true));
-            service.CharacterSets.Add(CharacterSetConstants.Punctuation, new CharacterSet(CharacterSetConstants.PunctuationSet, false));
-            service.CharacterSets.Add(CharacterSetConstants.Space, new CharacterSet(CharacterSetConstants.SpaceSet, false));
-            service.CharacterSets.Add(CharacterSetConstants.Symbols, new CharacterSet(CharacterSetConstants.SymbolsSet, false));
+            service.CharacterSets.Add(CharacterSetConstants.Lowercase, new CharSet(CharacterSetConstants.LowercaseSet, true));
+            service.CharacterSets.Add(CharacterSetConstants.Uppercase, new CharSet(CharacterSetConstants.UppercaseSet, true));
+            service.CharacterSets.Add(CharacterSetConstants.Numbers, new CharSet(CharacterSetConstants.NumbersSet, true));
+            service.CharacterSets.Add(CharacterSetConstants.Punctuation, new CharSet(CharacterSetConstants.PunctuationSet, false));
+            service.CharacterSets.Add(CharacterSetConstants.Space, new CharSet(CharacterSetConstants.SpaceSet, false));
+            service.CharacterSets.Add(CharacterSetConstants.Symbols, new CharSet(CharacterSetConstants.SymbolsSet, false));
 
             return service;
         }

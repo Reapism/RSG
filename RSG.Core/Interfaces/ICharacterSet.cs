@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace RSG.Core.Interfaces
 {
-    public interface ICharacterSets
+    public interface ICharacterSet
     {
-        IDictionary<string, CharacterSet> CharacterSets { get; set; }
+        IDictionary<string, CharSet> CharacterSets { get; set; }
     }
 }

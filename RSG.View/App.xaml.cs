@@ -25,9 +25,10 @@ namespace RSG.View
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            Container = Initialize();
-            Container.Provider = await InitializeAsync();
             base.OnStartup(e);
+
+            Container = await Initialize();
+            Container.Provider = Container.Services.BuildServiceProvider();
 
             if (Container.Provider != null)
             {
@@ -36,7 +37,7 @@ namespace RSG.View
             }
         }
 
-        private static IocContainer Initialize()
+        private static async Task<IocContainer> Initialize()
         {
             Container = new IocContainer()
             {
@@ -44,14 +45,14 @@ namespace RSG.View
             };
 
             RegisterTypes(Container);
+            RegisterTypesAsync(Container);
 
             return Container;
         }
 
-        private static async Task<IServiceProvider> InitializeAsync()
+        private static async void InitializeAsync()
         {
-            Container.Provider = await RegisterTypesAsync(Container);
-            return Container.Provider;
+            RegisterTypesAsync(Container);
         }
 
         private static void RegisterTypes(IocContainer container)
@@ -60,31 +61,28 @@ namespace RSG.View
             container.Services
                 .AddSingleton<IRsgConfiguration, RsgConfiguration>()
                 .AddSingleton<IStringConfiguration, StringConfiguration>()
-                .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>();
-
-            // Register scoped types 
-
+                .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>()
+                .AddSingleton<DictionaryServiceFactory>()
+                .AddSingleton<DictionaryService>();
+            // Register scoped types
             container.Services
                 .AddScoped<IRsgDictionary, RsgDictionary>()
                 .AddScoped<ICharacterFrequency, CharacterFrequency>()
-                .AddScoped<ICharacterSets, CharacterSet>()
+                .AddScoped<ICharacterSet, CharacterSet>()
+                .AddScoped<IResult, Result>()
+                .AddScoped<IStringResult, StringResult>()
                 .AddScoped<IDictionaryResult, DictionaryResult>()
                 .AddScoped<IIterationsFrequency, IterationsFrequency>()
                 .AddScoped<IStatistics, Statistics>()
                 .AddScoped<IStringResult, StringResult>()
-                .AddScoped<RsgDictionaryFactory>()
-                .AddScoped<DictionaryService>()
+                .AddScoped<IGeneratedWord, GeneratedWord>()
+                .AddScoped<IDictionaryWordList, DictionaryWordList>()
                 .AddScoped<CharacterSetService>()
                 .AddScoped<RandomStringGenerator>()
-                .AddScoped<WordListService>()
-                .AddScoped<IWordList, WordList>()
-                .AddScoped<RandomStringGenerator>()
-                .AddScoped<RandomStringGenerator>()
+                .AddScoped<WordListService>();
 
 
             // Register transients types
-            container.Services
-                .
         }
 
         /// <summary>
@@ -92,12 +90,9 @@ namespace RSG.View
         /// </summary>
         /// <param name="container"></param>
         /// <returns></returns>
-        private static async Task<IServiceProvider> RegisterTypesAsync(IocContainer container)
+        private static async void RegisterTypesAsync(IocContainer container)
         {
-            container.Services
-                .AddSingleton(await DictionaryServiceFactory.CreateAsync());
-
-            return container.Services.BuildServiceProvider();
+            
         }
     }
 }

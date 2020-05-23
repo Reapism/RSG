@@ -3,33 +3,54 @@ using RSG.Core.Factories;
 using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RSG.Core.Services
 {
+    /// <summary>
+    /// Holds a collection of dictionaries, and provides methods for CRUD
+    /// operations on the collection of <see cref="RsgDictionary"/>(s).
+    /// </summary>
     public class DictionaryService
     {
-        private SortedDictionary<string, RsgDictionary> dictionaries;
+        private ConcurrentDictionary<string, IRsgDictionary> dictionaries;
         private RsgDictionary selectedDictionary;
         private DictionaryServiceFactory dictionaryServiceFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryService"/> class.
         /// </summary>
-        /// <param name="factory"></param>
-        public DictionaryService(DictionaryServiceFactory factory)
+        /// <param name="dictionaryServiceFactory">A factory used to create 
+        /// members of the <see cref="DictionaryService"/>.</param>
+        public DictionaryService(
+            DictionaryServiceFactory dictionaryServiceFactory)
         {
-            dictionaryServiceFactory = factory;
+            this.dictionaryServiceFactory = dictionaryServiceFactory;
         }
 
-        public void SelectDictionary(string dictionaryName)
+        /// <summary>
+        /// Selects a dictionary given the name of the dictionary.
+        /// </summary>
+        /// <param name="dictionaryName">The name of the dictionary.</param>
+        /// <exception cref="ArgumentException">Thrown if the dictionary
+        /// name was not found.</exception>
+        public async void SelectDictionary(string dictionaryName)
         {
-            bool success = dictionaries.TryGetValue(dictionaryName, out RsgDictionary dictionary);
+            if (dictionaries == null)
+                dictionaries = await dictionaryServiceFactory.CreateAsync();
+
+            if (GetSelectedDictionary() == null)
+                selectedDictionary = (RsgDictionary)dictionaries.FirstOrDefault().Value;
+
+            bool success = dictionaries.TryGetValue(dictionaryName, out var dictionary);
             if (!success)
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
 
-            selectedDictionary = dictionary;
+            selectedDictionary.WordList = await WordListService.CreateWordList(dictionary);
+            selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
         }
 
         public RsgDictionary GetSelectedDictionary()
@@ -37,26 +58,23 @@ namespace RSG.Core.Services
             return selectedDictionary;
         }
 
-        public async void AddDictionary(IRsgDictionary dictionaryToAdd)
+        public async Task<bool> AddDictionaryAsync(IRsgDictionary dictionaryToAdd)
         {
-            if (dictionaries.Any(d => d.Key.Equals(dictionaryToAdd.Name, StringComparison.OrdinalIgnoreCase)))
+            if (!DoesDictionaryExist(dictionaryToAdd.Name))
                 throw new ArgumentException("Cannot add dictionary, name must be unique!");
 
-            RsgDictionary model = new RsgDictionary()
-            {
-                Description = dictionaryToAdd.Description,
-                Name = dictionaryToAdd.Name,
-                IsSourceLocal = dictionaryToAdd.IsSourceLocal,
-                Source = dictionaryToAdd.Source
-            };
-
-            IEnumerable<string> wordList = await WordListService.CreateWordList(dictionaryToAdd);
-
-            model.WordList = wordList;
-            model.Count = wordList.Count().ToBigInteger();
-
             // TryAdd due to asynchronous nature.
-            dictionaries.TryAdd(model.Name, model);
+            return dictionaries.TryAdd(dictionaryToAdd.Name, dictionaryToAdd);
+        }
+
+        public async Task<bool> RemoveDictionaryAsync(IRsgDictionary dictionaryToRemove)
+        {
+           return dictionaries.TryRemove(dictionaryToRemove.Name, out var dictionary);
+        }
+
+        private bool DoesDictionaryExist(string dictionaryName)
+        {
+            return dictionaries.Any(d => d.Key.Equals(dictionaryName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

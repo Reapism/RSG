@@ -8,7 +8,10 @@ using System.Text.Json.Serialization;
 
 namespace RSG.Core.Models
 {
-    public class RsgDictionary : IRsgDictionary, IWordList, IComparer<RsgDictionary>
+    /// <summary>
+    /// Represents a fully constructed <see cref="IRsgDictionary"/>.
+    /// </summary>
+    public class RsgDictionary : IRsgDictionary, IDictionaryWordList, IComparer<RsgDictionary>
     {
         [Required(ErrorMessage = "Dictionary must have a name.")]
         public string Name { get; set; }
@@ -21,7 +24,6 @@ namespace RSG.Core.Models
         [Required(ErrorMessage = "The source of the dictionary must be specified.")]
         public string Source { get; set; }
 
-        [JsonIgnore]
         public bool IsActive { get; set; }
 
         [JsonIgnore]
@@ -30,6 +32,14 @@ namespace RSG.Core.Models
         [JsonIgnore]
         public BigInteger Count { get; set; }
 
+        /// <summary>
+        /// Compares the <see cref="Name"/>
+        /// property and returns the result.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>Returns the string comparison on the <see cref="Name"/>
+        /// property.</returns>
         public int Compare([AllowNull] RsgDictionary x, [AllowNull] RsgDictionary y)
         {
             return string.Compare(x.Name, y.Name, true, CultureInfo.InvariantCulture);

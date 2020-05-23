@@ -8,12 +8,6 @@ namespace RSG.Core.Services
 {
     public class ThreadService
     {
-        public IEnumerable<Thread> GetThreadsFor<T>()
-            where T : class, IResult
-        {
-            var threads = new Queue<Thread>();
-
-            return T;
-        }
+        
     }
 }
