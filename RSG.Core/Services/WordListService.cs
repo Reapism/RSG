@@ -1,7 +1,9 @@
 ﻿using RSG.Core.Interfaces;
 using RSG.Core.Utilities;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Services
@@ -20,14 +22,35 @@ namespace RSG.Core.Services
         }
 
         /// <summary>
-        /// Creates a wordlist from an <see cref="IRsgDictionary"/>.
+        /// Creates a key/value pair wordlist which, maps indexes to words.
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        public IDictionary<int, string> CreateIndexedWordList(IEnumerable<string> words)
+        {
+            var wordCount = words.Count();
+            var dictionary = new Dictionary<int, string>(wordCount);
+            var index = 0;
+
+            do
+            {
+                var word = words.GetEnumerator().Current;
+                dictionary.Add(index, word);
+            }
+            while (words.GetEnumerator().MoveNext());
+
+            return dictionary;
+        }
+
+        /// <summary>
+        /// Creates a sequence of words from an <see cref="IRsgDictionary"/>.
         /// <para>Returns an empty sequence if unable to read/download dictionary from
         /// the source.</para>
         /// </summary>
         /// <param name="dictionary">A contract representing a
         /// <see cref="IRsgDictionary"/>.</param>
         /// <returns>A new <see cref="IEnumerable{string}"/> containing the new word list.</returns>
-        public static async Task<IEnumerable<string>> CreateWordList(IRsgDictionary dictionary)
+        public async Task<IEnumerable<string>> CreateWordList(IRsgDictionary dictionary)
         {
             IEnumerable<string> wordList = dictionary.IsSourceLocal
                 ? await CreateWordListFromFile(dictionary.Source)
@@ -36,7 +59,7 @@ namespace RSG.Core.Services
             return wordList;
         }
 
-        private static async Task<IEnumerable<string>> CreateWordListFromFile(string source)
+        private async Task<IEnumerable<string>> CreateWordListFromFile(string source)
         {
             try
             {
@@ -49,7 +72,7 @@ namespace RSG.Core.Services
             }
         }
 
-        private static async Task<IEnumerable<string>> CreateWordListFromHttp(string source)
+        private async Task<IEnumerable<string>> CreateWordListFromHttp(string source)
         {
             try
             {

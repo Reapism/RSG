@@ -5,7 +5,7 @@ namespace RSG.Core.Interfaces
 {
     public interface IDictionaryWordList
     {
-        IEnumerable<string> WordList { get; set; }
+        IDictionary<int, string> WordList { get; set; }
 
         BigInteger Count { get; set; }
     }

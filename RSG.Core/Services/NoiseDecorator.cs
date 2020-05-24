@@ -35,7 +35,7 @@ namespace RSG.Core.Services
             int randomPercentage = RandomProvider.Random.Next(lowPercentage, highPercentage);
             BigInteger partioned = BigInteger.DivRem(words.Count(), BigInteger.Parse(randomPercentage.ToString()), out BigInteger remainder);
 
-            foreach (System.Collections.Concurrent.ConcurrentQueue<Interfaces.IGeneratedWord> partitionedDictionary in words.WordsPartition)
+            foreach (System.Collections.Concurrent.ConcurrentQueue<Interfaces.IGeneratedWord> partitionedDictionary in words.PartitionedWords)
             {
                 foreach (Interfaces.IGeneratedWord noisyWord in partitionedDictionary)
                 {

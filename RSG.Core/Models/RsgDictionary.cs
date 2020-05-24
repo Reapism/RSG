@@ -27,7 +27,7 @@ namespace RSG.Core.Models
         public bool IsActive { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<string> WordList { get; set; }
+        public IDictionary<int, string> WordList { get; set; }
 
         [JsonIgnore]
         public BigInteger Count { get; set; }

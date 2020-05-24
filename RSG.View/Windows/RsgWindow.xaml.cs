@@ -20,7 +20,7 @@ namespace RSG.View.Windows
     public partial class RsgWindow : Window
     {
         private DictionaryService dictionaryService;
-
+        
         public RsgWindow()
         {
             InitializeComponent();
@@ -30,6 +30,17 @@ namespace RSG.View.Windows
         private void InitializeDependencies()
         {
             dictionaryService = App.Container.Provider.GetService<DictionaryService>();
+        }
+
+        private void autoGenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var x = dictionaryService.GetSelectedDictionary();
+            
+        }
+
+        private void autoGenerateButton_Copy_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

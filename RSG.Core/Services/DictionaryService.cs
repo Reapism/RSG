@@ -19,6 +19,7 @@ namespace RSG.Core.Services
         private ConcurrentDictionary<string, IRsgDictionary> dictionaries;
         private RsgDictionary selectedDictionary;
         private DictionaryServiceFactory dictionaryServiceFactory;
+        private WordListService wordListService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryService"/> class.
@@ -26,9 +27,11 @@ namespace RSG.Core.Services
         /// <param name="dictionaryServiceFactory">A factory used to create 
         /// members of the <see cref="DictionaryService"/>.</param>
         public DictionaryService(
-            DictionaryServiceFactory dictionaryServiceFactory)
+            DictionaryServiceFactory dictionaryServiceFactory,
+            WordListService wordListService)
         {
             this.dictionaryServiceFactory = dictionaryServiceFactory;
+            this.wordListService = wordListService;
         }
 
         /// <summary>
@@ -39,9 +42,11 @@ namespace RSG.Core.Services
         /// name was not found.</exception>
         public async void SelectDictionary(string dictionaryName)
         {
+            // Ensure dictionaries is non null.
             if (dictionaries == null)
                 dictionaries = await dictionaryServiceFactory.CreateAsync();
 
+            // Ensure the dictionary instance is not null.
             if (GetSelectedDictionary() == null)
                 selectedDictionary = (RsgDictionary)dictionaries.FirstOrDefault().Value;
 
@@ -49,7 +54,9 @@ namespace RSG.Core.Services
             if (!success)
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
 
-            selectedDictionary.WordList = await WordListService.CreateWordList(dictionary);
+            var words = await wordListService.CreateWordList(dictionary);
+
+            selectedDictionary.WordList = wordListService.CreateIndexedWordList(words);
             selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
         }
 

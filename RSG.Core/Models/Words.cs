@@ -1,4 +1,5 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Extensions;
+using RSG.Core.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,13 +25,15 @@ namespace RSG.Core.Models
         {
             PartitionSize = DefaultPartitionSize;
             IsNoisy = isNoisy;
-            WordsPartition = new ConcurrentQueue<ConcurrentQueue<IGeneratedWord>>();
+
+            // Queue is number of partitions, Dictionary is number of words K: index, V: IGeneratedWord
+            PartitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
         }
 
         /// <summary>
         /// Gets or sets a value that maps a partitioned collection of <see cref="IGeneratedWord"/>(s).
         /// </summary>
-        public ConcurrentQueue<ConcurrentQueue<IGeneratedWord>> WordsPartition { get; set; }
+        public ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>> PartitionedWords { get; set; }
 
         /// <summary>
         /// Gets the size of each partition of words.
@@ -45,13 +48,23 @@ namespace RSG.Core.Models
 
         public async void AddWords(BigInteger numberOfWords)
         {
-            BigInteger lastPartition = GetNumberOfPartitionsAndLastPartition(numberOfWords).Item2;
-            IEnumerable<Thread> threads = GetThreads(numberOfWords, ThreadPriority.Normal);
-            ExecuteThreads(threads, numberOfWords);
+            InstantiatePartitionedWords(numberOfWords);
 
-            foreach (Thread thread in threads)
+            IEnumerable<Thread> threads = GetThreads(PartitionedWords.Count(), ThreadPriority.Normal);
+            ExecuteThreads(threads, numberOfWords);
+        }
+
+        private void InstantiatePartitionedWords(in BigInteger numberOfWords)
+        {
+            var tuple = GetNumberOfPartitionsAndLastPartition(numberOfWords);
+            var numberOfPartitions = tuple.Item1;
+
+            for (var bi = BigInteger.Zero; bi < numberOfPartitions; bi++)
             {
-                //thread.
+                PartitionedWords.Enqueue(
+                    new ConcurrentDictionary<int, IGeneratedWord>(
+                        int.Parse(numberOfPartitions.ToString()),
+                        PartitionSize));
             }
         }
 
@@ -61,8 +74,8 @@ namespace RSG.Core.Models
         /// <returns>The number of words.</returns>
         public BigInteger Count()
         {
-            BigInteger partitionCount = BigInteger.Parse((WordsPartition.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
-            BigInteger lastPartitionCount = BigInteger.Parse(WordsPartition.Last().Count.ToString());
+            BigInteger partitionCount = BigInteger.Parse((PartitionedWords.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
+            BigInteger lastPartitionCount = PartitionedWords.Last().Count.ToBigInteger());
 
             BigInteger count = partitionCount + lastPartitionCount;
 
@@ -74,15 +87,15 @@ namespace RSG.Core.Models
         /// </summary>
         /// <param name="partitionIndex">The index of the parent collection.</param>
         /// <returns>A specific partition </returns>
-        public ConcurrentQueue<IGeneratedWord> GetWordsAtIndex(int partitionIndex)
+        public ConcurrentDictionary<int, IGeneratedWord> GetWordsAtIndex(int partitionIndex)
         {
-            int count = WordsPartition.Count();
-            ConcurrentQueue<IGeneratedWord> emptyQueue = new ConcurrentQueue<IGeneratedWord>();
+            int count = PartitionedWords.Count();
+            var emptyQueue = new ConcurrentDictionary<int, IGeneratedWord>();
 
             if (partitionIndex < 0 || partitionIndex >= count)
                 return emptyQueue;
 
-            return WordsPartition.ElementAt(partitionIndex);
+            return PartitionedWords.ElementAt(partitionIndex);
         }
 
         private Tuple<BigInteger, BigInteger> GetNumberOfPartitionsAndLastPartition(in BigInteger numberOfWords)
@@ -124,6 +137,7 @@ namespace RSG.Core.Models
         private void ExecuteThreads(IEnumerable<Thread> threads, in BigInteger lastPartition)
         {
             int fullPartitionedThreads = threads.Count() - 1;
+
             for (int i = 0; i < fullPartitionedThreads; i++, threads.GetEnumerator().MoveNext())
             {
                 Thread thread = threads.GetEnumerator().Current;
