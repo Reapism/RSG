@@ -78,8 +78,9 @@ namespace RSG.View
                 .AddScoped<IGeneratedWord, GeneratedWord>()
                 .AddScoped<IDictionaryWordList, DictionaryWordList>()
                 .AddScoped<CharacterSetService>()
+                .AddScoped<WordListService>()
                 .AddScoped<RandomStringGenerator>()
-                .AddScoped<WordListService>();
+                .AddScoped<RandomWordGenerator>();
 
 
             // Register transients types

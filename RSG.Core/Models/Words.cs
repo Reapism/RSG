@@ -1,10 +1,12 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
+using RSG.Core.Utilities;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace RSG.Core.Models
@@ -12,33 +14,51 @@ namespace RSG.Core.Models
     /// <summary>
     /// Represents a collection of generated words.
     /// </summary>
-    public struct Words
+    public class Words
     {
-        private const int DefaultPartitionSize = 1000;
+        private readonly RandomWordGenerator randomWordGenerator;
+        private readonly bool computePartitionSize;
+        private BigInteger count;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Words"/> struct
-        /// and whether its <paramref name="isNoisy"/> or not.
+        /// Initializes a new instance of the <see cref="Words"/> class
+        /// if it's noisy and with a default partition size.
         /// </summary>
+        /// <param name="randomWordGenerator">A <see cref="RandomWordGenerator"/> instance used 
+        /// to populate the internal words.</param>
         /// <param name="isNoisy">Whether this instance is Noisy.</param>
-        public Words(bool isNoisy)
-        {
-            PartitionSize = DefaultPartitionSize;
-            IsNoisy = isNoisy;
+        public Words(RandomWordGenerator randomWordGenerator, bool isNoisy)
+            : this(randomWordGenerator, isNoisy, -1)
+        { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Words"/> class
+        /// if it's noisy and with a partition size.
+        /// </summary>
+        /// <param name="randomWordGenerator">A <see cref="RandomWordGenerator"/> instance used 
+        /// to populate the internal words.</param>
+        /// <param name="isNoisy">Whether this instance is Noisy.</param>
+        /// <param name="partitionSize">The size of each partition. Pass -1 to automatically compute.</param>
+        public Words(RandomWordGenerator randomWordGenerator, bool isNoisy, int partitionSize)
+        {
+            if (partitionSize == -1)
+                computePartitionSize = true;
+
+            PartitionSize = partitionSize;
+            this.randomWordGenerator = randomWordGenerator;
+            IsNoisy = isNoisy;
+            count = BigInteger.Zero;
+            
             // Queue is number of partitions, Dictionary is number of words K: index, V: IGeneratedWord
             PartitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
         }
 
-        /// <summary>
-        /// Gets or sets a value that maps a partitioned collection of <see cref="IGeneratedWord"/>(s).
-        /// </summary>
-        public ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>> PartitionedWords { get; set; }
+        public BigInteger Count { get => count; }
 
         /// <summary>
         /// Gets the size of each partition of words.
         /// </summary>
-        public int PartitionSize { get; }
+        public int PartitionSize { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Words"/>
@@ -46,40 +66,22 @@ namespace RSG.Core.Models
         /// </summary>
         public bool IsNoisy { get; set; }
 
-        public async void AddWords(BigInteger numberOfWords)
-        {
-            InstantiatePartitionedWords(numberOfWords);
-
-            IEnumerable<Thread> threads = GetThreads(PartitionedWords.Count(), ThreadPriority.Normal);
-            ExecuteThreads(threads, numberOfWords);
-        }
-
-        private void InstantiatePartitionedWords(in BigInteger numberOfWords)
-        {
-            var tuple = GetNumberOfPartitionsAndLastPartition(numberOfWords);
-            var numberOfPartitions = tuple.Item1;
-
-            for (var bi = BigInteger.Zero; bi < numberOfPartitions; bi++)
-            {
-                PartitionedWords.Enqueue(
-                    new ConcurrentDictionary<int, IGeneratedWord>(
-                        int.Parse(numberOfPartitions.ToString()),
-                        PartitionSize));
-            }
-        }
-
         /// <summary>
-        /// The total number of words stored in all partition.
+        /// Gets a value that maps a partitioned collection of <see cref="IGeneratedWord"/>(s).
         /// </summary>
-        /// <returns>The number of words.</returns>
-        public BigInteger Count()
+        public ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>> PartitionedWords { get; internal set; }
+
+        public void Add(in BigInteger numberOfWords)
         {
-            BigInteger partitionCount = BigInteger.Parse((PartitionedWords.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
-            BigInteger lastPartitionCount = PartitionedWords.Last().Count.ToBigInteger());
 
-            BigInteger count = partitionCount + lastPartitionCount;
+        }
 
-            return count;
+        public void Clear()
+        {
+            foreach (var dictionary in PartitionedWords)
+            {
+                dictionary.Clear();
+            }
         }
 
         /// <summary>
@@ -98,65 +100,79 @@ namespace RSG.Core.Models
             return PartitionedWords.ElementAt(partitionIndex);
         }
 
-        private Tuple<BigInteger, BigInteger> GetNumberOfPartitionsAndLastPartition(in BigInteger numberOfWords)
+        /// <summary>
+        /// Sets the new count of all the words stored.
+        /// </summary>
+        private void SetCount()
         {
-            BigInteger numberOfPartitions = BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out BigInteger remainder);
-            Tuple<BigInteger, BigInteger> lastPartition = Tuple.Create(numberOfPartitions, remainder);
+            var partitionCount = BigInteger.Parse((PartitionedWords.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
+            var lastPartitionCount = PartitionedWords.Last().Count.ToBigInteger();
+
+            count = partitionCount + lastPartitionCount;
+        }
+
+        private void InstantiatePartitionedWords(in BigInteger numberOfWords)
+        {
+            var tuple = GetNumberOfPartitionsAndLastPartition(numberOfWords);
+            var numberOfPartitions = tuple.Item1;
+
+            for (var bi = BigInteger.Zero; bi < numberOfPartitions; bi++)
+            {
+                PartitionedWords.Enqueue(
+                    new ConcurrentDictionary<int, IGeneratedWord>(
+                        int.Parse(numberOfPartitions.ToString()),
+                        PartitionSize));
+            }
+        }
+
+        private Tuple<int, BigInteger> GetNumberOfPartitionsAndLastPartition(in BigInteger numberOfWords)
+        {
+            int numberOfPartitions = int.Parse(BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out BigInteger remainder).ToString());
+            Tuple<int, BigInteger> lastPartition = Tuple.Create(numberOfPartitions, remainder);
 
             return lastPartition;
         }
 
-        private IEnumerable<Thread> GetThreads(in BigInteger numberOfWords, ThreadPriority threadPriority)
+        private IEnumerable<Thread> Execute(in BigInteger numberOfWords, ThreadPriority threadPriority)
         {
-            Queue<Thread> queue = new Queue<Thread>();
-            Tuple<BigInteger, BigInteger> partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
-            BigInteger fullPartitions = partitions.Item1 - BigInteger.One;
-
-            for (BigInteger currentPartition = BigInteger.Zero; currentPartition < fullPartitions;)
+            var threads = new Queue<Thread>();
+            var partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
+            var fullPartitions = partitions.Item1 - 1 ;
+            int currentPartition = 0;
+            
+            for (; currentPartition < fullPartitions; currentPartition++)
             {
-                queue.Enqueue(
+                var thread =
                     new Thread(
                         new ThreadStart(PopulateWords))
                     {
                         IsBackground = true,
                         Priority = threadPriority,
-                        Name = $"Words_PartitionIndex_{currentPartition}",
-                    });
+                        Name = $"Words_PartitionIndex_{currentPartition}"
+                    };
+
+                threads.Enqueue(thread);
+                thread.Start(PartitionSize);
             }
 
-            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords))
-            {
-                IsBackground = true,
-                Priority = threadPriority,
-                Name = $"Words_PartitionIndex_{fullPartitions}",
-            });
+            var lastThread =
+                    new Thread(
+                        new ThreadStart(PopulateWords))
+                    {
+                        IsBackground = true,
+                        Priority = threadPriority,
+                        Name = $"Words_PartitionIndex_{currentPartition}"
+                    };
 
-            return queue;
-        }
+            threads.Enqueue(lastThread);
+            lastThread.Start(partitions.Item2);
 
-        private void ExecuteThreads(IEnumerable<Thread> threads, in BigInteger lastPartition)
-        {
-            int fullPartitionedThreads = threads.Count() - 1;
-
-            for (int i = 0; i < fullPartitionedThreads; i++, threads.GetEnumerator().MoveNext())
-            {
-                Thread thread = threads.GetEnumerator().Current;
-                thread.Start();
-            }
-
-            // start last thread with parameter
-            threads.GetEnumerator().Current.Start(lastPartition);
+            return threads;
         }
 
         private void PopulateWords()
         {
 
         }
-
-        private void PopulatePartialWords()
-        {
-
-        }
-
     }
 }

@@ -9,7 +9,6 @@ namespace RSG.Core.Services
 {
     public class CharacterSetService : ICharacterSet
     {
-        /// <inheritdoc/>
         public IDictionary<string, CharSet> CharacterSets { get; set; }
 
         public char[] GetNewCharacterList()

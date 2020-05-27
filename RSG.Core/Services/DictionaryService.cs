@@ -16,15 +16,18 @@ namespace RSG.Core.Services
     /// </summary>
     public class DictionaryService
     {
-        private ConcurrentDictionary<string, IRsgDictionary> dictionaries;
-        private RsgDictionary selectedDictionary;
+        // Dependencies
         private DictionaryServiceFactory dictionaryServiceFactory;
         private WordListService wordListService;
+
+        // Members
+        private ConcurrentDictionary<string, IRsgDictionary> dictionaries;
+        private RsgDictionary selectedDictionary;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryService"/> class.
         /// </summary>
-        /// <param name="dictionaryServiceFactory">A factory used to create 
+        /// <param name="dictionaryServiceFactory">A factory used to create
         /// members of the <see cref="DictionaryService"/>.</param>
         public DictionaryService(
             DictionaryServiceFactory dictionaryServiceFactory,
@@ -76,7 +79,7 @@ namespace RSG.Core.Services
 
         public async Task<bool> RemoveDictionaryAsync(IRsgDictionary dictionaryToRemove)
         {
-           return dictionaries.TryRemove(dictionaryToRemove.Name, out var dictionary);
+            return dictionaries.TryRemove(dictionaryToRemove.Name, out var dictionary);
         }
 
         private bool DoesDictionaryExist(string dictionaryName)

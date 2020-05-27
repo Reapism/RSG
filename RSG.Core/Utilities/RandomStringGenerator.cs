@@ -26,9 +26,9 @@ namespace RSG.Core.Utilities
         /// <param name="numberOfIterations">The number of strings to generate.</param>
         /// <param name="stringLength">The string length to generate.</param>
         /// <returns></returns>
-        public IStringResult GenerateRandomStrings(int numberOfIterations, int stringLength)
+        public IStringResult GenerateRandomStringsResult(int numberOfIterations, int stringLength)
         {
-            return GenerateRandomStrings(BigInteger.Parse(numberOfIterations.ToString()), BigInteger.Parse(stringLength.ToString()));
+            return GenerateRandomStringsResult(BigInteger.Parse(numberOfIterations.ToString()), BigInteger.Parse(stringLength.ToString()));
         }
 
         /// <summary>
@@ -38,17 +38,12 @@ namespace RSG.Core.Utilities
         /// <param name="numberOfIterations">The number of strings to generate.</param>
         /// <param name="stringLength">The length of the string to generate.</param>
         /// <returns></returns>
-        public IStringResult GenerateRandomStrings(BigInteger numberOfIterations, BigInteger stringLength)
+        public IStringResult GenerateRandomStringsResult(in BigInteger numberOfIterations, in BigInteger stringLength)
         {
             var startTime = DateTime.Now;
-            var strings = new Queue<string>();
-
-            for (var bi = BigInteger.Zero; bi < numberOfIterations; bi++)
-            {
-                strings.Enqueue(GenerateRandomString(stringLength));
-            }
-
+            var strings = GenerateRandomStrings(numberOfIterations, stringLength);
             var endTime = DateTime.Now;
+
             var result = new StringResult()
             {
                 Characters = _characterList.ToString() ?? string.Empty,
@@ -57,10 +52,22 @@ namespace RSG.Core.Utilities
                 RandomizationType = RandomProvider.SelectedRandomizationType,
                 Strings = strings,
                 StartTime = startTime,
-                EndTime = endTime,
+                EndTime = endTime
             };
 
             return result;
+        }
+
+        private IEnumerable<string> GenerateRandomStrings(in BigInteger numberOfIterations, in BigInteger stringLength)
+        {
+            var strings = new Queue<string>(1000);
+
+            for (var bi = BigInteger.Zero; bi < numberOfIterations; bi++)
+            {
+                strings.Enqueue(GenerateRandomString(stringLength));
+            }
+
+            return strings;
         }
 
         private string GenerateRandomString(BigInteger length)

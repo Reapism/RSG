@@ -1,10 +1,11 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
@@ -14,122 +15,106 @@ namespace RSG.Core.Utilities
     public class RandomWordGenerator
     {
         private readonly DictionaryService dictionaryService;
-        private RsgDictionary dictionary;
-        private IDictionary<int, string> wordList;
-        private int min;
-        private int max;
+        private readonly DictionaryThreadService dictionaryThreadService;
+        private readonly IDictionaryConfiguration dictionaryConfiguration;
+        private readonly CharacterSetService characterSetService;
+        private readonly char[] characterSet;
+        private readonly RsgDictionary dictionary;
+        private int minWordIndex;
+        private int maxWordIndex;
+        private readonly BigInteger numberOfWords;
 
-        public RandomWordGenerator(DictionaryService dictionaryService)
+        public RandomWordGenerator(
+            DictionaryService dictionaryService,
+            DictionaryThreadService dictionaryThreadService,
+            IDictionaryConfiguration dictionaryConfiguration,
+            CharacterSetService characterSetService)
         {
+            // Set member dependencies.
             this.dictionaryService = dictionaryService;
-            InstantiateInstance();
-        }
+            this.dictionaryThreadService = dictionaryThreadService;
+            this.dictionaryConfiguration = dictionaryConfiguration;
+            this.characterSetService = characterSetService;
 
-        private void InstantiateInstance()
-        {
+            numberOfWords = BigInteger.Zero;
+            characterSet = characterSetService.GetNewCharacterList();
+
             dictionary = dictionaryService.GetSelectedDictionary();
-            wordList = dictionary.WordList;
-            min = 0;
-            max = dictionary.WordList.Count();
+            minWordIndex = 0;
+            maxWordIndex = dictionary.WordList.Count();
         }
 
-        public IDictionaryResult GenerateRandomWords(int numberOfIterations)
+        public IDictionaryResult GenerateRandomWordsResult(int numberOfIterations)
         {
-            return GenerateRandomWords(numberOfIterations.ToBigInteger());
+            return GenerateRandomWordsResult(numberOfIterations.ToBigInteger());
         }
 
-        public IDictionaryResult GenerateRandomWords(BigInteger numberOfIterations)
+        public IDictionaryResult GenerateRandomWordsResult(in BigInteger numberOfIterations)
         {
             var startTime = DateTime.Now;
-            var words = new Queue<string>();
 
-            for (var bi = BigInteger.Zero; bi < numberOfIterations; bi++)
-            {
-                words.Enqueue(GenerateRandomWord());
-            }
+            var words = new Words(this, dictionaryConfiguration.UseNoise, dictionaryConfiguration.PartitionSize);
 
             var endTime = DateTime.Now;
             var result = new DictionaryResult()
             {
                 Dictionary = dictionary,
-                Iterations = numberOfIterations,
+                Iterations = words.Count,
                 RandomizationType = RandomProvider.SelectedRandomizationType,
-                Words = default
-
-                // Need to externalize the AddWords logic in Words struct.
-                // Maybe create more methods in dictionary service that do this.
-                // RandomWordGenerator should be able to create the Words struct
-                // with generated words.
+                Words = words,
+                StartTime = startTime,
+                EndTime = endTime
             };
-            return result;
 
+            return result;
+        }
+
+        public ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWords(int partitionSize)
+        {
+            ConcurrentDictionary<int, IGeneratedWord> partitionedWords = new ConcurrentDictionary<int, IGeneratedWord>();
+            bool useNoise = dictionaryConfiguration.UseNoise;
+
+            for (int i = 0; i < numberOfWords; i++)
+            {
+                GeneratedWord generatedWord = new GeneratedWord()
+                {
+                    Word = GenerateRandomWord(),
+                };
+                if (useNoise)
+                    generatedWord.NoisyCharacterPositions = GenerateNoisyCharacterPositions(generatedWord.Word.Length);
+
+            }
+
+            return partitionedWords;
         }
 
         private string GenerateRandomWord()
         {
-            var rndValue = RandomProvider.Random.Next(min, max);
+            int rndValue = RandomProvider.Random.Next(minWordIndex, maxWordIndex);
 
             return dictionary.WordList[rndValue];
         }
 
-        private Tuple<BigInteger, BigInteger> GetNumberOfPartitionsAndLastPartition(in BigInteger numberOfWords)
+        private SortedDictionary<int, char> GenerateNoisyCharacterPositions(int wordLength)
         {
-            BigInteger numberOfPartitions = BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out BigInteger remainder);
-            Tuple<BigInteger, BigInteger> lastPartition = Tuple.Create(numberOfPartitions, remainder);
+            double percentage = dictionaryConfiguration.NoiseFrequency;
+            int chance = RandomProvider.Random.Next(100) + 1;
+            SortedDictionary<int, char> noisePositions = new SortedDictionary<int, char>();
 
-            return lastPartition;
-        }
-
-        private IEnumerable<Thread> GetThreads(in BigInteger numberOfWords, ThreadPriority threadPriority)
-        {
-            Queue<Thread> queue = new Queue<Thread>();
-            Tuple<BigInteger, BigInteger> partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
-            BigInteger fullPartitions = partitions.Item1 - BigInteger.One;
-
-            for (BigInteger currentPartition = BigInteger.Zero; currentPartition < fullPartitions;)
+            // Chance is in range of the percentage.
+            if (chance <= percentage)
             {
-                queue.Enqueue(
-                    new Thread(
-                        new ThreadStart(PopulateWords))
-                    {
-                        IsBackground = true,
-                        Priority = threadPriority,
-                        Name = $"Words_PartitionIndex_{currentPartition}",
-                    });
+                int numberOfRandoms = RandomProvider.Random.Next(wordLength) + 1;
+
+                for (int i = 0; i < numberOfRandoms; i++)
+                {
+                    int position = RandomProvider.Random.Next(wordLength);
+                    char character = characterSet[RandomProvider.Random.Next(characterSet.Length)];
+                    noisePositions.TryAdd(position, character);
+                }
             }
 
-            queue.Enqueue(new Thread(new ThreadStart(PopulatePartialWords))
-            {
-                IsBackground = true,
-                Priority = threadPriority,
-                Name = $"Words_PartitionIndex_{fullPartitions}",
-            });
-
-            return queue;
-        }
-
-        private void ExecuteThreads(IEnumerable<Thread> threads, in BigInteger lastPartition)
-        {
-            int fullPartitionedThreads = threads.Count() - 1;
-
-            for (int i = 0; i < fullPartitionedThreads; i++, threads.GetEnumerator().MoveNext())
-            {
-                Thread thread = threads.GetEnumerator().Current;
-                thread.Start();
-            }
-
-            // start last thread with parameter
-            threads.GetEnumerator().Current.Start(lastPartition);
-        }
-
-        private void PopulateWords()
-        {
-
-        }
-
-        private void PopulatePartialWords()
-        {
-
+            return noisePositions;
         }
     }
 }

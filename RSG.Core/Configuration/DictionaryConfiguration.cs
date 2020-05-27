@@ -1,6 +1,7 @@
 ﻿using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace RSG.Core.Configuration
 {
@@ -25,5 +26,14 @@ namespace RSG.Core.Configuration
         public bool UseNoise { get; set; }
 
         public double NoiseFrequency { get; set; }
+
+        public int MaximumThreadCount { get; set; }
+
+        public ThreadPriority Priority { get; set; }
+
+        /// <summary>
+        /// -1 if <see cref="Words"/> should automatically determine.
+        /// </summary>
+        public int PartitionSize { get; set; }
     }
 }
