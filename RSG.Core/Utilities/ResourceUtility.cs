@@ -23,14 +23,14 @@ namespace RSG.Core.Utilities
 
         public static IEnumerable<string> GetResourcesNames()
         {
-            string[] names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
             return names;
         }
 
         public static async Task<Stream> GetResourceStream(string fileName)
         {
-            string resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
+            var resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
 
             if (resourceName == null)
                 throw new FileNotFoundException($"Cannot find file {fileName}");

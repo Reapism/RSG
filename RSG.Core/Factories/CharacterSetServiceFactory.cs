@@ -16,7 +16,7 @@ namespace RSG.Core.Factories
         /// <returns>An instance of <see cref="CharacterSetService"/>.</returns>
         public CharacterSetService Create()
         {
-            CharacterSetService service = new CharacterSetService()
+            var service = new CharacterSetService()
             {
                 CharacterSets = new Dictionary<string, CharSet>(),
             };

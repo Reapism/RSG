@@ -7,12 +7,9 @@ using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using RSG.View.Windows;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Xml;
 
 namespace RSG.View
 {
@@ -32,7 +29,7 @@ namespace RSG.View
 
             if (Container.Provider != null)
             {
-                var mainWindow = Current.Windows.OfType<RsgWindow>().FirstOrDefault();
+                RsgWindow mainWindow = Current.Windows.OfType<RsgWindow>().FirstOrDefault();
                 MessageBox.Show("Loaded asynchronously");
             }
         }
@@ -93,7 +90,7 @@ namespace RSG.View
         /// <returns></returns>
         private static async void RegisterTypesAsync(IocContainer container)
         {
-            
+
         }
     }
 }

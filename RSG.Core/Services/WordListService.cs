@@ -1,7 +1,6 @@
 ﻿using RSG.Core.Interfaces;
 using RSG.Core.Utilities;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -76,8 +75,8 @@ namespace RSG.Core.Services
         {
             try
             {
-                string resource = await DownloadUtility.DownloadFileAsString(source);
-                string[] wordList = resource.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+                var resource = await DownloadUtility.DownloadFileAsString(source);
+                var wordList = resource.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
 
                 return wordList;
             }

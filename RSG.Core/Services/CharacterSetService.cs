@@ -18,8 +18,8 @@ namespace RSG.Core.Services
 
         private char[] ScrambleCharacterList()
         {
-            string allCharacters = CleanCharacterList();
-            char[] allCharactersArray = allCharacters.ToCharArray();
+            var allCharacters = CleanCharacterList();
+            var allCharactersArray = allCharacters.ToCharArray();
             ScrambleStringUtility.KnuthShuffle(allCharactersArray, RandomProvider.Random);
 
             return allCharactersArray;
@@ -27,16 +27,16 @@ namespace RSG.Core.Services
 
         private string CleanCharacterList()
         {
-            string characterList = GetCharacterList();
-            char[] distinctCharList = characterList.Distinct().ToArray();
-            string returnStr = new string(distinctCharList);
+            var characterList = GetCharacterList();
+            var distinctCharList = characterList.Distinct().ToArray();
+            var returnStr = new string(distinctCharList);
 
             return returnStr;
         }
 
         private string GetCharacterList()
         {
-            StringBuilder strBuilder = new StringBuilder();
+            var strBuilder = new StringBuilder();
             IEnumerable<CharSet> enabledCharacterSets = CharacterSets.Values.Where(set => set.Enabled);
 
             foreach (CharSet set in enabledCharacterSets)

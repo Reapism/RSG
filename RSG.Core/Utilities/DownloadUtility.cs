@@ -21,8 +21,8 @@ namespace RSG.Core.Utilities
             if (string.IsNullOrEmpty(directUrl))
                 return string.Empty;
 
-            using WebClient webClient = new WebClient();
-            string reply = await webClient.DownloadStringTaskAsync(directUrl);
+            using var webClient = new WebClient();
+            var reply = await webClient.DownloadStringTaskAsync(directUrl);
 
             return reply;
         }

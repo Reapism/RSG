@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace RSG.Core.Models
@@ -48,12 +47,12 @@ namespace RSG.Core.Models
             this.randomWordGenerator = randomWordGenerator;
             IsNoisy = isNoisy;
             count = BigInteger.Zero;
-            
+
             // Queue is number of partitions, Dictionary is number of words K: index, V: IGeneratedWord
             PartitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
         }
 
-        public BigInteger Count { get => count; }
+        public BigInteger Count => count;
 
         /// <summary>
         /// Gets the size of each partition of words.
@@ -78,7 +77,7 @@ namespace RSG.Core.Models
 
         public void Clear()
         {
-            foreach (var dictionary in PartitionedWords)
+            foreach (ConcurrentDictionary<int, IGeneratedWord> dictionary in PartitionedWords)
             {
                 dictionary.Clear();
             }
@@ -91,7 +90,7 @@ namespace RSG.Core.Models
         /// <returns>A specific partition </returns>
         public ConcurrentDictionary<int, IGeneratedWord> GetWordsAtIndex(int partitionIndex)
         {
-            int count = PartitionedWords.Count();
+            var count = PartitionedWords.Count();
             var emptyQueue = new ConcurrentDictionary<int, IGeneratedWord>();
 
             if (partitionIndex < 0 || partitionIndex >= count)
@@ -105,7 +104,7 @@ namespace RSG.Core.Models
         /// </summary>
         private void SetCount()
         {
-            var partitionCount = BigInteger.Parse((PartitionedWords.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
+            BigInteger partitionCount = BigInteger.Parse((PartitionedWords.Count() - 1).ToString()) * BigInteger.Parse(PartitionSize.ToString());
             var lastPartitionCount = PartitionedWords.Last().Count.ToBigInteger();
 
             count = partitionCount + lastPartitionCount;
@@ -113,10 +112,10 @@ namespace RSG.Core.Models
 
         private void InstantiatePartitionedWords(in BigInteger numberOfWords)
         {
-            var tuple = GetNumberOfPartitionsAndLastPartition(numberOfWords);
+            Tuple<int, BigInteger> tuple = GetNumberOfPartitionsAndLastPartition(numberOfWords);
             var numberOfPartitions = tuple.Item1;
 
-            for (var bi = BigInteger.Zero; bi < numberOfPartitions; bi++)
+            for (BigInteger bi = BigInteger.Zero; bi < numberOfPartitions; bi++)
             {
                 PartitionedWords.Enqueue(
                     new ConcurrentDictionary<int, IGeneratedWord>(
@@ -127,8 +126,8 @@ namespace RSG.Core.Models
 
         private Tuple<int, BigInteger> GetNumberOfPartitionsAndLastPartition(in BigInteger numberOfWords)
         {
-            int numberOfPartitions = int.Parse(BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out BigInteger remainder).ToString());
-            Tuple<int, BigInteger> lastPartition = Tuple.Create(numberOfPartitions, remainder);
+            var numberOfPartitions = int.Parse(BigInteger.DivRem(numberOfWords, BigInteger.Parse(PartitionSize.ToString()), out BigInteger remainder).ToString());
+            var lastPartition = Tuple.Create(numberOfPartitions, remainder);
 
             return lastPartition;
         }
@@ -136,10 +135,10 @@ namespace RSG.Core.Models
         private IEnumerable<Thread> Execute(in BigInteger numberOfWords, ThreadPriority threadPriority)
         {
             var threads = new Queue<Thread>();
-            var partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
-            var fullPartitions = partitions.Item1 - 1 ;
-            int currentPartition = 0;
-            
+            Tuple<int, BigInteger> partitions = GetNumberOfPartitionsAndLastPartition(numberOfWords);
+            var fullPartitions = partitions.Item1 - 1;
+            var currentPartition = 0;
+
             for (; currentPartition < fullPartitions; currentPartition++)
             {
                 var thread =

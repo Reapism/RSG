@@ -8,7 +8,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Threading;
 
 namespace RSG.Core.Utilities
 {
@@ -51,11 +50,11 @@ namespace RSG.Core.Utilities
 
         public IDictionaryResult GenerateRandomWordsResult(in BigInteger numberOfIterations)
         {
-            var startTime = DateTime.Now;
+            DateTime startTime = DateTime.Now;
 
             var words = new Words(this, dictionaryConfiguration.UseNoise, dictionaryConfiguration.PartitionSize);
 
-            var endTime = DateTime.Now;
+            DateTime endTime = DateTime.Now;
             var result = new DictionaryResult()
             {
                 Dictionary = dictionary,
@@ -71,12 +70,12 @@ namespace RSG.Core.Utilities
 
         public ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWords(int partitionSize)
         {
-            ConcurrentDictionary<int, IGeneratedWord> partitionedWords = new ConcurrentDictionary<int, IGeneratedWord>();
-            bool useNoise = dictionaryConfiguration.UseNoise;
+            var partitionedWords = new ConcurrentDictionary<int, IGeneratedWord>();
+            var useNoise = dictionaryConfiguration.UseNoise;
 
-            for (int i = 0; i < numberOfWords; i++)
+            for (var i = 0; i < numberOfWords; i++)
             {
-                GeneratedWord generatedWord = new GeneratedWord()
+                var generatedWord = new GeneratedWord()
                 {
                     Word = GenerateRandomWord(),
                 };
@@ -90,27 +89,33 @@ namespace RSG.Core.Utilities
 
         private string GenerateRandomWord()
         {
-            int rndValue = RandomProvider.Random.Next(minWordIndex, maxWordIndex);
+            var rndValue = RandomProvider.Random.Next(minWordIndex, maxWordIndex);
 
             return dictionary.WordList[rndValue];
         }
 
-        private SortedDictionary<int, char> GenerateNoisyCharacterPositions(int wordLength)
+        private SortedDictionary<int, IPositionCharacterPair> GenerateNoisyCharacterPositions(int wordLength)
         {
-            double percentage = dictionaryConfiguration.NoiseFrequency;
-            int chance = RandomProvider.Random.Next(100) + 1;
-            SortedDictionary<int, char> noisePositions = new SortedDictionary<int, char>();
+            var percentage = dictionaryConfiguration.NoiseFrequency;
+            var chance = RandomProvider.Random.Next(100) + 1;
+            var noisePositions = new SortedDictionary<int, IPositionCharacterPair>();
 
             // Chance is in range of the percentage.
             if (chance <= percentage)
             {
-                int numberOfRandoms = RandomProvider.Random.Next(wordLength) + 1;
+                var numberOfRandoms = RandomProvider.Random.Next(wordLength) + 1;
 
-                for (int i = 0; i < numberOfRandoms; i++)
+                // attempt a few insertions.
+                for (var i = 0; i < numberOfRandoms;)
                 {
-                    int position = RandomProvider.Random.Next(wordLength);
-                    char character = characterSet[RandomProvider.Random.Next(characterSet.Length)];
-                    noisePositions.TryAdd(position, character);
+                    var position = RandomProvider.Random.Next(wordLength);
+                    var character = characterSet[RandomProvider.Random.Next(characterSet.Length)];
+                    var pair = new PositionCharacterPair()
+                    {
+                        Character = character,
+                        Position = position
+                    };
+                    noisePositions.TryAdd(i, pair);
                 }
             }
 

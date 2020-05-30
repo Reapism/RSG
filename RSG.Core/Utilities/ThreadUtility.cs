@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RSG.Core.Interfaces.Services;
+using System;
 
 namespace RSG.Core.Utilities
 {
@@ -6,16 +7,9 @@ namespace RSG.Core.Utilities
     /// Contains information about threads on the executing
     /// environment.
     /// </summary>
-    public class ThreadUtility
+    public class ThreadUtility : IThreadService
     {
-        public ThreadUtility()
-        {
-            Threads = GetThreads();
-        }
-
-        public int Threads { get; }
-
-        private int GetThreads()
+        public int GetThreadsCount()
         {
             return Environment.ProcessorCount;
         }

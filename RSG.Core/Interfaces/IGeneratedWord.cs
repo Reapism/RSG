@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RSG.Core.Interfaces
 {
@@ -11,6 +10,6 @@ namespace RSG.Core.Interfaces
     {
         string Word { get; set; }
 
-        IDictionary<int, char> NoisyCharacterPositions { get; set; }
+        IDictionary<int, IPositionCharacterPair> NoisyCharacterPositions { get; set; }
     }
 }

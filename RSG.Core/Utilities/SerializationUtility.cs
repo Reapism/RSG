@@ -25,7 +25,7 @@ namespace RSG.Core.Utilities
             if (!IOUtility.DoesFileExist(inputPath))
                 throw new FileNotFoundException($"Can't find the find at {inputPath}.");
 
-            FileStream fileStream = new FileStream(inputPath, FileMode.Open, FileAccess.Read);
+            var fileStream = new FileStream(inputPath, FileMode.Open, FileAccess.Read);
             T obj = await JsonSerializer.DeserializeAsync<T>(fileStream);
 
             return obj;
@@ -53,7 +53,7 @@ namespace RSG.Core.Utilities
         /// <param name="outputPath">The output path to the new serialized file.</param>
         public static async void SerializeJsonASync<T>(T type, string outputPath)
         {
-            FileStream fileStream = new FileStream(outputPath, FileMode.OpenOrCreate, FileAccess.Write);
+            var fileStream = new FileStream(outputPath, FileMode.OpenOrCreate, FileAccess.Write);
             await JsonSerializer.SerializeAsync(fileStream, type);
         }
     }

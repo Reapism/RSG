@@ -53,11 +53,11 @@ namespace RSG.Core.Services
             if (GetSelectedDictionary() == null)
                 selectedDictionary = (RsgDictionary)dictionaries.FirstOrDefault().Value;
 
-            bool success = dictionaries.TryGetValue(dictionaryName, out var dictionary);
+            var success = dictionaries.TryGetValue(dictionaryName, out IRsgDictionary dictionary);
             if (!success)
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
 
-            var words = await wordListService.CreateWordList(dictionary);
+            IEnumerable<string> words = await wordListService.CreateWordList(dictionary);
 
             selectedDictionary.WordList = wordListService.CreateIndexedWordList(words);
             selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
@@ -79,7 +79,7 @@ namespace RSG.Core.Services
 
         public async Task<bool> RemoveDictionaryAsync(IRsgDictionary dictionaryToRemove)
         {
-            return dictionaries.TryRemove(dictionaryToRemove.Name, out var dictionary);
+            return dictionaries.TryRemove(dictionaryToRemove.Name, out IRsgDictionary dictionary);
         }
 
         private bool DoesDictionaryExist(string dictionaryName)

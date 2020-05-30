@@ -32,12 +32,12 @@ namespace RSG.Core.Models
         public IEnumerable<ProcessReference> GetReferences(in Process process)
         {
             ProcessModuleCollection processModules = process.Modules;
-            Queue<ProcessReference> queue = new Queue<ProcessReference>();
+            var queue = new Queue<ProcessReference>();
 
-            for (int i = 0; i < processModules.Count; i++)
+            for (var i = 0; i < processModules.Count; i++)
             {
                 ProcessModule module = processModules[i];
-                ProcessReference processReference = new ProcessReference()
+                var processReference = new ProcessReference()
                 {
                     Name = module.ModuleName,
                     RequiredMemoryForStartup = module.ModuleMemorySize
@@ -52,12 +52,12 @@ namespace RSG.Core.Models
         public IEnumerable<ThreadReference> GetThreads(in Process process)
         {
             ProcessThreadCollection threads = process.Threads;
-            Queue<ThreadReference> queue = new Queue<ThreadReference>();
+            var queue = new Queue<ThreadReference>();
 
-            for (int i = 0; i < threads.Count; i++)
+            for (var i = 0; i < threads.Count; i++)
             {
                 ProcessThread module = threads[i];
-                ThreadReference processReference = new ThreadReference(module);
+                var processReference = new ThreadReference(module);
 
                 queue.Enqueue(processReference);
             }

@@ -26,7 +26,7 @@ namespace RSG.Core.Extensions
             System.Reflection.MemberInfo[] memberInfo = type.GetMember(enumValue.ToString());
             if (memberInfo.Length > 0)
             {
-                object[] attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                var attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
 
                 if (attrs.Length > 0)
                     return ((DescriptionAttribute)attrs[0]).Description;

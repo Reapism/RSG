@@ -14,10 +14,10 @@ namespace RSG.Core.Factories
     {
         public async Task<ConcurrentDictionary<string, IRsgDictionary>> CreateAsync()
         {
-            var defaultDictionaries = await GetDefaultDictionariesAsync();
+            IEnumerable<IRsgDictionary> defaultDictionaries = await GetDefaultDictionariesAsync();
             var dictionaries = new ConcurrentDictionary<string, IRsgDictionary>();
 
-            foreach (var dict in defaultDictionaries)
+            foreach (IRsgDictionary dict in defaultDictionaries)
             {
                 dictionaries.TryAdd(dict.Name, dict);
             }
@@ -35,7 +35,7 @@ namespace RSG.Core.Factories
 
         private async Task<IEnumerable<IRsgDictionary>> GetDefaultDictionariesAsync()
         {
-            using var stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
+            using System.IO.Stream stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
             Queue<RsgDictionary> dictionaries = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
 
             return dictionaries;

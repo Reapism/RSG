@@ -1,6 +1,5 @@
 ﻿using RSG.Core.Extensions;
-using RSG.Core.Interfaces;
-using RSG.Core.Utilities;
+using RSG.Core.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -10,38 +9,33 @@ namespace RSG.Core.Services
 {
     public class DictionaryThreadService
     {
-        private readonly ThreadUtility threadUtility;
+        private readonly IThreadService threadService;
         private readonly BigInteger iterations;
 
-        public DictionaryThreadService(ThreadUtility threadUtility)
+        public DictionaryThreadService(IThreadService threadService)
         {
-            this.threadUtility = threadUtility;
-            this.iterations = iterations;
+            this.threadService = threadService;
         }
+
         public BigInteger Iterations { get; set; }
         public int PartitionSize { get; set; }
         public int MaximumThreads { get; set; }
 
-        public void ExecutePartition(Thread thread)
+        public void Execute(Thread thread)
         {
-            thread.
+            thread.Start();
         }
 
-        public void ExecuteLastPartition(Action action)
+        public int ComputeThreadCount()
         {
+            var numberOfThreadsToCreate = BigInteger.Divide(iterations, threadService.GetThreadsCount().ToBigInteger());
 
-        }
-
-        public int GetThreadCount()
-        {
-            var numberOfThreads = BigInteger.Divide(iterations, threadUtility.Threads.ToBigInteger());
-
-            return int.Parse(numberOfThreads.ToString());
+            return int.Parse(numberOfThreadsToCreate.ToString());
         }
 
         public IEnumerable<Thread> GetThreads(ThreadPriority threadPriority, Action generateWordsAction)
         {
-            var threadCount = GetThreadCount();
+            var threadCount = ComputeThreadCount();
             var threads = new Queue<Thread>();
             int i;
 
@@ -57,7 +51,7 @@ namespace RSG.Core.Services
                 threads.Enqueue(thread);
             }
 
-            threads.Enqueue(new Thread(new ThreadStart(generateWordsAction)) { Name = $"WordGen_{i}"});
+            threads.Enqueue(new Thread(new ThreadStart(generateWordsAction)) { Name = $"WordGen_{i}" });
 
             return threads;
         }

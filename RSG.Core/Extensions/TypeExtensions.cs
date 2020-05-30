@@ -26,5 +26,21 @@ namespace RSG.Core.Extensions
                 .Where(field => field.IsLiteral && !field.IsInitOnly && field.FieldType == typeof(T))
                 .Select(constType => (T)constType.GetRawConstantValue());
         }
+
+        public static IDictionary<string, (string, object)> GetPublicProperties<T>(this Type type)
+        {
+            var properties = new Dictionary<string, (string, object)>();
+            PropertyInfo[] propertiesToGet = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (PropertyInfo prop in propertiesToGet)
+            {
+                var name = prop.Name;
+                Type typeOf = prop.GetType();
+                var value = prop.GetValue(typeOf);
+                properties.Add(name, (typeOf.Name, value));
+            }
+
+            return properties;
+        }
     }
 }

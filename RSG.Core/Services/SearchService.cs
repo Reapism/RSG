@@ -26,7 +26,7 @@ namespace RSG.Core.Services
             if (!CanSearch)
                 return false;
 
-            for (int i = 0; i < characterList.Length; i++)
+            for (var i = 0; i < characterList.Length; i++)
             {
                 if ((searchString + characterList[i]).Equals(_searchString))
                     return true;
@@ -34,7 +34,7 @@ namespace RSG.Core.Services
                 SearchIterations += BigInteger.One;
                 if (searchString.Length + 1 < _searchString.Length)
                 {
-                    string newSearchString = searchString + characterList[i];
+                    var newSearchString = searchString + characterList[i];
                     if (OriginalSearch(ref newSearchString, ref characterList))
                         return true;
                 }
