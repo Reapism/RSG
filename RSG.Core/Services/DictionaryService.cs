@@ -4,7 +4,6 @@ using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,6 +22,7 @@ namespace RSG.Core.Services
         // Members
         private ConcurrentDictionary<string, IRsgDictionary> dictionaries;
         private RsgDictionary selectedDictionary;
+        private bool isFullyInitialized;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryService"/> class.
@@ -35,6 +35,7 @@ namespace RSG.Core.Services
         {
             this.dictionaryServiceFactory = dictionaryServiceFactory;
             this.wordListService = wordListService;
+            isFullyInitialized = false;
         }
 
         /// <summary>
@@ -45,33 +46,39 @@ namespace RSG.Core.Services
         /// name was not found.</exception>
         public async void SelectDictionary(string dictionaryName)
         {
-            // Ensure dictionaries is non null.
-            if (dictionaries == null)
-                dictionaries = await dictionaryServiceFactory.CreateAsync();
+            if (!isFullyInitialized)
+            {
+                await LazyInitialize();
+            }
 
-            // Ensure the dictionary instance is not null.
-            if (GetSelectedDictionary() == null)
-                selectedDictionary = (RsgDictionary)dictionaries.FirstOrDefault().Value;
-
-            var success = dictionaries.TryGetValue(dictionaryName, out IRsgDictionary dictionary);
+            var success = dictionaries.TryGetValue(dictionaryName, out var dictionary);
             if (!success)
+            {
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
+            }
 
-            IEnumerable<string> words = await wordListService.CreateWordList(dictionary);
+            var words = await wordListService.CreateWordList(dictionary);
 
             selectedDictionary.WordList = wordListService.CreateIndexedWordList(words);
             selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
         }
 
-        public RsgDictionary GetSelectedDictionary()
+        public async Task<RsgDictionary> GetSelectedDictionary()
         {
+            if (!isFullyInitialized)
+            {
+                await LazyInitialize();
+            }
+
             return selectedDictionary;
         }
 
         public async Task<bool> AddDictionaryAsync(IRsgDictionary dictionaryToAdd)
         {
             if (!DoesDictionaryExist(dictionaryToAdd.Name))
+            {
                 throw new ArgumentException("Cannot add dictionary, name must be unique!");
+            }
 
             // TryAdd due to asynchronous nature.
             return dictionaries.TryAdd(dictionaryToAdd.Name, dictionaryToAdd);
@@ -79,12 +86,33 @@ namespace RSG.Core.Services
 
         public async Task<bool> RemoveDictionaryAsync(IRsgDictionary dictionaryToRemove)
         {
-            return dictionaries.TryRemove(dictionaryToRemove.Name, out IRsgDictionary dictionary);
+            return dictionaries.TryRemove(dictionaryToRemove.Name, out var dictionary);
         }
 
         private bool DoesDictionaryExist(string dictionaryName)
         {
             return dictionaries.Any(d => d.Key.Equals(dictionaryName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        private async Task LazyInitialize()
+        {
+            // Ensure dictionaries is non null.
+            if (dictionaries == null)
+            {
+                dictionaries = await dictionaryServiceFactory.CreateAsync();
+            }
+
+            // Ensure the dictionary instance is not null.
+            if (selectedDictionary == null)
+            {
+                selectedDictionary = (RsgDictionary)dictionaries.FirstOrDefault().Value;
+            }
+
+            var words = await wordListService.CreateWordList(selectedDictionary);
+
+            selectedDictionary.WordList = wordListService.CreateIndexedWordList(words);
+            selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
+            isFullyInitialized = true;
         }
     }
 }

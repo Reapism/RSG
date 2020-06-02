@@ -46,11 +46,12 @@
                 <DropShadowEffect/>
             </Button.Effect>
         </Button>
-        <Button x:Name="autoGenerateButton_Copy" Content="AutoGen" HorizontalAlignment="Left" Margin="176,120,0,0" VerticalAlignment="Top" BorderBrush="White" Background="#00DDDDDD" Height="50" Width="50" Foreground="White" Click="autoGenerateButton_Copy_Click">
+        <Button x:Name="dictionary" Content="AutoGen" HorizontalAlignment="Left" Margin="176,120,0,0" VerticalAlignment="Top" BorderBrush="White" Background="#00DDDDDD" Height="50" Width="50" Foreground="White" Click="dictionary_Click">
             <Button.Effect>
                 <DropShadowEffect/>
             </Button.Effect>
         </Button>
+        <ListBox x:Name="listBox" Margin="292,25,34,25"/>
 
     </Grid>
 </Window>

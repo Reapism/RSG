@@ -42,7 +42,7 @@ namespace RSG.Core.Models
         /// property.</returns>
         public int Compare([AllowNull] RsgDictionary x, [AllowNull] RsgDictionary y)
         {
-            return string.Compare(x.Name, y.Name, true, CultureInfo.InvariantCulture);
+            return string.Compare(x?.Name, y?.Name, true, CultureInfo.InvariantCulture);
         }
     }
 }

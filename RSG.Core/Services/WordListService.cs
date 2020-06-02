@@ -31,12 +31,11 @@ namespace RSG.Core.Services
             var dictionary = new Dictionary<int, string>(wordCount);
             var index = 0;
 
-            do
+            foreach(var word in words)
             {
-                var word = words.GetEnumerator().Current;
                 dictionary.Add(index, word);
+                index++;
             }
-            while (words.GetEnumerator().MoveNext());
 
             return dictionary;
         }

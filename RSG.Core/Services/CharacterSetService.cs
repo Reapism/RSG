@@ -1,4 +1,5 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Factories;
+using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System.Collections.Generic;
@@ -37,9 +38,9 @@ namespace RSG.Core.Services
         private string GetCharacterList()
         {
             var strBuilder = new StringBuilder();
-            IEnumerable<CharSet> enabledCharacterSets = CharacterSets.Values.Where(set => set.Enabled);
+            var enabledCharacterSets = CharacterSets.Values.Where(set => set.Enabled);
 
-            foreach (CharSet set in enabledCharacterSets)
+            foreach (var set in enabledCharacterSets)
                 strBuilder.Append(set.Characters);
 
             return strBuilder.ToString();

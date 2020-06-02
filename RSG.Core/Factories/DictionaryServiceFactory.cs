@@ -12,6 +12,13 @@ namespace RSG.Core.Factories
 {
     public class DictionaryServiceFactory
     {
+        private readonly WordListService wordListService;
+
+        public DictionaryServiceFactory(WordListService wordListService)
+        {
+            this.wordListService = wordListService;
+        }
+
         public async Task<ConcurrentDictionary<string, IRsgDictionary>> CreateAsync()
         {
             IEnumerable<IRsgDictionary> defaultDictionaries = await GetDefaultDictionariesAsync();
@@ -27,7 +34,8 @@ namespace RSG.Core.Factories
 
         public async Task<bool> LoadFirstDictionaryAsync(RsgDictionary rsgDictionary)
         {
-            rsgDictionary.WordList = await WordListService.CreateWordList(rsgDictionary);
+            var wordList = await wordListService.CreateWordList(rsgDictionary);
+            rsgDictionary.WordList = wordListService.CreateIndexedWordList(wordList);
             rsgDictionary.Count = rsgDictionary.WordList.Count().ToBigInteger();
 
             return rsgDictionary.WordList.Any() ? true : false;

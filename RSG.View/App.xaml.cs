@@ -3,6 +3,7 @@ using RSG.Core.Configuration;
 using RSG.Core.Factories;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
+using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
@@ -59,8 +60,12 @@ namespace RSG.View
                 .AddSingleton<IRsgConfiguration, RsgConfiguration>()
                 .AddSingleton<IStringConfiguration, StringConfiguration>()
                 .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>()
+                .AddSingleton<IThreadService, ThreadUtility>()
                 .AddSingleton<DictionaryServiceFactory>()
-                .AddSingleton<DictionaryService>();
+                .AddSingleton<CharacterSetServiceFactory>()
+                .AddSingleton<DictionaryService>()
+                .AddSingleton<DictionaryThreadService>()
+                .AddSingleton<WordListService>();
             // Register scoped types
             container.Services
                 .AddScoped<IRsgDictionary, RsgDictionary>()
@@ -74,12 +79,9 @@ namespace RSG.View
                 .AddScoped<IStringResult, StringResult>()
                 .AddScoped<IGeneratedWord, GeneratedWord>()
                 .AddScoped<IDictionaryWordList, DictionaryWordList>()
-                .AddScoped<CharacterSetService>()
-                .AddScoped<WordListService>()
+                .AddScoped(e => e.GetService<CharacterSetServiceFactory>().Create())
                 .AddScoped<RandomStringGenerator>()
                 .AddScoped<RandomWordGenerator>();
-
-
             // Register transients types
         }
 
