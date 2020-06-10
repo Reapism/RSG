@@ -16,10 +16,7 @@ namespace RSG.View
         {
             base.OnStartup(e);
 
-            Container = new IocContainer()
-            {
-                Services = new ServiceCollection()
-            };
+            Container = new IocContainer();
 
             IocContainer.Initialize(Container);
 
