@@ -7,7 +7,10 @@ using RSG.Core.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Threading;
@@ -15,7 +18,14 @@ using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
 {
-    public class RandomWordGenerator
+    /// <summary>
+    /// Contains methods for generating random words synchronously or
+    /// asynchronously.
+    /// </summary>
+    /// <remarks>
+    /// This class cannot be inherited.
+    /// </remarks>
+    public sealed class RandomWordGenerator
     {
         private readonly DictionaryService dictionaryService;
         private readonly IThreadService threadService;
@@ -25,6 +35,9 @@ namespace RSG.Core.Utilities
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
         private int minWordIndex;
         private int maxWordIndex;
+
+        public event GenerateRandomWordsResultCompletedEventHandler GenerateRandomWordsResultCompleted;
+        public event GenerateRandomWordsResultProgressChangedEventHandler GenerateRandomWordsResultProgressChanged;
 
         public RandomWordGenerator(
             DictionaryService dictionaryService,
@@ -39,41 +52,49 @@ namespace RSG.Core.Utilities
             this.characterSetService = characterSetService;
 
             characterSet = characterSetService.GetNewCharacterList();
-
             minWordIndex = 0;
+
+            // Subscribe to the handlers
+            GenerateRandomWordsResultProgressChanged += HandleGenerateRandomWordsResultProgressChanged;
+            GenerateRandomWordsResultCompleted += HandleGenerateRandomWordsResultCompleted;
         }
 
-        public async Task<IDictionaryResult> GenerateRandomWordsResult(int numberOfIterations)
+        public async Task GenerateRandomWordsResult(BigInteger numberOfIterations)
         {
-            return await GenerateRandomWordsResult(numberOfIterations.ToBigInteger());
-        }
-
-        public async Task<IDictionaryResult> GenerateRandomWordsResult(BigInteger numberOfIterations)
-        {
-            await LazyInitialization();
-            maxWordIndex = dictionary.WordList.Count();
-            var startTime = DateTime.Now;
-            var words = await GenerateWords(numberOfIterations);
-
-            var endDate = DateTime.Now;
-
-            var result = new DictionaryResult()
+            try
             {
-                Dictionary = this.dictionary,
-                StartTime = startTime,
-                EndTime = endDate,
-                Iterations = numberOfIterations,
-                RandomizationType = RandomProvider.SelectedRandomizationType,
-                Words = words
-            };
+                await LazyInitialization();
 
-            return result;
+                FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(5, this));
+
+                maxWordIndex = dictionary.WordList.Count();
+                var startTime = DateTime.Now;
+                var words = await GenerateWords(numberOfIterations);
+
+                var endDate = DateTime.Now;
+
+                var result = new DictionaryResult()
+                {
+                    Dictionary = this.dictionary,
+                    StartTime = startTime,
+                    EndTime = endDate,
+                    Iterations = numberOfIterations,
+                    RandomizationType = RandomProvider.SelectedRandomizationType,
+                    Words = words
+                };
+
+                FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(100, this));
+                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEvents(null, false, null, result));
+            }
+            catch (Exception e)
+            {
+                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEvents(null, false, null, new DictionaryResult().Empty()));
+            }
         }
 
         private async Task LazyInitialization()
         {
             dictionary = await dictionaryService.GetSelectedDictionary();
-
         }
 
         private async Task<Words> GenerateWords(BigInteger numberOfIterations)
@@ -226,6 +247,48 @@ namespace RSG.Core.Utilities
             }
 
             return noisePositions;
+        }
+
+        private void FireGenerateRandomWordsResultCompleted(GenerateRandomWordsResultEvents args)
+        {
+            if (GenerateRandomWordsResultCompleted == null)
+                return;
+
+            GenerateRandomWordsResultCompleted(this, args);
+        }
+
+        private void HandleGenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEvents args)
+        {
+            if (args.Cancelled)
+            {
+                Console.WriteLine("The process has been cancelled");
+                return;
+            }
+
+            if (args.Error != null)
+            {
+                Console.WriteLine($"An exception has been thrown during the word generator: {args.Error.Message}");
+                return;
+            }
+
+            if (args.Result != null)
+            {
+                Console.WriteLine(sender.ToString() + $"{args.Result.EndTime}");
+                return;
+            }
+        }
+
+        private void FireGenerateRandomWordsResultProgressChanged(ProgressChangedEventArgs args)
+        {
+            if (GenerateRandomWordsResultProgressChanged == null)
+                return;
+
+            GenerateRandomWordsResultProgressChanged(this, args);
+        }
+
+        private void HandleGenerateRandomWordsResultProgressChanged(object sender, ProgressChangedEventArgs args)
+        {
+            Console.WriteLine(args.ProgressPercentage);
         }
     }
 }

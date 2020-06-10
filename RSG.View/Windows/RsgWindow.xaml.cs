@@ -16,6 +16,7 @@ namespace RSG.View.Windows
     {
         private DictionaryService dictionaryService;
         private RandomWordGenerator generator;
+
         public RsgWindow()
         {
             InitializeComponent();
@@ -24,8 +25,8 @@ namespace RSG.View.Windows
 
         private void InitializeDependencies()
         {
-            dictionaryService = App.Container.Provider.GetService<DictionaryService>();
-            generator = App.Container.Provider.GetService<RandomWordGenerator>();
+            dictionaryService = App.Container.Provider.GetRequiredService<DictionaryService>();
+            generator = App.Container.Provider.GetRequiredService<RandomWordGenerator>();
         }
 
         private async void autoGenerateButton_Click(object sender, RoutedEventArgs e)
@@ -41,7 +42,8 @@ namespace RSG.View.Windows
         {
             // must try with even number of words
             // if it divides evenly, last partition calculation will be 0, and needs logic to understand that
-            var result = await generator.GenerateRandomWordsResult(BigInteger.Parse("1005239"));
+            await generator.GenerateRandomWordsResult(BigInteger.Parse("1003"));
+            generator.GenerateRandomWordsResultCompleted += Generator_GenerateRandomWordsResultCompleted;
             var a = 10;
 
             // words are generating on seperate thread.
@@ -51,10 +53,27 @@ namespace RSG.View.Windows
             // Needs research on incorporating events in multithreaded env.
             
             // Gives 10 seconds for the words to catch up, with these iterations, we are looking at around 7500 p/ partition
-            Thread.Sleep(10000);
-            foreach(var c in result.Words.PartitionedWords)
+            //Thread.Sleep(10000);
+            //foreach(var c in result.Words.PartitionedWords)
+            //{
+            //    foreach(var d in c)
+            //    {
+            //        listBox.Items.Add($"{d.Key}:{d.Value.Word}");
+            //    }
+            //}
+        }
+
+        private void Generator_GenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEvents e)
+        {
+            if (e.Result == null)
             {
-                foreach(var d in c)
+                MessageBox.Show("Is null");
+                return;
+            }
+
+            foreach (var c in e.Result.Words.PartitionedWords)
+            {
+                foreach (var d in c)
                 {
                     listBox.Items.Add($"{d.Key}:{d.Value.Word}");
                 }

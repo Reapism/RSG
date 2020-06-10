@@ -1,0 +1,34 @@
+﻿using RSG.Core.Interfaces;
+using RSG.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Text;
+
+namespace RSG.Core.Extensions
+{
+    public static class IResultExtensions
+    {
+        public static IResult Empty(this IResult value)
+        {
+            var negativeOne = BigInteger.Negate(BigInteger.One);
+
+            return new Result()
+            {
+                CharacterList = String.Empty,
+                EndTime = DateTime.UnixEpoch,
+                StartTime = DateTime.UnixEpoch,
+                Iterations = negativeOne,
+                RandomizationType = Enums.RandomizationType.Pseudorandom,
+                StringLength = negativeOne,
+                Strings = new string[] { }
+            };
+        }
+
+        public static IDictionaryResult Empty(this IDictionaryResult value)
+        {
+            return Empty(value);
+        }
+    }
+}
