@@ -15,43 +15,47 @@ namespace RSG.View.Windows
     public partial class RsgWindow : Window
     {
         private DictionaryService dictionaryService;
-        private RandomWordGenerator generator;
+        private RandomWordGenerator randomWordGenerator;
 
         public RsgWindow()
         {
             InitializeComponent();
             InitializeDependencies();
+            InitalizeEvents();
+            this.dictionaryService = dictionaryService;
+            this.randomWordGenerator = randomWordGenerator;
         }
 
         private void InitializeDependencies()
         {
-            dictionaryService = App.Container.Provider.GetRequiredService<DictionaryService>();
-            generator = App.Container.Provider.GetRequiredService<RandomWordGenerator>();
+            dictionaryService = App.Container.Provider.GetService<DictionaryService>();
+            randomWordGenerator = App.Container.Provider.GetService<RandomWordGenerator>();
         }
 
+        private void InitalizeEvents()
+        {
+            randomWordGenerator.GenerateRandomWordsResultCompleted += Generator_GenerateRandomWordsResultCompleted;
+        }
         private async void autoGenerateButton_Click(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void autoGenerateButton_Copy_Click(object sender, RoutedEventArgs e)
-        {
-
+            foreach (var kvp in DebugUtility.debugKvp)
+            {
+                listBox.Items.Add($"{kvp.Key}:{kvp.Value.Item1}, {kvp.Value.Item2}");
+            }
         }
 
         private async void dictionary_Click(object sender, RoutedEventArgs e)
         {
             // must try with even number of words
             // if it divides evenly, last partition calculation will be 0, and needs logic to understand that
-            await generator.GenerateRandomWordsResult(BigInteger.Parse("1003"));
-            generator.GenerateRandomWordsResultCompleted += Generator_GenerateRandomWordsResultCompleted;
-            var a = 10;
+            await randomWordGenerator.GenerateRandomWordsResult(BigInteger.Parse("1007"));
 
             // words are generating on seperate thread.
             // need to incorperate events when each partition finishes
             // and function for checking when all partitions finish.
             // this could give the DictionaryThreadService its use back.
             // Needs research on incorporating events in multithreaded env.
-            
+
             // Gives 10 seconds for the words to catch up, with these iterations, we are looking at around 7500 p/ partition
             //Thread.Sleep(10000);
             //foreach(var c in result.Words.PartitionedWords)

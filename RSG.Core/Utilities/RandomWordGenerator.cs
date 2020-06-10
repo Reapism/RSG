@@ -117,18 +117,17 @@ namespace RSG.Core.Utilities
             {
                 var result = Parallel.For(0, partitionInfo.NumberOfPartitions, index =>
                 {
-                    partitionInfo.CurrentIndex = index;
-                    partitionedWords.Enqueue(GeneratePartitionedWordsWithNoise(partitionInfo));
-
+                    var info = GetPartitionInfo(numberOfIterations, index);
+                    var wordsPartition = GeneratePartitionedWordsWithNoise(info);
+                    partitionedWords.Enqueue(wordsPartition);
                 });
             }
             else
             {
                 var result = Parallel.For(0, partitionInfo.NumberOfPartitions, index =>
                 {
-                    partitionInfo.CurrentIndex = index;
-
-                    var wordsPartition = GeneratePartitionedWords(partitionInfo);
+                    var info = GetPartitionInfo(numberOfIterations, index);
+                    var wordsPartition = GeneratePartitionedWords(info);
                     partitionedWords.Enqueue(wordsPartition);
 
                 });
@@ -163,7 +162,9 @@ namespace RSG.Core.Utilities
                 lastPartitionSize = partitionSize.ToBigInteger();
             }
             else
+            {
                 lastPartitionSize += partitionSize.ToBigInteger();
+            }
 
             var partitionInfo = new PartitionInfo()
             {
@@ -173,6 +174,15 @@ namespace RSG.Core.Utilities
                 TotalIterations = numberOfIterations,
                 CurrentIndex = 0
             };
+
+            return partitionInfo;
+        }
+
+        private PartitionInfo GetPartitionInfo(in BigInteger numberOfIterations, int currentIndex)
+        {
+            var partitionInfo = GetPartitionInfo(numberOfIterations);
+            partitionInfo.CurrentIndex = currentIndex;
+
             return partitionInfo;
         }
 
@@ -180,7 +190,7 @@ namespace RSG.Core.Utilities
         {
             var words = new ConcurrentDictionary<int, IGeneratedWord>();
             var partitionSize = partitionInfo.GetPartitionSize();
-            Console.WriteLine(partitionSize);
+
             for (var i = 0; i < partitionSize; i++)
             {
                 var generatedWord = new GeneratedWord()
@@ -198,6 +208,7 @@ namespace RSG.Core.Utilities
         {
             var words = new ConcurrentDictionary<int, IGeneratedWord>();
             var partitionSize = partitionInfo.GetPartitionSize();
+
             for (var i = 0; i < partitionSize; i++)
             {
                 var generatedWord = new GeneratedWord()
@@ -212,7 +223,6 @@ namespace RSG.Core.Utilities
 
             return words;
         }
-
 
         private string GenerateRandomWord()
         {
@@ -261,19 +271,20 @@ namespace RSG.Core.Utilities
         {
             if (args.Cancelled)
             {
-                Console.WriteLine("The process has been cancelled");
+                DebugUtility.Write((ToString(), $"This process has been cancelled"));
                 return;
             }
 
             if (args.Error != null)
             {
-                Console.WriteLine($"An exception has been thrown during the word generator: {args.Error.Message}");
+                DebugUtility.Write((ToString(), $"An exception has been thrown during the word generator: {args.Error.Message}"));
                 return;
             }
 
             if (args.Result != null)
             {
-                Console.WriteLine(sender.ToString() + $"{args.Result.EndTime}");
+                DebugUtility.Write((ToString(),
+                    $" {sender.ToString()} EndTime: {args.Result.EndTime} Count: {args.Result.Words.Count} "));
                 return;
             }
         }
@@ -281,14 +292,17 @@ namespace RSG.Core.Utilities
         private void FireGenerateRandomWordsResultProgressChanged(ProgressChangedEventArgs args)
         {
             if (GenerateRandomWordsResultProgressChanged == null)
+            {
                 return;
+            }
 
             GenerateRandomWordsResultProgressChanged(this, args);
         }
 
         private void HandleGenerateRandomWordsResultProgressChanged(object sender, ProgressChangedEventArgs args)
         {
-            Console.WriteLine(args.ProgressPercentage);
+
+            DebugUtility.Write((ToString(), args.ProgressPercentage.ToString()));
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.Design.Serialization;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace RSG.Core.Models
 {
+    [DebuggerDisplay("CurrentIndex = {CurrentIndex}")]
     internal class PartitionInfo
     {
         internal BigInteger TotalIterations { get; set; }
