@@ -48,7 +48,10 @@ namespace RSG.View.Windows
         {
             // must try with even number of words
             // if it divides evenly, last partition calculation will be 0, and needs logic to understand that
-            await randomWordGenerator.GenerateRandomWordsResult(BigInteger.Parse("1007"));
+            var dictionary = await dictionaryService.GetSelectedDictionary();
+            var numberOfWords = BigInteger.Parse("100003");
+            DebugUtility.Write((nameof(dictionary_Click), $"Dictionary: {dictionary.Name} : Generating {numberOfWords} number of words"));
+            await randomWordGenerator.GenerateRandomWordsResult(numberOfWords);
 
             // words are generating on seperate thread.
             // need to incorperate events when each partition finishes
@@ -74,6 +77,8 @@ namespace RSG.View.Windows
                 MessageBox.Show("Is null");
                 return;
             }
+            
+            listBox.Items.Add($"Dictionary: {e.Result.Dictionary.Name} : Generating {e.Result.Words.Count} number of words");
 
             foreach (var c in e.Result.Words.PartitionedWords)
             {
