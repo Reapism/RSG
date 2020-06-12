@@ -53,21 +53,7 @@ namespace RSG.View.Windows
             DebugUtility.Write((nameof(dictionary_Click), $"Dictionary: {dictionary.Name} : Generating {numberOfWords} number of words"));
             await randomWordGenerator.GenerateRandomWordsResult(numberOfWords);
 
-            // words are generating on seperate thread.
-            // need to incorperate events when each partition finishes
-            // and function for checking when all partitions finish.
-            // this could give the DictionaryThreadService its use back.
-            // Needs research on incorporating events in multithreaded env.
-
-            // Gives 10 seconds for the words to catch up, with these iterations, we are looking at around 7500 p/ partition
-            //Thread.Sleep(10000);
-            //foreach(var c in result.Words.PartitionedWords)
-            //{
-            //    foreach(var d in c)
-            //    {
-            //        listBox.Items.Add($"{d.Key}:{d.Value.Word}");
-            //    }
-            //}
+            
         }
 
         private void Generator_GenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEvents e)
@@ -87,6 +73,11 @@ namespace RSG.View.Windows
                     listBox.Items.Add($"{d.Key}:{d.Value.Word}");
                 }
             }
+        }
+
+        private void Dictionary_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

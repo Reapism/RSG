@@ -113,8 +113,11 @@ namespace RSG.Core.Utilities
                 TaskScheduler = TaskScheduler.Current
             };
 
+            var tasks = new List<Task>(partitionInfo.NumberOfPartitions);
+
             if (useNoise)
             {
+
                 var result = Parallel.For(0, partitionInfo.NumberOfPartitions, index =>
                 {
                     var info = GetPartitionInfo(numberOfIterations, index);

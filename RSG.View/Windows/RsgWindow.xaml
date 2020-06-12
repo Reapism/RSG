@@ -13,34 +13,42 @@
                 <GradientStop Color="#7F474747"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Grid HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100">
-            <Rectangle Name="MyRectangle" HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100">
-                <Rectangle.Fill>
-                    <SolidColorBrush x:Name="MySolidColorBrush" Color="#FFA2A2A2" />
-                </Rectangle.Fill>
-                <Rectangle.Triggers>
-                    <EventTrigger RoutedEvent="Rectangle.MouseEnter">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="20" To="75" Duration="0:0:0.15" />
-                                <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="DarkGray" To="LightBlue" Duration="0:0:0.35" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
+        <Grid Name="NavigationalGrid" HorizontalAlignment="Left" MinWidth="20" Width="20" MinHeight="100">
+            <Grid.Background>
+                <SolidColorBrush x:Name="NavigationalColor" Color="DarkGray" />
+            </Grid.Background>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Grid.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="20" To="75" Duration="0:0:0" />
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="DarkGray" To="LightBlue" Duration="0:0:0.35" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
 
-                    <EventTrigger RoutedEvent="Rectangle.MouseLeave">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="MyRectangle" Storyboard.TargetProperty="Width" From="75" To="20" Duration="0:0:0.05" />
-                                <ColorAnimation Storyboard.TargetName="MySolidColorBrush" Storyboard.TargetProperty="Color" From="LightBlue" To="DarkGray" Duration="0:0:0.35" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Rectangle.Triggers>
-            </Rectangle>
+                <EventTrigger RoutedEvent="Grid.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="75" To="20" Duration="0:0:0" />
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightBlue" To="DarkGray" Duration="0:0:0.35" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Grid.Triggers>
+            <Button x:Name="Dictionary" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="Dictionary_Click">
+                <Image x:Name="image" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
+            </Button>
         </Grid>
-
-
+        <TabControl x:Name="Navigation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0,0,0" SelectedIndex="0" TabStripPlacement="Bottom">
+            <TabItem Header="String" Visibility="Hidden">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Dictionary" Visibility="Hidden">
+                <Grid Background="#FFE5E5E5">
+                </Grid>
+            </TabItem>
+        </TabControl>
         <Button x:Name="autoGenerateButton" Content="AutoGen" HorizontalAlignment="Left" Margin="94,120,0,0" VerticalAlignment="Top" BorderBrush="White" Background="#00DDDDDD" Height="50" Width="50" Foreground="White" Click="autoGenerateButton_Click">
             <Button.Effect>
                 <DropShadowEffect/>

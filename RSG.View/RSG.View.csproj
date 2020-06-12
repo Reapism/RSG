@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\dictionary.png" />
     <None Remove="Resources\logo.ico" />
     <None Remove="Resources\logo.png" />
   </ItemGroup>
@@ -23,6 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\dictionary.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\logo.png" />
   </ItemGroup>
 
