@@ -2,10 +2,13 @@
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
+using RSG.View.Managers;
+using System;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RSG.View.Windows
 {
@@ -36,23 +39,28 @@ namespace RSG.View.Windows
         {
             randomWordGenerator.GenerateRandomWordsResultCompleted += Generator_GenerateRandomWordsResultCompleted;
         }
-        private async void autoGenerateButton_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (var kvp in DebugUtility.debugKvp)
-            {
-                listBox.Items.Add($"{kvp.Key}:{kvp.Value.Item1}, {kvp.Value.Item2}");
-            }
-        }
 
         private async void dictionary_Click(object sender, RoutedEventArgs e)
         {
+            Navigation.SelectedIndex = 1;
             // must try with even number of words
             // if it divides evenly, last partition calculation will be 0, and needs logic to understand that
             var dictionary = await dictionaryService.GetSelectedDictionary();
             var numberOfWords = BigInteger.Parse("100003");
             DebugUtility.Write((nameof(dictionary_Click), $"Dictionary: {dictionary.Name} : Generating {numberOfWords} number of words"));
             await randomWordGenerator.GenerateRandomWordsResult(numberOfWords);
+            
+        }
 
+        private async void NavigationMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedMenuButton = sender as Button;
+
+            if (string.IsNullOrEmpty(selectedMenuButton.Content.ToString()))
+            {
+                throw new Exception($"{sender.GetType().Name} must have a content matching a Page");
+            }
+            Navigation.SelectedIndex = int.Parse(selectedMenuButton.Content.ToString());
             
         }
 
@@ -62,16 +70,6 @@ namespace RSG.View.Windows
             {
                 MessageBox.Show("Is null");
                 return;
-            }
-            
-            listBox.Items.Add($"Dictionary: {e.Result.Dictionary.Name} : Generating {e.Result.Words.Count} number of words");
-
-            foreach (var c in e.Result.Words.PartitionedWords)
-            {
-                foreach (var d in c)
-                {
-                    listBox.Items.Add($"{d.Key}:{d.Value.Word}");
-                }
             }
         }
 

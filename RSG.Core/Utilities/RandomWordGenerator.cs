@@ -106,6 +106,8 @@ namespace RSG.Core.Utilities
             var fullPartitions = partitionInfo.NumberOfPartitions;
             cancellationToken.Register(() => { });
 
+            FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(10, this));
+
             var options = new ParallelOptions()
             {
                 MaxDegreeOfParallelism = partitionInfo.NumberOfPartitions,
@@ -136,12 +138,7 @@ namespace RSG.Core.Utilities
                 });
             }
 
-            // create words instance
-            // determine partition size
-            // generate each partition in parallel
-            // apply noisy partitions if needed (already applied if using GeneratePartitionedWords)
-            // use Parallel.Foreach for each 
-            // return words instance
+            FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(90, this));
 
             var words = new Words(dictionaryConfiguration.UseNoise);
             words.PartitionedWords = partitionedWords;
