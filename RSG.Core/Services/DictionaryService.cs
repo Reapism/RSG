@@ -1,6 +1,7 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Factories;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using System;
 using System.Collections.Concurrent;
@@ -11,7 +12,9 @@ namespace RSG.Core.Services
 {
     /// <summary>
     /// Holds a collection of dictionaries, and provides methods for CRUD
-    /// operations on the collection of <see cref="RsgDictionary"/>(s).
+    /// operations on the collection of <see cref="IRsgDictionary"/>(s).
+    /// <para>Lazily initalizes the selected dictionary until <see cref="GetSelectedDictionary"/>
+    /// or <see cref="SelectDictionary(string)"/> is called.</para>
     /// </summary>
     public class DictionaryService
     {
@@ -31,11 +34,44 @@ namespace RSG.Core.Services
         /// members of the <see cref="DictionaryService"/>.</param>
         public DictionaryService(
             DictionaryServiceFactory dictionaryServiceFactory,
-            WordListService wordListService)
+            WordListService wordListService,
+            IDictionaryConfiguration dictionaryConfiguration)
         {
             this.dictionaryServiceFactory = dictionaryServiceFactory;
             this.wordListService = wordListService;
             isFullyInitialized = false;
+        }
+
+        /// <summary>
+        /// Attempts to remove a dictionary from the internal collection.
+        /// </summary>
+        /// <param name="dictionary">The dictionary to remove.</param>
+        /// <returns>Whether the dictionary was successfully removed.</returns>
+        public bool RemoveDictionary(IRsgDictionary dictionary)
+        {
+            if (dictionary is null)
+            {
+                return false;
+            }
+
+            return dictionaries.TryRemove(dictionary.Name, out var _);
+        }
+
+        /// <summary>
+        /// Attempts to add a dictionary to the internal collection.
+        /// </summary>
+        /// <param name="dictionary">The dictionary to add.</param>
+        /// <returns>Whether the dictionary was successfully added.</returns>
+        /// <exception cref="ArgumentException">If the <paramref name="dictionary"/> is <see langword="null"/>.</exception>
+        public bool AddDictionary(IRsgDictionary dictionary)
+        {
+            if (dictionary is null && DoesDictionaryExist(dictionary.Name))
+            {
+                throw new ArgumentException("Cannot add dictionary, name must be case insensitively unique!");
+            }
+
+            // TryAdd due to asynchronous nature.
+            return dictionaries.TryAdd(dictionary.Name, dictionary);
         }
 
         /// <summary>
@@ -73,27 +109,6 @@ namespace RSG.Core.Services
             return selectedDictionary;
         }
 
-        public async Task<bool> AddDictionaryAsync(IRsgDictionary dictionaryToAdd)
-        {
-            if (!DoesDictionaryExist(dictionaryToAdd.Name))
-            {
-                throw new ArgumentException("Cannot add dictionary, name must be unique!");
-            }
-
-            // TryAdd due to asynchronous nature.
-            return dictionaries.TryAdd(dictionaryToAdd.Name, dictionaryToAdd);
-        }
-
-        public async Task<bool> RemoveDictionaryAsync(IRsgDictionary dictionaryToRemove)
-        {
-            return dictionaries.TryRemove(dictionaryToRemove.Name, out var dictionary);
-        }
-
-        private bool DoesDictionaryExist(string dictionaryName)
-        {
-            return dictionaries.Any(d => d.Key.Equals(dictionaryName, StringComparison.OrdinalIgnoreCase));
-        }
-
         private async Task LazyInitialize()
         {
             // Ensure dictionaries is non null.
@@ -113,6 +128,12 @@ namespace RSG.Core.Services
             selectedDictionary.WordList = wordListService.CreateIndexedWordList(words);
             selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
             isFullyInitialized = true;
+        }
+
+
+        private bool DoesDictionaryExist(string dictionaryName)
+        {
+            return dictionaries.Any(d => d.Key.Equals(dictionaryName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
