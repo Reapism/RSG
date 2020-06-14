@@ -1,5 +1,6 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
@@ -13,18 +14,38 @@ namespace RSG.Core.Factories
     public class DictionaryServiceFactory
     {
         private readonly WordListService wordListService;
+        private readonly IDictionaryConfiguration dictionaryConfiguration;
 
-        public DictionaryServiceFactory(WordListService wordListService)
+        public DictionaryServiceFactory(
+            WordListService wordListService,
+            IDictionaryConfiguration dictionaryConfiguration)
         {
             this.wordListService = wordListService;
+            this.dictionaryConfiguration = dictionaryConfiguration;
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="ConcurrentDictionary{TKey, TValue}"/>.
+        /// <para>If an existing <see cref="IDictionaryConfiguration"/> exists, it will
+        /// create it from there, otherwise creates from the default dictionaries.</para>
+        /// </summary>
+        /// <returns>An instance of <see cref="ConcurrentDictionary{TKey, TValue}"/>.</returns>
         public async Task<ConcurrentDictionary<string, IRsgDictionary>> CreateAsync()
         {
-            IEnumerable<IRsgDictionary> defaultDictionaries = await GetDefaultDictionariesAsync();
+            IEnumerable<IRsgDictionary> dictionariesToAdd;
             var dictionaries = new ConcurrentDictionary<string, IRsgDictionary>();
 
-            foreach (IRsgDictionary dict in defaultDictionaries)
+            if (dictionaryConfiguration.Dictionaries is null ||
+                !dictionaryConfiguration.Dictionaries.Any())
+            {
+                dictionariesToAdd = await GetDefaultDictionariesAsync();
+            }
+            else
+            {
+                dictionariesToAdd = dictionaryConfiguration.Dictionaries;
+            }
+
+            foreach (var dict in dictionariesToAdd)
             {
                 dictionaries.TryAdd(dict.Name, dict);
             }
@@ -43,10 +64,15 @@ namespace RSG.Core.Factories
 
         private async Task<IEnumerable<IRsgDictionary>> GetDefaultDictionariesAsync()
         {
-            using System.IO.Stream stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
-            Queue<RsgDictionary> dictionaries = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
+            using var stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
+            var dictionaries = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
 
             return dictionaries;
+        }
+
+        private async Task<IEnumerable<IRsgDictionary>> GetDictionaryFromConfiguration()
+        {
+
         }
     }
 }
