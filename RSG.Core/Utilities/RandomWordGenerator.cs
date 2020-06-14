@@ -115,28 +115,18 @@ namespace RSG.Core.Utilities
                 TaskScheduler = TaskScheduler.Current
             };
 
-            var tasks = new List<Task>(partitionInfo.NumberOfPartitions);
-
-            if (useNoise)
+            var tasks = new Task[partitionInfo.NumberOfPartitions];
+            int index = 0;
+            for (; index < partitionInfo.NumberOfPartitions; index++)
             {
-
-                var result = Parallel.For(0, partitionInfo.NumberOfPartitions, index =>
-                {
-                    var info = GetPartitionInfo(numberOfIterations, index);
-                    var wordsPartition = GeneratePartitionedWordsWithNoise(info);
-                    partitionedWords.Enqueue(wordsPartition);
-                });
+                var info = GetPartitionInfo(numberOfIterations, index);
+                var wordsPartition = useNoise ?
+                    GeneratePartitionedWordsWithNoise(info) :
+                    GeneratePartitionedWords(info);
+                partitionedWords.Enqueue(wordsPartition);
             }
-            else
-            {
-                var result = Parallel.For(0, partitionInfo.NumberOfPartitions, index =>
-                {
-                    var info = GetPartitionInfo(numberOfIterations, index);
-                    var wordsPartition = GeneratePartitionedWords(info);
-                    partitionedWords.Enqueue(wordsPartition);
 
-                });
-            }
+            Task.WaitAll(tasks);
 
             FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(90, this));
 
