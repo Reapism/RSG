@@ -6,7 +6,7 @@ namespace RSG.Core.Interfaces.Configuration
 {
     public interface IDictionaryConfiguration
     {
-        IEnumerable<RsgDictionary> Dictionaries { get; set; }
+        IEnumerable<IRsgDictionary> Dictionaries { get; set; }
 
         string Source { get; set; }
 

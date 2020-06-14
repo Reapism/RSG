@@ -16,7 +16,7 @@ namespace RSG.Core.Extensions
 
             return new Result()
             {
-                CharacterList = String.Empty,
+                CharacterList = string.Empty,
                 EndTime = DateTime.UnixEpoch,
                 StartTime = DateTime.UnixEpoch,
                 Iterations = negativeOne,
