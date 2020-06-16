@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace RSG.View.Managers
 {
@@ -39,9 +40,9 @@ namespace RSG.View.Managers
             return page;
         }
 
-        public void SetNavigationalMenuTabPage(TabControl tabControl)
+        public void SetNavigationalMenuTabPage(Selector selector)
         {
-            tabControl.SelectedIndex = (int)selectedPage;
+            selector.SelectedIndex = (int)selectedPage;
         }
 
         private void TransitionPages()

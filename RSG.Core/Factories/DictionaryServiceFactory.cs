@@ -4,6 +4,7 @@ using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace RSG.Core.Factories
 
         private async Task<IEnumerable<IRsgDictionary>> GetDictionaryFromConfiguration()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using RSG.Core.Interfaces.Configuration;
-using RSG.Core.Models;
+﻿using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -7,7 +8,25 @@ namespace RSG.Core.Configuration
 {
     public class DictionaryConfiguration : IDictionaryConfiguration
     {
-        public IEnumerable<RsgDictionary> Dictionaries { get; set; }
+        private bool isFullyInitialized;
+
+        public DictionaryConfiguration()
+        {
+            if (DoesConfigurationExist())
+            {
+                // read into dictionaries, otherwise set to empty.
+            }
+
+
+
+        }
+
+        private bool DoesConfigurationExist()
+        {
+            return false;
+        }
+
+        public IEnumerable<IRsgDictionary> Dictionaries { get; set; }
 
         /// <summary>
         /// Gets or sets source of the serialized configuration.

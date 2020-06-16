@@ -25,8 +25,6 @@ namespace RSG.View.Windows
             InitializeComponent();
             InitializeDependencies();
             InitalizeEvents();
-            this.dictionaryService = dictionaryService;
-            this.randomWordGenerator = randomWordGenerator;
         }
 
         private void InitializeDependencies()
@@ -64,13 +62,15 @@ namespace RSG.View.Windows
             
         }
 
-        private void Generator_GenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEvents e)
+        private void Generator_GenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEventArgs e)
         {
             if (e.Result == null)
             {
                 MessageBox.Show("Is null");
                 return;
             }
+
+            
         }
 
         private void Dictionary_Click(object sender, RoutedEventArgs e)

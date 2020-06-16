@@ -84,11 +84,11 @@ namespace RSG.Core.Utilities
                 };
 
                 FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(100, this));
-                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEvents(null, false, null, result));
+                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(null, false, null, result));
             }
             catch (Exception e)
             {
-                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEvents(null, false, null, new DictionaryResult().Empty()));
+                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(null, false, null, new DictionaryResult().Empty()));
             }
         }
 
@@ -249,7 +249,7 @@ namespace RSG.Core.Utilities
             return noisePositions;
         }
 
-        private void FireGenerateRandomWordsResultCompleted(GenerateRandomWordsResultEvents args)
+        private void FireGenerateRandomWordsResultCompleted(GenerateRandomWordsResultEventArgs args)
         {
             if (GenerateRandomWordsResultCompleted == null)
                 return;
@@ -257,7 +257,7 @@ namespace RSG.Core.Utilities
             GenerateRandomWordsResultCompleted(this, args);
         }
 
-        private void HandleGenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEvents args)
+        private void HandleGenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEventArgs args)
         {
             if (args.Cancelled)
             {
