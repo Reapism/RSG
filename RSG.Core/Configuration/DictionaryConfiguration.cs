@@ -2,6 +2,7 @@
 using RSG.Core.Interfaces.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Threading;
 
 namespace RSG.Core.Configuration
@@ -29,6 +30,7 @@ namespace RSG.Core.Configuration
         /// Gets or sets source of the serialized configuration.
         /// <para>Must be a local file.</para>
         /// </summary>
+        [JsonIgnore]
         public string Source { get; set; }
 
         public bool UseSpace { get; set; }

@@ -15,6 +15,7 @@ namespace RSG.Core.Services
         private readonly IStringConfiguration stringConfiguration;
         private readonly IShuffle<char> shuffle;
 
+        // TODO: Make this stateless.
         private ICharacterSet characterSet;
 
         /// <summary>
@@ -25,10 +26,12 @@ namespace RSG.Core.Services
         /// <see langword="char"/>.</param>
         public CharacterSetService(
             IStringConfiguration stringConfiguration,
+            ICharacterSet characterSet,
             IShuffle<char> shuffle)
         {
             this.stringConfiguration = stringConfiguration;
             this.shuffle = shuffle;
+            this.characterSet = characterSet;
 
             Create();
         }
@@ -71,7 +74,6 @@ namespace RSG.Core.Services
             characterSet.Characters.Add(
                 CharacterSetConstants.Symbols,
                 new SingleCharacterSet(CharacterSetConstants.SymbolsSet, false));
-
         }
 
         private void CreateFromConfiguration()

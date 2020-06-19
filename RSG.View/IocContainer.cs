@@ -47,8 +47,8 @@ namespace RSG.View
                 .AddSingleton<IRsgConfiguration, RsgConfiguration>()
                 
                 // Instantiate the string configuration by calling the Load method and passing in the string configuration source from RsgConfiguration
-                .AddSingleton<IStringConfiguration, StringConfiguration>(e => e.GetService<StringConfiguration>().Load<StringConfiguration>(e.GetService<RsgConfiguration>().StringConfigurationSource))
-                .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>(e => e.GetService<DictionaryConfiguration>().Load<DictionaryConfiguration>(e.GetService<RsgConfiguration>().StringConfigurationSource));
+                .AddSingleton<IStringConfiguration, StringConfiguration>()
+                .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>();
             // Register scoped types
 
             // Register transients types
