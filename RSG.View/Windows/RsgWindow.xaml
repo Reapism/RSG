@@ -37,31 +37,31 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </Grid.Triggers>
-            <Button x:Name="String" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click">
+            <Button x:Name="String" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="String">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/autogenerate.ico" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
 
-            <Button x:Name="About" Margin="10,0,10,150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click">
+            <Button x:Name="About" Margin="10,0,10,150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="About">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
 
-            <Button x:Name="Dictionary" Margin="10,0,10,0" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click">
+            <Button x:Name="Dictionary" Margin="10,0,10,0" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Dictionary">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
 
-            <Button x:Name="Search" Margin="10,0,10,-150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click">
+            <Button x:Name="Search" Margin="10,0,10,-150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Search">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
 
-            <Button x:Name="Settings" Margin="10,0,10,-300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click">
+            <Button x:Name="Settings" Margin="10,0,10,-300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Settings">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>

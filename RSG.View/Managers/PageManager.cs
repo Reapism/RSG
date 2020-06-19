@@ -25,29 +25,42 @@ namespace RSG.View.Managers
 
     internal class PageManager
     {
-        private readonly Page selectedPage;
-        private readonly Page previousPage;
-
         public PageManager()
         {
 
         }
 
-        public PageManager(Page previousPage, Page selectedPage)
+        public Page GetPage(string tagValue)
         {
-            this.previousPage = previousPage;
-            this.selectedPage = selectedPage;
-        }
-
-        public static Page GetPage(int index)
-        {
-            var page = (Page)index;
+            var page = GetEnumValue<Page>(tagValue);
             return page;
         }
 
-        public void SetNavigationalMenuTabPage(Selector selector)
+        public void SetNavigationalMenuTabPage(Selector selector, string tag)
         {
-            selector.SelectedIndex = (int)selectedPage;
+            selector.SelectedIndex = (int)GetPage(tag);
+        }
+
+        public T GetEnumValue<T>(string value) where T : struct, IConvertible
+        {
+            if (!typeof(T).IsEnum)
+            {
+                throw new Exception("T must be an Enumeration type.");
+            }
+            T val = ((T[])Enum.GetValues(typeof(T)))[0];
+            if (!string.IsNullOrEmpty(value))
+            {
+                foreach (T enumValue in (T[])Enum.GetValues(typeof(T)))
+                {
+                    if (enumValue.ToString().ToUpper().Equals(value.ToUpper()))
+                    {
+                        val = enumValue;
+                        break;
+                    }
+                }
+            }
+
+            return val;
         }
 
         private void TransitionPages()

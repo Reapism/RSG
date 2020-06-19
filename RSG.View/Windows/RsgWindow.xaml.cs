@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RSG.Core.Extensions;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
@@ -9,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace RSG.View.Windows
 {
@@ -20,6 +22,7 @@ namespace RSG.View.Windows
         private DictionaryService dictionaryService;
         private RandomWordGenerator randomWordGenerator;
         private RandomStringGenerator randomStringGenerator;
+        private PageManager pageManager;
         public RsgWindow()
         {
             InitializeComponent();
@@ -32,6 +35,7 @@ namespace RSG.View.Windows
             dictionaryService = App.Container.Provider.GetService<DictionaryService>();
             randomWordGenerator = App.Container.Provider.GetService<RandomWordGenerator>();
             randomStringGenerator = App.Container.Provider.GetService<RandomStringGenerator>();
+            pageManager = App.Container.Provider.GetService<PageManager>();
         }
 
         private void InitalizeEvents()
@@ -55,12 +59,14 @@ namespace RSG.View.Windows
         {
             var selectedMenuButton = sender as Button;
 
-            if (string.IsNullOrEmpty(selectedMenuButton.Content.ToString()))
+            if (string.IsNullOrEmpty(selectedMenuButton.Tag.ToString()))
             {
                 throw new Exception($"{sender.GetType().Name} must have a content matching a Page");
             }
-            Navigation.SelectedIndex = int.Parse(selectedMenuButton.Content.ToString());
-            
+
+            pageManager.SetNavigationalMenuTabPage(Navigation, selectedMenuButton.Tag.ToString());
+
+
         }
 
         private void Generator_GenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEventArgs e)
