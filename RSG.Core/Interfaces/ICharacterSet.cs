@@ -5,6 +5,6 @@ namespace RSG.Core.Interfaces
 {
     public interface ICharacterSet
     {
-        IDictionary<string, CharSet> CharacterSets { get; set; }
+        IDictionary<string, SingleCharacterSet> Characters { get; set; }
     }
 }

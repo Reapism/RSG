@@ -16,7 +16,7 @@ namespace RSG.Core.Utilities
         public RandomStringGenerator(CharacterSetService characterSetService)
         {
             _characterSetService = characterSetService;
-            _characterList = _characterSetService.GetNewCharacterList();
+            _characterList = _characterSetService.CharacterList;
         }
 
         /// <summary>

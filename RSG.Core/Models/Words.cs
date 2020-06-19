@@ -29,6 +29,9 @@ namespace RSG.Core.Models
         /// </summary>
         public ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>> PartitionedWords { get; internal set; }
 
+        /// <summary>
+        /// Gets the number of total words stored in this instance.
+        /// </summary>
         public BigInteger Count => GetCount();
 
         /// <summary>
@@ -37,6 +40,9 @@ namespace RSG.Core.Models
         /// </summary>
         public bool IsNoisy { get; }
 
+        /// <summary>
+        /// Clears all of the words stored in this instance.
+        /// </summary>
         public void Clear()
         {
             foreach (var dictionary in PartitionedWords)

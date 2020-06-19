@@ -1,19 +1,25 @@
-﻿using System;
+﻿using RSG.Core.Interfaces;
+using System;
 
 namespace RSG.Core.Utilities
 {
     /// <summary>
     /// Internal utilties for scrambling strings.
     /// </summary>
-    internal static class ScrambleStringUtility
+    public class Scrambler : IShuffle<char>
     {
+        public void Shuffle<T>(T[] array, Random random)
+        {
+            KnuthShuffle(array, random);
+        }
+
         /// <summary>
         /// Performs a Knuth Shuffle on the <typeparamref name="T"/> array.
         /// </summary>
         /// <typeparam name="T">A Type array.</typeparam>
         /// <param name="array">An array of type <typeparamref name="T"/>.</param>
         /// <param name="random">The <see cref="Random"/> provider.</param>
-        public static void KnuthShuffle<T>(T[] array, Random random)
+        private void KnuthShuffle<T>(T[] array, Random random)
         {
             for (var i = 0; i < array.Length; i++)
             {
@@ -23,5 +29,6 @@ namespace RSG.Core.Utilities
                 array[j] = temp;
             }
         }
+
     }
 }

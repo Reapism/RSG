@@ -51,7 +51,7 @@ namespace RSG.Core.Utilities
             this.dictionaryConfiguration = dictionaryConfiguration;
             this.characterSetService = characterSetService;
 
-            characterSet = characterSetService.GetNewCharacterList();
+            characterSet = characterSetService.CharacterList;
             minWordIndex = 0;
 
             // Subscribe to the handlers

@@ -39,11 +39,11 @@ namespace RSG.Core.Factories
             if (dictionaryConfiguration.Dictionaries is null ||
                 !dictionaryConfiguration.Dictionaries.Any())
             {
-                dictionariesToAdd = await GetDefaultDictionariesAsync();
+                dictionariesToAdd = await CreateDefaultDictionariesAsync();
             }
             else
             {
-                dictionariesToAdd = dictionaryConfiguration.Dictionaries;
+                dictionariesToAdd = CreateDictionaryFromConfiguration();
             }
 
             foreach (var dict in dictionariesToAdd)
@@ -63,7 +63,7 @@ namespace RSG.Core.Factories
             return rsgDictionary.WordList.Any() ? true : false;
         }
 
-        private async Task<IEnumerable<IRsgDictionary>> GetDefaultDictionariesAsync()
+        private async Task<IEnumerable<IRsgDictionary>> CreateDefaultDictionariesAsync()
         {
             using var stream = await ResourceUtility.GetResourceStream("DefaultDictionaries.json");
             var dictionaries = await SerializationUtility.DeserializeJsonASync<Queue<RsgDictionary>>(stream);
@@ -71,9 +71,9 @@ namespace RSG.Core.Factories
             return dictionaries;
         }
 
-        private async Task<IEnumerable<IRsgDictionary>> GetDictionaryFromConfiguration()
+        private IEnumerable<IRsgDictionary> CreateDictionaryFromConfiguration()
         {
-            throw new NotImplementedException();
+            return dictionaryConfiguration.Dictionaries;
         }
     }
 }

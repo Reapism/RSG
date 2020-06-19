@@ -26,7 +26,7 @@ namespace RSG.Core.Services
         {
             var expectedCharacterListBuilder = new StringBuilder();
 
-            foreach (CharSet set in characterSet.CharacterSets.Values)
+            foreach (SingleCharacterSet set in characterSet.Characters.Values)
             {
                 var containsSet = set.Characters.Any(ch => set.Characters.Contains(ch));
                 if (containsSet)

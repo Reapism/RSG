@@ -3,21 +3,21 @@
     /// <summary>
     /// Represents a set of characters and whether its enabled.
     /// </summary>
-    public class CharSet
+    public class SingleCharacterSet
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CharSet"/> class.
+        /// Initializes a new instance of the <see cref="SingleCharacterSet"/> class.
         /// </summary>
-        /// <param name="characters">The characters representing this <see cref="CharSet"/>.</param>
+        /// <param name="characters">The characters representing this <see cref="SingleCharacterSet"/>.</param>
         /// <param name="enabled">Whether this set is enabled for use.</param>
-        public CharSet(string characters, bool enabled)
+        public SingleCharacterSet(string characters, bool enabled)
         {
             Characters = characters;
             Enabled = enabled;
         }
 
         /// <summary>
-        /// Gets or sets the characters representing this <see cref="CharSet"/>.
+        /// Gets or sets the characters representing this <see cref="SingleCharacterSet"/>.
         /// </summary>
         public string Characters { get; set; }
 

@@ -7,6 +7,7 @@ using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
+using RSG.View.Managers;
 using System;
 
 namespace RSG.View
@@ -24,7 +25,8 @@ namespace RSG.View
 
         public static void Initialize(IocContainer container)
         {
-            RegisterTypes(container);
+            RegisterCoreTypes(container);
+            RegisterViewTypes(container);
 #if DEBUG
             container.Provider = container.Services.BuildServiceProvider(
                 new ServiceProviderOptions()
@@ -38,13 +40,15 @@ namespace RSG.View
 
         }
 
-        private static void RegisterTypes(IocContainer container)
+        private static void RegisterCoreTypes(IocContainer container)
         {
             // Register singletons types
             container.Services
                 .AddSingleton<IRsgConfiguration, RsgConfiguration>()
-                .AddSingleton<IStringConfiguration, StringConfiguration>()
-                .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>();
+                
+                // Instantiate the string configuration by calling the Load method and passing in the string configuration source from RsgConfiguration
+                .AddSingleton<IStringConfiguration, StringConfiguration>(e => e.GetService<StringConfiguration>().Load<StringConfiguration>(e.GetService<RsgConfiguration>().StringConfigurationSource))
+                .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>(e => e.GetService<DictionaryConfiguration>().Load<DictionaryConfiguration>(e.GetService<RsgConfiguration>().StringConfigurationSource));
             // Register scoped types
 
             // Register transients types
@@ -61,14 +65,20 @@ namespace RSG.View
                 .AddTransient<IGeneratedWord, GeneratedWord>()
                 .AddTransient<IDictionaryWordList, DictionaryWordList>()
                 .AddTransient<IThreadService, ThreadUtility>()
-                .AddTransient<CharacterSetServiceFactory>()
-                .AddTransient(e => e.GetService<CharacterSetServiceFactory>().Create())
+                .AddTransient<IShuffle<char>, Scrambler>()
+                .AddTransient<CharacterSetService>()
                 .AddTransient<RandomStringGenerator>()
                 .AddTransient<RandomWordGenerator>()
                 .AddTransient<WordListService>()
                 .AddTransient<DictionaryService>()
                 .AddTransient<DictionaryServiceFactory>()
                 .AddTransient<DictionaryThreadService>();
+        }
+
+        private static void RegisterViewTypes(IocContainer container)
+        {
+            container.Services
+                .AddTransient<PageManager>();
         }
     }
 }

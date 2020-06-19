@@ -22,5 +22,9 @@ namespace RSG.Core.Interfaces.Configuration
         bool UseStickyWindows { get; set; }
 
         RandomizationType RandomizationType { get; set; }
+
+        string DictionaryConfigurationSource { get; set; }
+
+        string StringConfigurationSource { get; set; }
     }
 }

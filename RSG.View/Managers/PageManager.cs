@@ -28,6 +28,11 @@ namespace RSG.View.Managers
         private readonly Page selectedPage;
         private readonly Page previousPage;
 
+        public PageManager()
+        {
+
+        }
+
         public PageManager(Page previousPage, Page selectedPage)
         {
             this.previousPage = previousPage;

@@ -1,6 +1,8 @@
 ﻿
+using RSG.Core.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,23 +23,33 @@ namespace RSG.Core.Utilities
             embeddedResourceNames = GetResourcesNames();
         }
 
-        public static IEnumerable<string> GetResourcesNames()
+        public static async Task<Stream> GetResourceStream(string fileName)
+        {
+            var resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
+
+            if (resourceName == null)
+            {
+                throw new FileNotFoundException($"Cannot find file {fileName}");
+            }
+
+            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+
+            return resourceStream;
+        }
+
+        private static IEnumerable<string> GetResourcesNames()
         {
             var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
             return names;
         }
 
-        public static async Task<Stream> GetResourceStream(string fileName)
+        public static string GetRsgConfigurationFile()
         {
-            var resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
-
-            if (resourceName == null)
-                throw new FileNotFoundException($"Cannot find file {fileName}");
-
-            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
-
-            return resourceStream;
+            // Get's the install location of RSG and read the configuration file from within the directory.
+            // Need to create an installer that will download the files to a specific directory and create the configuration file.
+            var configurationFile = Path.Combine(Assembly.GetExecutingAssembly().Location, "RSG.config");
+            return configurationFile;
         }
     }
 }

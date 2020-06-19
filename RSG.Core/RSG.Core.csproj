@@ -26,6 +26,13 @@
     <EmbeddedResource Include="Resources\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\DefaultDictionaryConfiguration.json" />
+    <None Remove="Resources\DefaultRsgConfiguration.json" />
+    <None Remove="Resources\DefaultStringConfiguration - Copy (2).json" />
+    <None Remove="Resources\DefaultStringConfiguration.json" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

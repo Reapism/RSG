@@ -19,7 +19,7 @@ namespace RSG.View.Windows
     {
         private DictionaryService dictionaryService;
         private RandomWordGenerator randomWordGenerator;
-
+        private RandomStringGenerator randomStringGenerator;
         public RsgWindow()
         {
             InitializeComponent();
@@ -31,6 +31,7 @@ namespace RSG.View.Windows
         {
             dictionaryService = App.Container.Provider.GetService<DictionaryService>();
             randomWordGenerator = App.Container.Provider.GetService<RandomWordGenerator>();
+            randomStringGenerator = App.Container.Provider.GetService<RandomStringGenerator>();
         }
 
         private void InitalizeEvents()
@@ -64,18 +65,25 @@ namespace RSG.View.Windows
 
         private void Generator_GenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEventArgs e)
         {
-            if (e.Result == null)
+            if (e.Error != null || e.Cancelled)
             {
-                MessageBox.Show("Is null");
+                MessageBox.Show("The operation has errored out.");
                 return;
             }
 
-            
+            var typeName = sender.GetType().Name;
         }
 
         private void Dictionary_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var result = randomStringGenerator.GenerateRandomStringsResult(5, 10);
+            foreach (string s in result.Strings)
+                MessageBox.Show(s);
         }
     }
 }

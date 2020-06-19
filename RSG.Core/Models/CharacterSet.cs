@@ -5,6 +5,6 @@ namespace RSG.Core.Models
 {
     public class CharacterSet : ICharacterSet
     {
-        public IDictionary<string, CharSet> CharacterSets { get; set; }
+        public IDictionary<string, SingleCharacterSet> Characters { get; set; }
     }
 }

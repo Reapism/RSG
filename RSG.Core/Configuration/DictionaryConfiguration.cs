@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace RSG.Core.Configuration
 {
-    public class DictionaryConfiguration : IDictionaryConfiguration
+    public class DictionaryConfiguration : IDictionaryConfiguration, ILoadConfiguration<DictionaryConfiguration>
     {
         private bool isFullyInitialized;
 
@@ -16,14 +16,11 @@ namespace RSG.Core.Configuration
             {
                 // read into dictionaries, otherwise set to empty.
             }
-
-
-
         }
 
-        private bool DoesConfigurationExist()
+        public T Load<T>(string fileName)
         {
-            return false;
+            return default(T);
         }
 
         public IEnumerable<IRsgDictionary> Dictionaries { get; set; }
@@ -54,5 +51,10 @@ namespace RSG.Core.Configuration
         /// -1 if <see cref="Words"/> should automatically determine.
         /// </summary>
         public int PartitionSize { get; set; }
+
+        private bool DoesConfigurationExist()
+        {
+            return false;
+        }
     }
 }

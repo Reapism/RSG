@@ -1,18 +1,86 @@
-﻿using RSG.Core.Factories;
+﻿using RSG.Core.Constants;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
-using RSG.Core.Utilities;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace RSG.Core.Services
 {
-    public class CharacterSetService : ICharacterSet
+    /// <summary>
+    /// A service for creating a <see cref="ICharacterSet"/>
+    /// </summary>
+    public class CharacterSetService
     {
-        public IDictionary<string, CharSet> CharacterSets { get; set; }
+        private readonly IStringConfiguration stringConfiguration;
+        private readonly IShuffle<char> shuffle;
 
-        public char[] GetNewCharacterList()
+        private ICharacterSet characterSet;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CharacterSetService"/> class.
+        /// </summary>
+        /// <param name="stringConfiguration">An instance of the <see cref="IStringConfiguration"/>.</param>
+        /// <param name="shuffle">An instance of <see cref="IShuffle{T}"/> of type
+        /// <see langword="char"/>.</param>
+        public CharacterSetService(
+            IStringConfiguration stringConfiguration,
+            IShuffle<char> shuffle)
+        {
+            this.stringConfiguration = stringConfiguration;
+            this.shuffle = shuffle;
+
+            Create();
+        }
+
+        /// <summary>
+        /// Gets the character list from this instance.
+        /// </summary>
+        public char[] CharacterList => GetNewCharacterList();
+
+        private void Create()
+        {
+            if (stringConfiguration.CharacterSet is null ||
+                !stringConfiguration.CharacterSet.Characters.Any())
+            {
+                CreateDefault();
+            }
+            else
+            {
+                CreateFromConfiguration();
+            }
+        }
+
+        private void CreateDefault()
+        {
+            characterSet.Characters.Add(
+                CharacterSetConstants.Lowercase,
+                new SingleCharacterSet(CharacterSetConstants.LowercaseSet, true));
+            characterSet.Characters.Add(
+                CharacterSetConstants.Uppercase,
+                new SingleCharacterSet(CharacterSetConstants.UppercaseSet, true));
+            characterSet.Characters.Add(
+                CharacterSetConstants.Numbers,
+                new SingleCharacterSet(CharacterSetConstants.NumbersSet, true));
+            characterSet.Characters.Add(
+                CharacterSetConstants.Punctuation,
+                new SingleCharacterSet(CharacterSetConstants.PunctuationSet, false));
+            characterSet.Characters.Add(
+                CharacterSetConstants.Space,
+                new SingleCharacterSet(CharacterSetConstants.SpaceSet, false));
+            characterSet.Characters.Add(
+                CharacterSetConstants.Symbols,
+                new SingleCharacterSet(CharacterSetConstants.SymbolsSet, false));
+
+        }
+
+        private void CreateFromConfiguration()
+        {
+            characterSet = stringConfiguration.CharacterSet;
+        }
+
+
+        private char[] GetNewCharacterList()
         {
             return ScrambleCharacterList();
         }
@@ -20,30 +88,30 @@ namespace RSG.Core.Services
         private char[] ScrambleCharacterList()
         {
             var allCharacters = CleanCharacterList();
-            var allCharactersArray = allCharacters.ToCharArray();
-            ScrambleStringUtility.KnuthShuffle(allCharactersArray, RandomProvider.Random);
+            shuffle.Shuffle(allCharacters, RandomProvider.Random);
 
-            return allCharactersArray;
+            return allCharacters;
         }
 
-        private string CleanCharacterList()
+        private char[] CleanCharacterList()
         {
-            var characterList = GetCharacterList();
+            var characterList = GetCharacterListAsString();
             var distinctCharList = characterList.Distinct().ToArray();
-            var returnStr = new string(distinctCharList);
 
-            return returnStr;
+            return distinctCharList;
         }
 
-        private string GetCharacterList()
+        private char[] GetCharacterListAsString()
         {
             var strBuilder = new StringBuilder();
-            var enabledCharacterSets = CharacterSets.Values.Where(set => set.Enabled);
+            var enabledCharacterSets = characterSet.Characters.Values.Where(set => set.Enabled);
 
             foreach (var set in enabledCharacterSets)
+            {
                 strBuilder.Append(set.Characters);
+            }
 
-            return strBuilder.ToString();
+            return strBuilder.ToString().ToCharArray();
         }
     }
 }

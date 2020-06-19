@@ -27,7 +27,6 @@
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
-
                 <EventTrigger RoutedEvent="Grid.MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
@@ -40,7 +39,7 @@
             </Grid.Triggers>
             <Button x:Name="String" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click">
                 <StackPanel>
-                    <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
+                    <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/autogenerate.ico" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
 
@@ -70,7 +69,9 @@
         </Grid>
         <TabControl x:Name="Navigation" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="780" Margin="20,0,0,0" SelectedIndex="0" TabStripPlacement="Bottom">
             <TabItem Header="String" Visibility="Hidden">
-                <Grid Background="ForestGreen"/>
+                <Grid Background="ForestGreen">
+                    <Button x:Name="button" Content="Button" Click="button_Click"/>
+                </Grid>
             </TabItem>
             <TabItem Header="About" Visibility="Hidden">
                 <Grid Background="Gray">
