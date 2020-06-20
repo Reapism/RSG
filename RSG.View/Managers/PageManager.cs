@@ -1,4 +1,5 @@
-﻿using RSG.View.Converters;
+﻿using RSG.Core.Extensions;
+using RSG.View.Converters;
 using System;
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -32,35 +33,19 @@ namespace RSG.View.Managers
 
         public Page GetPage(string tagValue)
         {
-            var page = GetEnumValue<Page>(tagValue);
+            var page = EnumExtensions.GetEnumValue<Page>(tagValue);
+
             return page;
         }
 
         public void SetNavigationalMenuTabPage(Selector selector, string tag)
         {
+            if (string.IsNullOrEmpty(tag))
+            {
+                throw new Exception($"{tag} cannot be null or empty.");
+            }
+
             selector.SelectedIndex = (int)GetPage(tag);
-        }
-
-        public T GetEnumValue<T>(string value) where T : struct, IConvertible
-        {
-            if (!typeof(T).IsEnum)
-            {
-                throw new Exception("T must be an Enumeration type.");
-            }
-            T val = ((T[])Enum.GetValues(typeof(T)))[0];
-            if (!string.IsNullOrEmpty(value))
-            {
-                foreach (T enumValue in (T[])Enum.GetValues(typeof(T)))
-                {
-                    if (enumValue.ToString().ToUpper().Equals(value.ToUpper()))
-                    {
-                        val = enumValue;
-                        break;
-                    }
-                }
-            }
-
-            return val;
         }
 
         private void TransitionPages()

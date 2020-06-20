@@ -24,14 +24,4 @@
     <ProjectReference Include="..\RSG.Core\RSG.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Resources\autogenerate.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\dictionary.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\logo.png" />
-  </ItemGroup>
-
 </Project>

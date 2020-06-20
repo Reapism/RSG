@@ -48,9 +48,8 @@ namespace RSG.View.Windows
             Navigation.SelectedIndex = 1;
             // must try with even number of words
             // if it divides evenly, last partition calculation will be 0, and needs logic to understand that
-            var dictionary = await dictionaryService.GetSelectedDictionary();
+
             var numberOfWords = BigInteger.Parse("100003");
-            DebugUtility.Write((nameof(dictionary_Click), $"Dictionary: {dictionary.Name} : Generating {numberOfWords} number of words"));
             await randomWordGenerator.GenerateRandomWordsResult(numberOfWords);
             
         }
@@ -59,14 +58,7 @@ namespace RSG.View.Windows
         {
             var selectedMenuButton = sender as Button;
 
-            if (string.IsNullOrEmpty(selectedMenuButton.Tag.ToString()))
-            {
-                throw new Exception($"{sender.GetType().Name} must have a content matching a Page");
-            }
-
             pageManager.SetNavigationalMenuTabPage(Navigation, selectedMenuButton.Tag.ToString());
-
-
         }
 
         private void Generator_GenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEventArgs e)
@@ -78,11 +70,6 @@ namespace RSG.View.Windows
             }
 
             var typeName = sender.GetType().Name;
-        }
-
-        private void Dictionary_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RSG.View.Windows"
         mc:Ignorable="d"
-        Title="RSG" Height="450" Width="800" Icon="/Resources/logo.png">
+        Title="RSG" Height="450" Width="800" Icon="/Resources/logo.png" MinWidth="800" MinHeight="450">
     <Grid x:Name="MainGrid">
         <Grid.Background>
             <RadialGradientBrush>
@@ -13,16 +13,16 @@
                 <GradientStop Color="#7F474747"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Grid Name="NavigationalGrid" HorizontalAlignment="Left" MinWidth="30" MinHeight="100">
+        <Grid Name="NavigationalGrid" HorizontalAlignment="Left" MinWidth="30" MinHeight="100" Width="30">
             <Grid.Background>
-                <SolidColorBrush x:Name="NavigationalColor" Color="DarkGray" />
+                <SolidColorBrush x:Name="NavigationalColor" Color="#FFCFFFFD" />
             </Grid.Background>
             <Grid.Triggers>
                 <EventTrigger RoutedEvent="Grid.MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="30" To="75" Duration="0:0:0" />
-                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="DarkGray" To="LightBlue" Duration="0:0:0.35" />
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="#FFCFFFFD" To="LightGray" Duration="0:0:0.35" />
                             <DoubleAnimation Storyboard.TargetName="Navigation" Storyboard.TargetProperty="Width" From="775" To="710" Duration="0:0:0"/>
                         </Storyboard>
                     </BeginStoryboard>
@@ -31,7 +31,7 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="75" To="30" Duration="0:0:0" />
-                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightBlue" To="DarkGray" Duration="0:0:0.35" />
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightGray" To="#FFCFFFFD" Duration="0:0:0.35" />
                             <DoubleAnimation Storyboard.TargetName="Navigation" Storyboard.TargetProperty="Width" From="710" To="755" Duration="0:0:0"/>
                         </Storyboard>
                     </BeginStoryboard>
@@ -39,7 +39,7 @@
             </Grid.Triggers>
             <Button x:Name="String" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="String">
                 <StackPanel>
-                    <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/autogenerate.ico" StretchDirection="Both" Stretch="UniformToFill"/>
+                    <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources//autogenerate.ico" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
 
@@ -67,26 +67,39 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <TabControl x:Name="Navigation" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="780" Margin="20,0,0,0" SelectedIndex="0" TabStripPlacement="Bottom">
-            <TabItem Header="String" Visibility="Hidden">
+        <TabControl x:Name="Navigation" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="755" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" Foreground="White">
+            <TabItem Header="String" Visibility="Collapsed">
                 <Grid Background="ForestGreen">
-                    <Button x:Name="button" Content="Button" Click="button_Click"/>
+                    <Grid HorizontalAlignment="Left" MinWidth="390" Background="Gray">
+                        <GroupBox Background="#4C9B9B9B" Header="Generate">
+                            <Grid>
+                                
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <Grid HorizontalAlignment="Right" MinWidth="390" Background="Gray">
+                        <GroupBox Header="Statistics">
+                            <Grid>
+                                
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="About" Visibility="Hidden">
+            <TabItem Header="About" Visibility="Collapsed">
                 <Grid Background="Gray">
                 </Grid>
             </TabItem>
-            <TabItem Header="Dictionary" Visibility="Hidden">
+            <TabItem Header="Dictionary" Visibility="Collapsed">
                 <Grid Background="AliceBlue">
                 </Grid>
             </TabItem>
-            <TabItem Header="Search" Visibility="Hidden">
-                <Grid Background="Gray">
+            <TabItem Header="Search" Visibility="Collapsed">
+                <Grid Background="Blue">
                 </Grid>
             </TabItem>
-            <TabItem Header="Settings" Visibility="Hidden">
-                <Grid Background="Gray">
+            <TabItem Header="Settings" Visibility="Collapsed">
+                <Grid Background="Black">
                 </Grid>
             </TabItem>
         </TabControl>

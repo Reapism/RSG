@@ -38,5 +38,28 @@ namespace RSG.Core.Extensions
 
             return enumValue.ToString();
         }
+
+        public static TEnum GetEnumValue<TEnum>(string value)
+            where TEnum : struct, IConvertible
+        {
+            if (!typeof(TEnum).IsEnum)
+            {
+                throw new Exception("T must be an Enumeration type.");
+            }
+            TEnum val = ((TEnum[])Enum.GetValues(typeof(TEnum)))[0];
+            if (!string.IsNullOrEmpty(value))
+            {
+                foreach (TEnum enumValue in (TEnum[])Enum.GetValues(typeof(TEnum)))
+                {
+                    if (enumValue.ToString().ToUpper().Equals(value.ToUpper()))
+                    {
+                        val = enumValue;
+                        break;
+                    }
+                }
+            }
+
+            return val;
+        }
     }
 }
