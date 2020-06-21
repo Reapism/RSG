@@ -39,17 +39,28 @@ namespace RSG.Core.Extensions
             return enumValue.ToString();
         }
 
+        /// <summary>
+        /// Gets the value of an enum given a string
+        /// that matches the name of the enum..
+        /// </summary>
+        /// <typeparam name="TEnum">The enum type.</typeparam>
+        /// <param name="value">The string representation of the enum. Use nameof.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static TEnum GetEnumValue<TEnum>(string value)
             where TEnum : struct, IConvertible
         {
             if (!typeof(TEnum).IsEnum)
             {
-                throw new Exception("T must be an Enumeration type.");
+                throw new ArgumentException("T must be an Enumeration type.");
             }
-            TEnum val = ((TEnum[])Enum.GetValues(typeof(TEnum)))[0];
+
+            var enums = ((TEnum[])Enum.GetValues(typeof(TEnum)));
+            TEnum val = enums[0];
+
             if (!string.IsNullOrEmpty(value))
             {
-                foreach (TEnum enumValue in (TEnum[])Enum.GetValues(typeof(TEnum)))
+                foreach (TEnum enumValue in enums)
                 {
                     if (enumValue.ToString().ToUpper().Equals(value.ToUpper()))
                     {

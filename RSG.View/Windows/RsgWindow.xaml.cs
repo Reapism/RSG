@@ -23,6 +23,7 @@ namespace RSG.View.Windows
         private RandomWordGenerator randomWordGenerator;
         private RandomStringGenerator randomStringGenerator;
         private PageManager pageManager;
+
         public RsgWindow()
         {
             InitializeComponent();
@@ -70,6 +71,8 @@ namespace RSG.View.Windows
             }
 
             var typeName = sender.GetType().Name;
+            
+            
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

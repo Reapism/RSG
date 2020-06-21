@@ -9,6 +9,7 @@ namespace RSG.View.Converters
             : base(type)
         {
         }
+
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(string))

@@ -88,7 +88,7 @@ namespace RSG.Core.Utilities
             }
             catch (Exception e)
             {
-                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(null, false, null, new DictionaryResult().Empty()));
+                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(e, false, this, new DictionaryResult().Empty()));
             }
         }
 
@@ -102,36 +102,34 @@ namespace RSG.Core.Utilities
             var partitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
             var partitionInfo = GetPartitionInfo(numberOfIterations);
             var useNoise = dictionaryConfiguration.UseNoise;
-            var cancellationToken = new CancellationToken(false);
             var fullPartitions = partitionInfo.NumberOfPartitions;
-            cancellationToken.Register(() => { });
 
             FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(10, this));
-
-            var options = new ParallelOptions()
-            {
-                MaxDegreeOfParallelism = partitionInfo.NumberOfPartitions,
-                CancellationToken = cancellationToken,
-                TaskScheduler = TaskScheduler.Current
-            };
 
             var tasks = new Task[partitionInfo.NumberOfPartitions];
             int index = 0;
             for (; index < partitionInfo.NumberOfPartitions; index++)
             {
-                var info = GetPartitionInfo(numberOfIterations, index);
-                var wordsPartition = useNoise ?
-                    GeneratePartitionedWordsWithNoise(info) :
-                    GeneratePartitionedWords(info);
-                partitionedWords.Enqueue(wordsPartition);
+                tasks[index] = Task.Factory.StartNew(() =>
+                {
+                    var info = GetPartitionInfo(numberOfIterations, index);
+
+                    var wordsPartition = useNoise ?
+                        GeneratePartitionedWordsWithNoise(info) :
+                        GeneratePartitionedWords(info);
+
+                    partitionedWords.Enqueue(wordsPartition);
+                });
             }
 
             Task.WaitAll(tasks);
 
             FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(90, this));
 
-            var words = new Words(dictionaryConfiguration.UseNoise);
-            words.PartitionedWords = partitionedWords;
+            var words = new Words(dictionaryConfiguration.UseNoise)
+            {
+                PartitionedWords = partitionedWords
+            };
             return words;
         }
 

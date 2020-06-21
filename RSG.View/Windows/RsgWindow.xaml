@@ -13,7 +13,7 @@
                 <GradientStop Color="#7F474747"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Grid Name="NavigationalGrid" HorizontalAlignment="Left" MinWidth="30" MinHeight="100" Width="30">
+        <Grid Name="NavigationalGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch" MinWidth="30" MinHeight="100" Width="30">
             <Grid.Background>
                 <SolidColorBrush x:Name="NavigationalColor" Color="#FFCFFFFD" />
             </Grid.Background>
@@ -24,6 +24,11 @@
                             <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="30" To="75" Duration="0:0:0" />
                             <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="#FFCFFFFD" To="LightGray" Duration="0:0:0.35" />
                             <DoubleAnimation Storyboard.TargetName="Navigation" Storyboard.TargetProperty="Width" From="775" To="710" Duration="0:0:0"/>
+                            <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="Search" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="Settings" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -33,76 +38,91 @@
                             <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="75" To="30" Duration="0:0:0" />
                             <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightGray" To="#FFCFFFFD" Duration="0:0:0.35" />
                             <DoubleAnimation Storyboard.TargetName="Navigation" Storyboard.TargetProperty="Width" From="710" To="755" Duration="0:0:0"/>
+                            <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="Search" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="Settings" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
             </Grid.Triggers>
-            <Button x:Name="String" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="String">
+            <Button x:Name="String" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="String" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/run.png" StretchDirection="Both" Stretch="Uniform"/>
                 </StackPanel>
             </Button>
-
-            <Button x:Name="About" Margin="10,0,10,150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="About">
+            <Button x:Name="About" Margin="10,0,10,150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="About" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/about.png" StretchDirection="Both" Stretch="Uniform"/>
                 </StackPanel>
             </Button>
-
-            <Button x:Name="Dictionary" Margin="10,0,10,0" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Dictionary">
+            <Button x:Name="Dictionary" Margin="10,0,10,0" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Dictionary" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
-
-            <Button x:Name="Search" Margin="10,0,10,-150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Search">
+            <Button x:Name="Search" Margin="10,0,10,-150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Search" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/search.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
-
-            <Button x:Name="Settings" Margin="10,0,10,-300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Settings">
+            <Button x:Name="Settings" Margin="10,0,10,-300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Settings" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/settings.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
         </Grid>
-        <TabControl x:Name="Navigation" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="755" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" Foreground="White">
-            <TabItem Header="String" Visibility="Collapsed">
-                <Grid Background="ForestGreen">
-                    <Grid HorizontalAlignment="Left" MinWidth="390" Background="Gray">
-                        <GroupBox Background="#4C9B9B9B" Header="Generate">
-                            <Grid>
-                                
-                            </Grid>
-                        </GroupBox>
-                    </Grid>
-                    <Grid HorizontalAlignment="Right" MinWidth="390" Background="Gray">
-                        <GroupBox Header="Statistics">
-                            <Grid>
-                                
-                            </Grid>
-                        </GroupBox>
-                    </Grid>
-                </Grid>
-            </TabItem>
-            <TabItem Header="About" Visibility="Collapsed">
-                <Grid Background="Gray">
-                </Grid>
-            </TabItem>
-            <TabItem Header="Dictionary" Visibility="Collapsed">
-                <Grid Background="AliceBlue">
-                </Grid>
-            </TabItem>
-            <TabItem Header="Search" Visibility="Collapsed">
-                <Grid Background="Blue">
-                </Grid>
-            </TabItem>
-            <TabItem Header="Settings" Visibility="Collapsed">
-                <Grid Background="Black">
-                </Grid>
-            </TabItem>
-        </TabControl>
+        <Grid x:Name="Window" Margin="30,0,0,0" Background="White" HorizontalAlignment="Right">
+            <TabControl x:Name="Navigation" Width="755" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" Foreground="LightYellow">
+                <TabItem Header="String" Visibility="Collapsed">
+                    <Grid Background="White">
+                        <Grid HorizontalAlignment="Left" MinWidth="390" Background="White">
+                            <GroupBox Header="Generate">
+                                <GroupBox.Background>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#FFB9B9B9" Offset="1"/>
+                                        <GradientStop Color="#FFE8E8E8" Offset="0"/>
+                                    </RadialGradientBrush>
+                                </GroupBox.Background>
+                                <Grid>
 
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                        <Grid HorizontalAlignment="Right" MinWidth="390" Background="Gray">
+                            <GroupBox Header="Statistics">
+                                <GroupBox.Background>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="#FFB9B9B9" Offset="1"/>
+                                    <GradientStop Color="#FFE8E8E8" Offset="0"/>
+                                </RadialGradientBrush>
+                                </GroupBox.Background>
+                                <Grid>
+
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="About" Visibility="Collapsed">
+                    <Grid Background="Gray">
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Dictionary" Visibility="Collapsed">
+                    <Grid Background="AliceBlue">
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Search" Visibility="Collapsed">
+                    <Grid Background="Blue">
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Settings" Visibility="Collapsed">
+                    <Grid Background="Black">
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </Window>
