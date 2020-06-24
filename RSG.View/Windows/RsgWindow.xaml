@@ -6,13 +6,7 @@
         xmlns:local="clr-namespace:RSG.View.Windows"
         mc:Ignorable="d"
         Title="RSG" Height="450" Width="800"  MinWidth="800" MinHeight="450" Icon="/Resources/high/random.png">
-    <Grid x:Name="MainGrid">
-        <Grid.Background>
-            <RadialGradientBrush>
-                <GradientStop Color="#7F000000" Offset="1"/>
-                <GradientStop Color="#7F474747"/>
-            </RadialGradientBrush>
-        </Grid.Background>
+    <Grid x:Name="MainGrid" Background="Purple">
         <Grid Name="NavigationalGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch" MinWidth="30" MinHeight="100" Width="30">
             <Grid.Background>
                 <SolidColorBrush x:Name="NavigationalColor" Color="#FFCFFFFD" />
@@ -21,9 +15,12 @@
                 <EventTrigger RoutedEvent="Grid.MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
+                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="30,0,0,0" />
+                                <SplineThicknessKeyFrame KeyTime="00:00:0.5" Value="70,0,0,0" />
+                            </ThicknessAnimationUsingKeyFrames>
                             <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="30" To="75" Duration="0:0:0" />
                             <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="#FFCFFFFD" To="LightGray" Duration="0:0:0.35" />
-                            <DoubleAnimation Storyboard.TargetName="Navigation" Storyboard.TargetProperty="Width" From="775" To="710" Duration="0:0:0"/>
                             <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
                             <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
                             <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
@@ -35,15 +32,20 @@
                 <EventTrigger RoutedEvent="Grid.MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="75" To="30" Duration="0:0:0" />
+                            <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="70,0,0,0" />
+                                <SplineThicknessKeyFrame KeyTime="00:00:0.5" Value="30,0,0,0" />
+                            </ThicknessAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" BeginTime="00:00:00">
+                                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="75"/>
+                                <SplineDoubleKeyFrame KeyTime="00:00:0.55" Value="30"/>
+                            </DoubleAnimationUsingKeyFrames>
                             <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightGray" To="#FFCFFFFD" Duration="0:0:0.35" />
-                            <DoubleAnimation Storyboard.TargetName="Navigation" Storyboard.TargetProperty="Width" From="710" To="755" Duration="0:0:0"/>
                             <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
                             <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
                             <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
                             <DoubleAnimation Storyboard.TargetName="Search" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
                             <DoubleAnimation Storyboard.TargetName="Settings" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
-
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -74,34 +76,35 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <Grid x:Name="Window" Margin="30,0,0,0" Background="White" HorizontalAlignment="Right">
-            <TabControl x:Name="Navigation" Width="755" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" Foreground="LightYellow">
-                <TabItem Header="String" Visibility="Collapsed">
-                    <Grid Background="White">
-                        <Grid HorizontalAlignment="Left" MinWidth="390" Background="White">
-                            <GroupBox Header="Generate">
+        <Grid x:Name="Window" Margin="30,0,0,0" Background="Green" MinWidth="640" MinHeight="320" HorizontalAlignment="Stretch">
+            <TabControl x:Name="Navigation" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" HorizontalAlignment="Stretch" Background="LightCyan">
+                <TabItem Header="String" Visibility="Collapsed" HorizontalAlignment="Stretch" Background="LightCoral">
+                    <Grid HorizontalAlignment="Stretch" MinWidth="390" Background="White">
+                        <GroupBox Header="Generate">
+                            <GroupBox.Background>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="#FFB9B9B9" Offset="1"/>
+                                    <GradientStop Color="#FFE8E8E8" Offset="0"/>
+                                </RadialGradientBrush>
+                            </GroupBox.Background>
+                            <Grid>
+                                <StackPanel>
+                                    <TextBox HorizontalAlignment="Left" Margin="5" Text="String Length:" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
+                                    <TextBox HorizontalAlignment="Left" Margin="5" Text="Iterations:" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
+                                    <ComboBox HorizontalAlignment="Left" Margin="5" ItemsSource="{Binding RandomizationTypes}" SelectedValue="{Binding SelectedRandomizationType}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
+                                    <Button Content="Button"/>
+
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                        <Grid HorizontalAlignment="Stretch" MinWidth="390" Background="Gray" Margin="335,0,0,0">
+                            <GroupBox Header="Statistics">
                                 <GroupBox.Background>
                                     <RadialGradientBrush>
                                         <GradientStop Color="#FFB9B9B9" Offset="1"/>
                                         <GradientStop Color="#FFE8E8E8" Offset="0"/>
                                     </RadialGradientBrush>
                                 </GroupBox.Background>
-                                <Grid>
-
-                                </Grid>
-                            </GroupBox>
-                        </Grid>
-                        <Grid HorizontalAlignment="Right" MinWidth="390" Background="Gray">
-                            <GroupBox Header="Statistics">
-                                <GroupBox.Background>
-                                <RadialGradientBrush>
-                                    <GradientStop Color="#FFB9B9B9" Offset="1"/>
-                                    <GradientStop Color="#FFE8E8E8" Offset="0"/>
-                                </RadialGradientBrush>
-                                </GroupBox.Background>
-                                <Grid>
-
-                                </Grid>
                             </GroupBox>
                         </Grid>
                     </Grid>
