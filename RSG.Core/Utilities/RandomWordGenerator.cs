@@ -97,7 +97,7 @@ namespace RSG.Core.Utilities
             dictionary = await dictionaryService.GetSelectedDictionary();
         }
 
-        private async Task<Words> GenerateWords(BigInteger numberOfIterations)
+        private async Task<WordContainer> GenerateWords(BigInteger numberOfIterations)
         {
             var partitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
             var partitionInfo = GetPartitionInfo(numberOfIterations);
@@ -126,7 +126,7 @@ namespace RSG.Core.Utilities
 
             FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(90, this));
 
-            var words = new Words(dictionaryConfiguration.UseNoise)
+            var words = new WordContainer(dictionaryConfiguration.UseNoise)
             {
                 PartitionedWords = partitionedWords
             };

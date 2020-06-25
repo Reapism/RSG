@@ -20,6 +20,6 @@ namespace RSG.Core.Models
 
         public DateTime EndTime { get; set; }
 
-        public Words Words { get; set; }
+        public WordContainer Words { get; set; }
     }
 }

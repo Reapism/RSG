@@ -9,14 +9,14 @@ namespace RSG.Core.Models
     /// <summary>
     /// Represents a collection of generated words.
     /// </summary>
-    public class Words
+    public class WordContainer
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Words"/> class
+        /// Initializes a new instance of the <see cref="WordContainer"/> class
         /// and if it's noisy.
         /// </summary>
         /// <param name="isNoisy">Whether this instance is Noisy.</param>
-        public Words(bool isNoisy)
+        public WordContainer(bool isNoisy)
         {
             IsNoisy = isNoisy;
 
@@ -35,7 +35,7 @@ namespace RSG.Core.Models
         public BigInteger Count => GetCount();
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Words"/>
+        /// Gets or sets a value indicating whether this <see cref="WordContainer"/>
         /// instance contains noise.
         /// </summary>
         public bool IsNoisy { get; }

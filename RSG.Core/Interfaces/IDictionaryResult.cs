@@ -16,6 +16,6 @@ namespace RSG.Core.Interfaces
         /// <summary>
         /// Gets or sets the generated words.
         /// </summary>
-        Words Words { get; set; }
+        WordContainer Words { get; set; }
     }
 }
