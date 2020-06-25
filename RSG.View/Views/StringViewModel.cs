@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 
-namespace RSG.View.ViewModels
+namespace RSG.View.Views
 {
     public class StringViewModel
     {
@@ -15,7 +15,7 @@ namespace RSG.View.ViewModels
             RandomizationType.ReapRandom
         };
 
-        private RandomizationType selectedRandomizationType;
+        public RandomizationType SelectedRandomizationType { get; set; }
 
         public BigInteger StringLength { get; set; }
 
@@ -24,5 +24,6 @@ namespace RSG.View.ViewModels
         public IEnumerable<RandomizationType> RandomizationTypes { get => randomizationTypes; }
 
         public char[] CharacterList { get; set; }
+        public string Test { get; set; }
     }
 }

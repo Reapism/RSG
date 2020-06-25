@@ -4,6 +4,7 @@ using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using RSG.View.Managers;
+using RSG.View.Views;
 using System;
 using System.Numerics;
 using System.Threading;
@@ -29,6 +30,7 @@ namespace RSG.View.Windows
             InitializeComponent();
             InitializeDependencies();
             InitalizeEvents();
+            InitalizeDataContext();
         }
 
         private void InitializeDependencies()
@@ -37,6 +39,11 @@ namespace RSG.View.Windows
             randomWordGenerator = App.Container.Provider.GetService<RandomWordGenerator>();
             randomStringGenerator = App.Container.Provider.GetService<RandomStringGenerator>();
             pageManager = App.Container.Provider.GetService<PageManager>();
+        }
+
+        private void InitalizeDataContext()
+        {
+            this.DataContext = new StringViewModel() { CharacterList = "abc".ToCharArray(), StringLength = 4.ToBigInteger(), Iterations = 5.ToBigInteger(), SelectedRandomizationType = Core.Enums.RandomizationType.Pseudorandom, Test = "Test"};
         }
 
         private void InitalizeEvents()

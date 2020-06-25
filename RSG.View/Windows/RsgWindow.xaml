@@ -4,15 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RSG.View.Windows"
+        xmlns:Views="clr-namespace:RSG.View.Views"
         mc:Ignorable="d"
         Title="RSG" Height="450" Width="800"  MinWidth="800" MinHeight="450" Icon="/Resources/high/random.png">
     <Grid x:Name="MainGrid" Background="Purple">
-        <Grid Name="NavigationalGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch" MinWidth="30" MinHeight="100" Width="30">
+        <Grid x:Name="NavigationalGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch" MinWidth="30" MinHeight="100" Width="30">
             <Grid.Background>
                 <SolidColorBrush x:Name="NavigationalColor" Color="#FFCFFFFD" />
             </Grid.Background>
             <Grid.Triggers>
-                <EventTrigger RoutedEvent="Grid.MouseEnter">
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
                             <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
@@ -29,7 +30,7 @@
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
-                <EventTrigger RoutedEvent="Grid.MouseLeave">
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
                             <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
@@ -79,51 +80,27 @@
         <Grid x:Name="Window" Margin="30,0,0,0" Background="Green" MinWidth="640" MinHeight="320" HorizontalAlignment="Stretch">
             <TabControl x:Name="Navigation" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" HorizontalAlignment="Stretch" Background="LightCyan">
                 <TabItem Header="String" Visibility="Collapsed" HorizontalAlignment="Stretch" Background="LightCoral">
-                    <Grid HorizontalAlignment="Stretch" MinWidth="390" Background="White">
-                        <GroupBox Header="Generate">
-                            <GroupBox.Background>
-                                <RadialGradientBrush>
-                                    <GradientStop Color="#FFB9B9B9" Offset="1"/>
-                                    <GradientStop Color="#FFE8E8E8" Offset="0"/>
-                                </RadialGradientBrush>
-                            </GroupBox.Background>
-                            <Grid>
-                                <StackPanel>
-                                    <TextBox HorizontalAlignment="Left" Margin="5" Text="String Length:" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
-                                    <TextBox HorizontalAlignment="Left" Margin="5" Text="Iterations:" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
-                                    <ComboBox HorizontalAlignment="Left" Margin="5" ItemsSource="{Binding RandomizationTypes}" SelectedValue="{Binding SelectedRandomizationType}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
-                                    <Button Content="Button"/>
-
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
-                        <Grid HorizontalAlignment="Stretch" MinWidth="390" Background="Gray" Margin="335,0,0,0">
-                            <GroupBox Header="Statistics">
-                                <GroupBox.Background>
-                                    <RadialGradientBrush>
-                                        <GradientStop Color="#FFB9B9B9" Offset="1"/>
-                                        <GradientStop Color="#FFE8E8E8" Offset="0"/>
-                                    </RadialGradientBrush>
-                                </GroupBox.Background>
-                            </GroupBox>
-                        </Grid>
-                    </Grid>
+                    <GroupBox Header="Generate">
+                        <GroupBox.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#FFB9B9B9" Offset="1"/>
+                                <GradientStop Color="#FFE8E8E8" Offset="0"/>
+                            </RadialGradientBrush>
+                        </GroupBox.Background>
+                    <Views:StringEditView HorizontalAlignment="Stretch" />
+                    </GroupBox>
                 </TabItem>
                 <TabItem Header="About" Visibility="Collapsed">
-                    <Grid Background="Gray">
-                    </Grid>
+                    <Views:AboutView HorizontalAlignment="Stretch" />
                 </TabItem>
                 <TabItem Header="Dictionary" Visibility="Collapsed">
-                    <Grid Background="AliceBlue">
-                    </Grid>
+                    <Views:DictionaryEditView HorizontalAlignment="Stretch" />
                 </TabItem>
                 <TabItem Header="Search" Visibility="Collapsed">
-                    <Grid Background="Blue">
-                    </Grid>
+                    <Views:SearchEditView HorizontalAlignment="Stretch" />
                 </TabItem>
                 <TabItem Header="Settings" Visibility="Collapsed">
-                    <Grid Background="Black">
-                    </Grid>
+                    <Views:SettingsEditView HorizontalAlignment="Stretch" />
                 </TabItem>
             </TabControl>
         </Grid>
