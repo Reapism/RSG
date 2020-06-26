@@ -80,27 +80,29 @@
         <Grid x:Name="Window" Margin="30,0,0,0" Background="Green" MinWidth="640" MinHeight="320" HorizontalAlignment="Stretch">
             <TabControl x:Name="Navigation" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" HorizontalAlignment="Stretch" Background="LightCyan">
                 <TabItem Header="String" Visibility="Collapsed" HorizontalAlignment="Stretch" Background="LightCoral">
-                    <GroupBox Header="Generate">
-                        <GroupBox.Background>
-                            <RadialGradientBrush>
-                                <GradientStop Color="#FFB9B9B9" Offset="1"/>
-                                <GradientStop Color="#FFE8E8E8" Offset="0"/>
-                            </RadialGradientBrush>
-                        </GroupBox.Background>
-                    <Views:StringEditView HorizontalAlignment="Stretch" />
-                    </GroupBox>
+                    <Grid>
+                        <Views:StringEditView Width="365" HorizontalAlignment="Left"/>
+                        <Views:StringDetailsView Margin="365,0,0,0" HorizontalAlignment="Stretch"/>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="About" Visibility="Collapsed">
-                    <Views:AboutView HorizontalAlignment="Stretch" />
+                    <Views:AboutView />
                 </TabItem>
                 <TabItem Header="Dictionary" Visibility="Collapsed">
-                    <Views:DictionaryEditView HorizontalAlignment="Stretch" />
+                    <Grid>
+                        <Views:DictionaryEditView />
+                        <Views:DictionaryDetailsView Margin="335,0,0,0"/>
+                    </Grid>
+
                 </TabItem>
                 <TabItem Header="Search" Visibility="Collapsed">
-                    <Views:SearchEditView HorizontalAlignment="Stretch" />
+                    <Grid>
+                        <Views:SearchEditView />
+                        <Views:SearchDetailsView/>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Settings" Visibility="Collapsed">
-                    <Views:SettingsEditView HorizontalAlignment="Stretch" />
+                    <Views:SettingsEditView />
                 </TabItem>
             </TabControl>
         </Grid>

@@ -17,24 +17,15 @@
                 </GroupBox.Background>
                 <Grid>
                     <StackPanel>
-                        <TextBox HorizontalAlignment="Left" Margin="5" Text="{Binding StringLength, Mode=TwoWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
-                        <TextBox HorizontalAlignment="Left" Margin="5" Text="{Binding Iterations, Mode=TwoWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317"/>
-                        <ComboBox HorizontalAlignment="Left" Margin="5" ItemsSource="{Binding RandomizationTypes, Mode=OneWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Width="317" DataContext="StringViewModel"/>
-                        <Button Content="Button"/>
+                        <TextBox HorizontalAlignment="Stretch" Margin="5,5,25,5" Text="{Binding StringLength, Mode=TwoWay}" VerticalAlignment="Top"/>
+                        <TextBox HorizontalAlignment="Stretch" Margin="5,5,25,5" Text="{Binding Iterations, Mode=TwoWay}" VerticalAlignment="Top" />
+                        <ComboBox HorizontalAlignment="Stretch" Margin="5,5,25,5" ItemsSource="{Binding RandomizationTypes, Mode=OneWay}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" DataContext="StringViewModel"/>
+                        <Button Content="Button" Margin="5,5,25,5"/>
 
                     </StackPanel>
                 </Grid>
             </GroupBox>
-            <Grid HorizontalAlignment="Stretch" MinWidth="390" Background="Gray" Margin="335,0,0,0">
-                <GroupBox Header="Statistics">
-                    <GroupBox.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#FFB9B9B9" Offset="1"/>
-                            <GradientStop Color="#FFE8E8E8" Offset="0"/>
-                        </RadialGradientBrush>
-                    </GroupBox.Background>
-                </GroupBox>
-            </Grid>
+            
         </Grid>
     </Grid>
 </UserControl>
