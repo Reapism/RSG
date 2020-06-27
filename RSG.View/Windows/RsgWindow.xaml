@@ -12,6 +12,13 @@
             <Grid.Background>
                 <SolidColorBrush x:Name="NavigationalColor" Color="#FFCFFFFD" />
             </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Grid.Triggers>
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
                     <BeginStoryboard>
@@ -51,38 +58,42 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </Grid.Triggers>
-            <Button x:Name="String" Margin="10,0,10,300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="String" Opacity="0">
+            <Button x:Name="String" Grid.Row="0" Margin="5" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="String" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/run.png" StretchDirection="Both" Stretch="Uniform"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="About" Margin="10,0,10,150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="About" Opacity="0">
+            <Button x:Name="About" Grid.Row="1" Margin="5" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="About" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/about.png" StretchDirection="Both" Stretch="Uniform"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="Dictionary" Margin="10,0,10,0" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Dictionary" Opacity="0">
+            <Button x:Name="Dictionary" Grid.Row="2" Margin="5" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Dictionary" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/dictionary.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="Search" Margin="10,0,10,-150" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Search" Opacity="0">
+            <Button x:Name="Search" Grid.Row="3" Margin="5" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Search" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/search.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="Settings" Margin="10,0,10,-300" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Settings" Opacity="0">
+            <Button x:Name="Settings" Grid.Row="4" Margin="5" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Settings" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/settings.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
         </Grid>
         <Grid x:Name="Window" Margin="30,0,0,0" Background="Green" MinWidth="640" MinHeight="320" HorizontalAlignment="Stretch">
-            <TabControl x:Name="Navigation" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" HorizontalAlignment="Stretch" Background="LightCyan">
-                <TabItem Header="String" Visibility="Collapsed" HorizontalAlignment="Stretch" Background="LightCoral">
+            <TabControl x:Name="Navigation" SelectedIndex="0" TabStripPlacement="Bottom" Visibility="Visible" HorizontalAlignment="Stretch">
+                <TabItem Header="String" Visibility="Collapsed" HorizontalAlignment="Stretch">
                     <Grid>
-                        <Views:StringEditView Width="365" HorizontalAlignment="Left"/>
-                        <Views:StringDetailsView Margin="365,0,0,0" HorizontalAlignment="Stretch"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Views:StringEditView Grid.Column="0"/>
+                        <Views:StringDetailsView Grid.Column="1"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="About" Visibility="Collapsed">

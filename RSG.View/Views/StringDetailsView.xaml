@@ -15,6 +15,77 @@
                         <GradientStop Color="#FFE8E8E8" Offset="0"/>
                     </RadialGradientBrush>
                 </GroupBox.Background>
+                <Grid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="297*"></RowDefinition>
+                            <RowDefinition Height="130*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ListView Background="#3FFFFFFF" Grid.Row="0" FontSize="16" />
+                        <GroupBox Grid.Row="1" FontSize="16" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Grid.Column="0" Margin="5" Background="#6FFFFFFF" BorderBrush="Yellow">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Margin="5" MinHeight="10" Content="+1"/>
+                                        <Button Grid.Column="0" Grid.Row="1" Margin="5" MinHeight="10" Content="-1"/>
+
+                                        <Button Grid.Column="1" Grid.Row="0" Margin="5" MinHeight="10" Content="+5"/>
+                                        <Button Grid.Column="1" Grid.Row="1" Margin="5" MinHeight="10" Content="-5"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Column="1" Margin="5" Background="#6FFFFFFF" BorderBrush="Yellow">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Column="0" Grid.Row="0" Margin="5" MinHeight="10" Content="+1"/>
+                                        <Button Grid.Column="0" Grid.Row="1" Margin="5" MinHeight="10" Content="-1"/>
+
+                                        <Button Grid.Column="1" Grid.Row="0" Margin="5" MinHeight="10" Content="+5"/>
+                                        <Button Grid.Column="1" Grid.Row="1" Margin="5" MinHeight="10" Content="-5"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Column="2" Margin="5" Background="#6FFFFFFF" BorderBrush="Yellow">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+         
+                                        <Button Grid.Column="0" Grid.Row="0" Margin="5" MinHeight="10" Content="A"/>
+                                        <Button Grid.Column="0" Grid.Row="1" Margin="5" MinHeight="10" Content="a"/>
+ 
+                                        <Button Grid.Column="1" Grid.Row="0" Margin="5" MinHeight="10" Content="1"/>
+                                        <Button Grid.Column="1" Grid.Row="1" Margin="5" MinHeight="10" Content="?"/>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+
+                </Grid>
             </GroupBox>
         </Grid>
     </Grid>
