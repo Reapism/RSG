@@ -6,7 +6,7 @@ namespace RSG.Core.Interfaces.Configuration
 {
     public interface IDictionaryConfiguration
     {
-        IEnumerable<IRsgDictionary> Dictionaries { get; set; }
+        IEnumerable<RsgDictionary> Dictionaries { get; set; }
 
         string Source { get; set; }
 
@@ -23,8 +23,6 @@ namespace RSG.Core.Interfaces.Configuration
         double NoiseFrequency { get; set; }
 
         int MaximumThreadCount { get; set; }
-
-        int PartitionSize { get; set; }
 
         ThreadPriority Priority { get; set; }
     }

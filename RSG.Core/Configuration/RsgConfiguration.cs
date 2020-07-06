@@ -1,5 +1,6 @@
 ﻿using RSG.Core.Enums;
 using RSG.Core.Interfaces.Configuration;
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -11,14 +12,14 @@ namespace RSG.Core.Configuration
 
         public RsgConfiguration()
         {
-            CurrentVersion = int.Parse(Assembly.GetExecutingAssembly().GetName()?.Version.ToString().Replace(".", string.Empty));
+            CurrentVersion = Assembly.GetExecutingAssembly().GetName()?.Version;
 
             // Load this info.
             StringConfigurationSource = string.Empty;
             DictionaryConfigurationSource = string.Empty;
         }
 
-        public int CurrentVersion { get; set; }
+        public Version CurrentVersion { get; set; }
         public bool CheckForUpdatesOnLoad { get; set; }
         public bool FirstTimeUsingCurrentVersion { get; set; }
         public bool CopySelectionsToClipboard { get; set; }

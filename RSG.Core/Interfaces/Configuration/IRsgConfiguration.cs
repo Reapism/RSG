@@ -1,4 +1,5 @@
 ﻿using RSG.Core.Enums;
+using System;
 
 namespace RSG.Core.Interfaces.Configuration
 {
@@ -7,7 +8,7 @@ namespace RSG.Core.Interfaces.Configuration
     /// </summary>
     public interface IRsgConfiguration
     {
-        int CurrentVersion { get; set; }
+        Version CurrentVersion { get; set; }
 
         int NumberOfLaunchesThisVersion { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
-using RSG.Core.Utilities;
 using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace RSG.Core.Configuration
 {
@@ -12,8 +12,11 @@ namespace RSG.Core.Configuration
 
         }
 
+        public string Length => StringLength.ToString();
 
+        [JsonIgnore]
         public BigInteger StringLength { get; set; }
+
         public ICharacterSet CharacterSet { get; set; }
 
         public T Load<T>(string fileName)
