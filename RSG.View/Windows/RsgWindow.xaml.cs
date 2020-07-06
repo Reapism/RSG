@@ -1,11 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RSG.Core.Configuration;
 using RSG.Core.Extensions;
+using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using RSG.View.Managers;
 using RSG.View.Views;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +33,6 @@ namespace RSG.View.Windows
             InitializeComponent();
             InitializeDependencies();
             InitalizeEvents();
-            InitalizeDataContext();
         }
 
         private void InitializeDependencies()
@@ -39,11 +41,6 @@ namespace RSG.View.Windows
             randomWordGenerator = App.Container.Provider.GetService<RandomWordGenerator>();
             randomStringGenerator = App.Container.Provider.GetService<RandomStringGenerator>();
             pageManager = App.Container.Provider.GetService<PageManager>();
-        }
-
-        private void InitalizeDataContext()
-        {
-            this.DataContext = new StringViewModel() { CharacterList = "abc".ToCharArray(), StringLength = 4.ToBigInteger(), Iterations = 5.ToBigInteger(), SelectedRandomizationType = Core.Enums.RandomizationType.Pseudorandom, Test = "Test"};
         }
 
         private void InitalizeEvents()
@@ -59,7 +56,7 @@ namespace RSG.View.Windows
 
             var numberOfWords = BigInteger.Parse("100003");
             await randomWordGenerator.GenerateRandomWordsResult(numberOfWords);
-            
+
         }
 
         private async void NavigationMenu_Click(object sender, RoutedEventArgs e)
@@ -78,8 +75,8 @@ namespace RSG.View.Windows
             }
 
             var typeName = sender.GetType().Name;
-            
-            
+
+
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

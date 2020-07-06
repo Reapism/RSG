@@ -4,9 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RSG.View.Views"
+             xmlns:ViewSettings="clr-namespace:RSG.View.Views.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid>
+            <TabControl>
+                <TabItem Header="Application" Visibility="Collapsed">
+                    <Grid>
+                        <ViewSettings:ApplicationSettings/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="String" Visibility="Collapsed">
+                    <Grid>
+                        <ViewSettings:StringSettings/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Dictionary" Visibility="Collapsed">
+                    <Grid>
+                        <ViewSettings:DictionarySettings/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Changelog" Visibility="Collapsed">
+                    <Grid>
+                        <ViewSettings:ChangelogSettings/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </UserControl>
