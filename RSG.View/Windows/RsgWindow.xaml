@@ -25,15 +25,15 @@
                         <Storyboard>
                             <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
                                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="30,0,0,0" />
-                                <SplineThicknessKeyFrame KeyTime="00:00:0.5" Value="70,0,0,0" />
+                                <SplineThicknessKeyFrame KeyTime="00:00:0.25" Value="70,0,0,0" />
                             </ThicknessAnimationUsingKeyFrames>
                             <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="30" To="75" Duration="0:0:0" />
-                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="#FFCFFFFD" To="LightGray" Duration="0:0:0.35" />
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightBlue" To="White" Duration="0:0:0.25" />
                             <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
-                            <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
-                            <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
-                            <DoubleAnimation Storyboard.TargetName="Search" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
-                            <DoubleAnimation Storyboard.TargetName="Settings" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                            <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.6"/>
+                            <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.7"/>
+                            <DoubleAnimation Storyboard.TargetName="Search" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.8"/>
+                            <DoubleAnimation Storyboard.TargetName="Settings" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.9"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -42,17 +42,17 @@
                         <Storyboard>
                             <ThicknessAnimationUsingKeyFrames Storyboard.TargetName="Window" Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
                                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="70,0,0,0" />
-                                <SplineThicknessKeyFrame KeyTime="00:00:0.5" Value="30,0,0,0" />
+                                <SplineThicknessKeyFrame KeyTime="00:00:0.25" Value="30,0,0,0" />
                             </ThicknessAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" BeginTime="00:00:00">
                                 <SplineDoubleKeyFrame KeyTime="00:00:00" Value="75"/>
-                                <SplineDoubleKeyFrame KeyTime="00:00:0.55" Value="30"/>
+                                <SplineDoubleKeyFrame KeyTime="00:00:0.25" Value="30"/>
                             </DoubleAnimationUsingKeyFrames>
-                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightGray" To="#FFCFFFFD" Duration="0:0:0.35" />
-                            <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
-                            <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
-                            <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
-                            <DoubleAnimation Storyboard.TargetName="Search" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="White" To="LightBlue" Duration="0:0:0.25" />
+                            <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1"/>
+                            <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
+                            <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.3"/>
+                            <DoubleAnimation Storyboard.TargetName="Search" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.4"/>
                             <DoubleAnimation Storyboard.TargetName="Settings" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
                         </Storyboard>
                     </BeginStoryboard>
