@@ -16,17 +16,20 @@ namespace RSG.Core.Utilities
         /// from a local path.
         /// </summary>
         /// <typeparam name="T">The type to deserialize.</typeparam>
-        /// <param name="type">The instance to deserialize into.</param>
         /// <param name="inputPath">The path to the serialized file.</param>
-        /// <returns>Returns the deserialized object from the json file.</returns>
+        /// <param name="options">Optional serializer options.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <exception cref="FileNotFoundException">Thrown if the file is not found.</exception>
-        public static async Task<T> DeserializeJsonASync<T>(T type, string inputPath)
+        /// <exception cref="JsonException">An error occuring with the deserialization.</exception>
+        public static async Task<T> DeserializeJsonAsync<T>(string inputPath, JsonSerializerOptions options = null)
         {
             if (!IOUtility.DoesFileExist(inputPath))
+            {
                 throw new FileNotFoundException($"Can't find the find at {inputPath}.");
+            }
 
             var fileStream = new FileStream(inputPath, FileMode.Open, FileAccess.Read);
-            T obj = await JsonSerializer.DeserializeAsync<T>(fileStream);
+            var obj = await JsonSerializer.DeserializeAsync<T>(fileStream, options);
 
             return obj;
         }
@@ -37,10 +40,12 @@ namespace RSG.Core.Utilities
         /// </summary>
         /// <typeparam name="T">The type to deserialize.</typeparam>
         /// <param name="stream">The stream to deserialize into a <typeparamref name="T"/>.</param>
-        /// <returns>Returns the deserialized object from the json file.</returns>
-        public static async Task<T> DeserializeJsonASync<T>(Stream stream)
+        /// <param name="options">Optional serializer options.</param>
+        /// <returns>A <see cref="Task{T}"/> representing the asynchronous operation.</returns>
+        /// <exception cref="JsonException">An error occuring with the deserialization.</exception>
+        public static async Task<T> DeserializeJsonAsync<T>(Stream stream, JsonSerializerOptions options = null)
         {
-            T obj = await JsonSerializer.DeserializeAsync<T>(stream);
+            var obj = await JsonSerializer.DeserializeAsync<T>(stream, options);
             return obj;
         }
 
@@ -51,10 +56,12 @@ namespace RSG.Core.Utilities
         /// <typeparam name="T">The type to deserialize.</typeparam>
         /// <param name="type">The type to serialize.</param>
         /// <param name="outputPath">The output path to the new serialized file.</param>
-        public static async void SerializeJsonASync<T>(T type, string outputPath)
+        /// <param name="options">Optional serializer options.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task SerializeJsonAsync<T>(T type, string outputPath, JsonSerializerOptions options = null)
         {
             var fileStream = new FileStream(outputPath, FileMode.OpenOrCreate, FileAccess.Write);
-            await JsonSerializer.SerializeAsync(fileStream, type);
+            await JsonSerializer.SerializeAsync(fileStream, type, options);
         }
     }
 }
