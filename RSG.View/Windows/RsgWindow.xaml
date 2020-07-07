@@ -89,11 +89,13 @@
                 <TabItem Header="String" Visibility="Collapsed" HorizontalAlignment="Stretch">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"/>
-                            <ColumnDefinition />
+                            <ColumnDefinition MinWidth="300" Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition MinWidth="400" Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Views:StringEditView Grid.Column="0"/>
-                        <Views:StringDetailsView Grid.Column="1"/>
+                        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="Gray"/>
+                        <Views:StringDetailsView Grid.Column="2"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="About" Visibility="Collapsed">

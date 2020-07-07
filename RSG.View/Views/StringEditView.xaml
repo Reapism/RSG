@@ -17,13 +17,13 @@
                 </GroupBox.Background>
                 <Grid DataContext="StringViewModel">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="200*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0">
-                        <TextBox HorizontalAlignment="Stretch" Margin="5" Text="{Binding StringLengthDisplay, Mode=TwoWay}" VerticalAlignment="Top" DataContext="StringViewModel"/>
-                        <TextBox HorizontalAlignment="Stretch" Margin="5" Text="{Binding IterationsDisplay, Mode=TwoWay}" VerticalAlignment="Top" />
-                        <ComboBox HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding RandomizationTypes, Mode=OneWay}" DisplayMemberPath="SelectedRandomizationType" SelectedValuePath="RandomizationTypes" VerticalAlignment="Top" />
+                    <StackPanel>
+                        <TextBox HorizontalAlignment="Stretch" Margin="5" Text="{Binding StringLengthDisplay, Mode=TwoWay}" DataContext="StringViewModel"/>
+                        <TextBox HorizontalAlignment="Stretch" Margin="5" Text="{Binding IterationsDisplay, Mode=TwoWay}" />
+                        <ComboBox HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding RandomizationTypes, Mode=OneWay}" DisplayMemberPath="SelectedRandomizationType" SelectedValuePath="RandomizationTypes" />
                         <Button Content="Generate" Margin="5"/>
                     </StackPanel>
                     <GroupBox Header="Generation Settings" Grid.Row="1">
