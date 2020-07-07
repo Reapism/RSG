@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:RSG.View.Views"
              xmlns:root="clr-namespace:RSG.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             root:ViewModelLocator.AutoWireViewModel="True">
+             d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid HorizontalAlignment="Stretch" MinWidth="390" Background="Gray">
             <GroupBox Header="Statistics">
