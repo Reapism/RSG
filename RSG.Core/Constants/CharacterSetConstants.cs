@@ -63,6 +63,6 @@
         /// <summary>
         /// Symbols set.
         /// </summary>
-        public const string SymbolsSet = @" !@#$%^&*()-=_+,./;\'\<>?:[]{}|`~";
+        public const string SymbolsSet = @"!@#$%^&*()-=_+,./;\'\<>?:[]{}|`~";
     }
 }
