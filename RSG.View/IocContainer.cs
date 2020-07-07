@@ -71,7 +71,6 @@ namespace RSG.View
                 .AddTransient<RandomWordGenerator>()
                 .AddTransient<WordListService>()
                 .AddTransient<DictionaryService>()
-                .AddTransient<DictionaryServiceFactory>()
                 .AddTransient<DictionaryThreadService>();
         }
 

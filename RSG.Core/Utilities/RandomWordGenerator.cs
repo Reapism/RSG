@@ -94,7 +94,7 @@ namespace RSG.Core.Utilities
 
         private async Task LazyInitialization()
         {
-            dictionary = await dictionaryService.GetSelectedDictionary();
+            dictionary = await dictionaryService.GetSelectedDictionaryAsync();
         }
 
         private async Task<WordContainer> GenerateWords(BigInteger numberOfIterations)
