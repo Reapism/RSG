@@ -7,10 +7,10 @@
         xmlns:Views="clr-namespace:RSG.View.Views"
         mc:Ignorable="d"
         Title="RSG" Height="450" Width="800"  MinWidth="800" MinHeight="450" Icon="/Resources/high/random.png">
-    <Grid x:Name="MainGrid" Background="Purple">
+    <Grid x:Name="MainGrid" Background="White">
         <Grid x:Name="NavigationalGrid" HorizontalAlignment="Left" VerticalAlignment="Stretch" MinWidth="30" MinHeight="100" Width="30">
             <Grid.Background>
-                <SolidColorBrush x:Name="NavigationalColor" Color="#FFCFFFFD" />
+                <SolidColorBrush x:Name="NavigationalColor" Color="#4C56F3ED" />
             </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -28,7 +28,7 @@
                                 <SplineThicknessKeyFrame KeyTime="00:00:0.25" Value="70,0,0,0" />
                             </ThicknessAnimationUsingKeyFrames>
                             <DoubleAnimation Storyboard.TargetName="NavigationalGrid" Storyboard.TargetProperty="Width" From="30" To="75" Duration="0:0:0" />
-                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="LightBlue" To="White" Duration="0:0:0.25" />
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="#4C56F3ED" To="White" Duration="0:0:0.25" />
                             <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
                             <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.6"/>
                             <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.7"/>
@@ -48,7 +48,7 @@
                                 <SplineDoubleKeyFrame KeyTime="00:00:00" Value="75"/>
                                 <SplineDoubleKeyFrame KeyTime="00:00:0.25" Value="30"/>
                             </DoubleAnimationUsingKeyFrames>
-                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="White" To="LightBlue" Duration="0:0:0.25" />
+                            <ColorAnimation Storyboard.TargetName="NavigationalColor" Storyboard.TargetProperty="Color" From="White" To="#4C56F3ED" Duration="0:0:0.25" />
                             <DoubleAnimation Storyboard.TargetName="String" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1"/>
                             <DoubleAnimation Storyboard.TargetName="About" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
                             <DoubleAnimation Storyboard.TargetName="Dictionary" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.3"/>
@@ -91,10 +91,10 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition MinWidth="300" Width="*"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition MinWidth="400" Width="*"/>
+                            <ColumnDefinition MinWidth="385" Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Views:StringEditView Grid.Column="0"/>
-                        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="Gray"/>
+                        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="LightGreen"/>
                         <Views:StringDetailsView Grid.Column="2"/>
                     </Grid>
                 </TabItem>
