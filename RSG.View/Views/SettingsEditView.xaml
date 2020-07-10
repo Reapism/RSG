@@ -10,6 +10,11 @@
     <Grid>
         <Grid>
             <TabControl>
+                <TabItem Header="Selection" Visibility="Collapsed">
+                    <Grid>
+                        <ViewSettings:SelectionSettings/>
+                    </Grid>
+                </TabItem>
                 <TabItem Header="Application" Visibility="Collapsed">
                     <Grid>
                         <ViewSettings:ApplicationSettings/>
