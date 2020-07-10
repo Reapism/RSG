@@ -26,11 +26,11 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Margin="5"  Source="/Resources/grayscale/iterations.png"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Margin="5"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"  Margin="5" MaxHeight="50"/>
                     <Image Grid.Row="1" Margin="5" Source="/Resources/grayscale/dictionary.png"/>
-                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="5"/>
+                    <ComboBox Grid.Row="1" Grid.Column="1"  Margin="5" MaxHeight="50"/>
                     <Image Grid.Row="2" Margin="5" Source="/Resources/grayscale/settings.png"/>
-                    <ComboBox Grid.Row="2" Grid.Column="1" Margin="5"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1"  Margin="5" MaxHeight="50"/>
                 </Grid>
             </GroupBox>
             <GroupBox Header="Randomization Method" Grid.Row="1">
@@ -39,10 +39,8 @@
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="365*"/>
                     </Grid.ColumnDefinitions>
-
-                        <Image Margin="5"  Source="/Resources/grayscale/random.png"/>
-                        <ComboBox Grid.Column="1" Margin="5" SelectedValue="Heelo"/>
-
+                    <Image Margin="5"  Source="/Resources/grayscale/random.png"/>
+                    <ComboBox Grid.Column="1" Margin="5,10,5,10" MaxHeight="50"/>
                 </Grid>
             </GroupBox>
             <GroupBox Header="Properties" Grid.Row="2">
@@ -81,27 +79,41 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Row="3" Grid.Column="0" Margin="5" Text="Min"/>
-                        <TextBox Grid.Row="3" Grid.Column="1" Margin="5" Text="Max"/>
-                        <TextBox Grid.Row="4" Grid.Column="0" Margin="5" Text="Min"/>
-                        <TextBox Grid.Row="4" Grid.Column="1" Margin="5" Text="Max"/>
+                        <TextBox Grid.Row="3" Grid.Column="0" Margin="5" MaxHeight="40" Text="Min"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Margin="5" MaxHeight="40" Text="Max"/>
+                        <TextBox Grid.Row="4" Grid.Column="0" Margin="5" MaxHeight="40" Text="Min"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" Margin="5" MaxHeight="40" Text="Max"/>
                     </Grid>
-                    <StackPanel Grid.Column="3">
-                        <CheckBox Grid.Row="0" Margin="5,10" Content="Generate Book"/>
-                        <CheckBox Grid.Row="1" Margin="5,10" Content="Use Maximum Threads"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="5">
-                        <CheckBox Grid.Row="0" Margin="5,10" Content="Display statistics"/>
-                        <CheckBox Grid.Row="1" Margin="5,10" Content="Display heavy statistics"/>
-                        <Button Grid.Row="1" Margin="5,10" Content="Export" IsEnabled="False" ToolTip="You must generate"/>
-                        <Button Grid.Row="2" Margin="5,10" Content="View Log" ToolTip="View a log"/>
-                        <Button Grid.Row="3" Margin="5,10" Content="Randomize Settings"/>
-                    </StackPanel>
+                    <Grid Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                            <CheckBox Grid.Row="0" Margin="5" Content="Generate Book"/>
+                        <CheckBox Grid.Row="1" Margin="5" Content="Use Max Threads"/>
+                    </Grid>
+                    <Grid Grid.Column="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <CheckBox Grid.Row="0" Margin="5" Content="Show stats"/>
+                        <CheckBox Grid.Row="1" Margin="5" Content="Show heavy stats"/>
+                        <Button Grid.Row="1" Margin="5" Content="Export" IsEnabled="False" ToolTip="You must generate"/>
+                        <Button Grid.Row="2" Margin="5" Content="View Log" ToolTip="View a log"/>
+                        <Button Grid.Row="3" Margin="5" Content="Randomize Settings"/>
+                    </Grid>
                 </Grid>
             </GroupBox>
             <GroupBox Header="Background Progress" Grid.Row="3" Visibility="Visible">
                 <Grid>
-                    <ProgressBar Background="#4C00FFFF" Foreground="#4CC3C3C3" Value="5" ToolTip="Display thread stuff"/>
+                    <ProgressBar Background="#4C00FFFF" Foreground="#4CC3C3C3" Value="5" MaxHeight="30" ToolTip="Display thread stuff"/>
                 </Grid>
             </GroupBox>
         </Grid>
