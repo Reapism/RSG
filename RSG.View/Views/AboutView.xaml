@@ -7,6 +7,28 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid Background="White" ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="270*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <Grid Background="SpringGreen" ShowGridLines="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Padding="5" TextAlignment="Center" TextWrapping="WrapWithOverflow" Text="The RSG (Random String Generator) is the fourth iteration of the original string generator originally created for the purpose of a YouTube video."/>
+                <Image Grid.Column="1" MaxHeight="400" MaxWidth="400" Source="/Resources/high/about.png"/>
+                <TextBlock Grid.Column="2" Padding="5" TextAlignment="Center" TextWrapping="WrapWithOverflow" Text="Fun fact:"/>
+            </Grid>
+            <Grid Grid.Row="1" Background="LightCyan">
+                
+            </Grid>
+            <Grid Grid.Row="2" Background="MediumPurple">
+                
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
