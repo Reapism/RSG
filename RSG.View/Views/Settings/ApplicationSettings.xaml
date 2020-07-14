@@ -12,24 +12,26 @@
             <ColumnDefinition Width="9*"/>
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Column="1" Header="Application Settings">
-            
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <CheckBox Margin="5" Content="Check for updates on start"/>
-            <CheckBox Grid.Row="1" Margin="5" Content="Copy selections to Clipboard"/>
-            <CheckBox Grid.Row="2" Margin="5" Content="Copy selections to Clipboard"/>
-        </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <CheckBox Margin="5" Content="Check for updates on start"/>
+                <CheckBox Grid.Row="1" Margin="5" Content="Copy selections to Clipboard"/>
+                <CheckBox Grid.Row="2" Margin="5" Content="Use Stick Windows"/>
+                <ComboBox Grid.Row="3" Margin="5,5,240,5"/>  <!--RandomizationType-->
+                <TextBlock Grid.Row="8" Margin="5" Text="Version: "/>
+                <Button Grid.Row="9" Margin="5" Content="Back"/>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

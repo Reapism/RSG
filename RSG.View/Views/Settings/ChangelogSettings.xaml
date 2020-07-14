@@ -7,6 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="9*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <ListView Margin="5" BorderBrush="#FF4271FF" Background="#7FACACAC"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Button Margin="5" Content="Back"/>
+                </Grid>
+            </Grid>
             
+        </Grid>
     </Grid>
 </UserControl>

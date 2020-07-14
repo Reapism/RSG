@@ -30,7 +30,8 @@
                         <StackPanel>
                             <TextBlock MinHeight="50" Margin="5" Background="#4C48C9CD" Text="ABCVDSOIFDHDSOIFHSDOJFHSDIUFGURTIJUDFBNSUIHDFGYUSDFGYUSDGFSDF" Padding="5,10,5,10" TextWrapping="Wrap">
                                 <TextBlock.TextEffects>
-                                    <TextEffect Foreground="#FFFF1A1A" PositionCount="5"/>
+                                    <TextEffect Foreground="#FF389FDA" PositionCount="5" PositionStart="0"/>
+                                    <TextEffect Foreground="#FF7056C9" PositionCount="5" PositionStart="5"/>
                                 </TextBlock.TextEffects>
                             </TextBlock>
                             <Button MinHeight="20" Margin="5" Background="#4C48C9CD" Content="Add Characters"/>

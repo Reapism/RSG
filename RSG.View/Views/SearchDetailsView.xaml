@@ -7,6 +7,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid Background="White">
+            <Grid>
+                <GroupBox Header="Generate">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0">
+                            
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
