@@ -1,10 +1,13 @@
 ﻿
 using RSG.Core.Configuration;
+using RSG.Core.Interfaces.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -23,6 +26,35 @@ namespace RSG.Core.Utilities
             embeddedResourceNames = GetResourcesNames();
         }
 
+        /// <summary>
+        /// Gets the <see cref="RsgConfiguration"/> from instalation location.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<RsgConfiguration> GetRsgConfigurationFile()
+        {
+            // Get's the install location of RSG and read the configuration file from within the directory.
+            // Need to create an installer that will download the files to a specific directory and create the configuration file.
+            var path = Path.Combine(Assembly.GetExecutingAssembly().Location, "RSG.config");
+            var config = await SerializationUtility.DeserializeJsonAsync<RsgConfiguration>(path);
+
+            return config;
+        }
+
+        /// <summary>
+        /// Gets a string from a <see cref="Uri"/> address.
+        /// </summary>
+        /// <param name="address">The address of the resource.</param>
+        /// <returns>A string representation of the resource.</returns>
+        public static async Task<string> GetStringAsync(Uri address)
+        {
+            using (var client = new HttpClient())
+            {
+                var value = await client.GetStringAsync(address);
+
+                return value;
+            }
+        }
+
         public static async Task<Stream> GetResourceStream(string fileName)
         {
             var resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
@@ -32,7 +64,7 @@ namespace RSG.Core.Utilities
                 throw new FileNotFoundException($"Cannot find file {fileName}");
             }
 
-            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
 
             return resourceStream;
         }
@@ -42,14 +74,6 @@ namespace RSG.Core.Utilities
             var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
             return names;
-        }
-
-        public static string GetRsgConfigurationFile()
-        {
-            // Get's the install location of RSG and read the configuration file from within the directory.
-            // Need to create an installer that will download the files to a specific directory and create the configuration file.
-            var configurationFile = Path.Combine(Assembly.GetExecutingAssembly().Location, "RSG.config");
-            return configurationFile;
         }
     }
 }
