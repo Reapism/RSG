@@ -36,9 +36,22 @@ namespace RSG.Core.Utilities
         private int minWordIndex;
         private int maxWordIndex;
 
+        /// <summary>
+        /// Event for when the <see cref="GenerateRandomWordsResult"/> function is completed.
+        /// <para>Fired when it's cancelled, errored, or completed successfully.</para>
+        /// </summary>
         public event GenerateRandomWordsResultCompletedEventHandler GenerateRandomWordsResultCompleted;
+
         public event GenerateRandomWordsResultProgressChangedEventHandler GenerateRandomWordsResultProgressChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
+        /// class thats able to generate random words.
+        /// </summary>
+        /// <param name="dictionaryService"></param>
+        /// <param name="threadService"></param>
+        /// <param name="dictionaryConfiguration"></param>
+        /// <param name="characterSetService"></param>
         public RandomWordGenerator(
             DictionaryService dictionaryService,
             IThreadService threadService,
@@ -272,7 +285,7 @@ namespace RSG.Core.Utilities
             if (args.Result != null)
             {
                 DebugUtility.Write((ToString(),
-                    $" {sender.ToString()} EndTime: {args.Result.EndTime} Count: {args.Result.Words.Count} "));
+                    $"{sender} EndTime: {args.Result.EndTime} Count: {args.Result.Words.Count}"));
                 return;
             }
         }

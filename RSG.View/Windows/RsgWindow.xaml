@@ -103,8 +103,14 @@
                 </TabItem>
                 <TabItem Header="Dictionary" Visibility="Collapsed">
                     <Grid>
-                        <Views:DictionaryEditView />
-                        <Views:DictionaryDetailsView Margin="335,0,0,0"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="300" Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition MinWidth="385" Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Views:DictionaryEditView Grid.Column="0"/>
+                        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="LightGreen"/>
+                        <Views:DictionaryDetailsView Grid.Column="2"/>
                     </Grid>
 
                 </TabItem>

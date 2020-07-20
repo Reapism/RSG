@@ -63,7 +63,12 @@ namespace RSG.Core.Services
         /// <exception cref="ArgumentException">If the <paramref name="dictionary"/> is <see langword="null"/>.</exception>
         public void AddDictionary(IRsgDictionary dictionary)
         {
-            if (dictionary is null && DoesDictionaryExist(dictionary.Name))
+            if (dictionary is null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+
+            if (DoesDictionaryExist(dictionary.Name))
             {
                 throw new ArgumentException("Cannot add dictionary, name must be case insensitively unique!");
             }

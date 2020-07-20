@@ -2,9 +2,44 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RSG.View"
-             xmlns:settings="clr-namespace:RSG.View.Views.Settings"
+             xmlns:Views="clr-namespace:RSG.View.Views"
+             xmlns:SettingsViews="clr-namespace:RSG.View.Views.Settings"
+             xmlns:ViewModels="clr-namespace:RSG.View.ViewModels"
              StartupUri="Windows/RsgWindow.xaml">
     <Application.Resources>
-         
+        <!--Data Templates-->
+        <DataTemplate DataType="{x:Type ViewModels:AboutViewModel}">
+            <Views:AboutView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:DialogViewModel}">
+            <Views:Dialog/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:DictionaryDetailsViewModel}">
+            <Views:DictionaryDetailsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:DictionaryEditViewModel}">
+            <Views:DictionaryEditView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:SearchDetailsViewModel}">
+            <Views:SearchDetailsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:SearchEditViewModel}">
+            <Views:SearchEditView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:SettingsEditViewModel}">
+            <Views:SettingsEditView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:StringDetailsViewModel}">
+            <Views:StringDetailsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:StringEditViewModel}">
+            <Views:StringEditView/>
+        </DataTemplate>
+        <!-- Create a Shared ContextMenu -->
+        <ContextMenu x:Key="SharedContextMenu" x:Shared="true">
+            <MenuItem Header="Color" IsCheckable="true" />
+            <Separator/>
+            <MenuItem Header="Shape" />
+        </ContextMenu>
     </Application.Resources>
 </Application>
