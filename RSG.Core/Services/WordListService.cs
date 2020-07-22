@@ -13,13 +13,6 @@ namespace RSG.Core.Services
     /// </summary>
     public class WordListService
     {
-        public IRsgDictionary rsgDictionary;
-
-        public WordListService(IRsgDictionary dictionary)
-        {
-            rsgDictionary = dictionary;
-        }
-
         /// <summary>
         /// Creates a key/value pair wordlist which, maps indexes to words.
         /// </summary>
@@ -31,7 +24,7 @@ namespace RSG.Core.Services
             var dictionary = new Dictionary<int, string>(wordCount);
             var index = 0;
 
-            foreach(var word in words)
+            foreach (var word in words)
             {
                 dictionary.Add(index, word);
                 index++;
@@ -50,7 +43,7 @@ namespace RSG.Core.Services
         /// <returns>A new <see cref="IEnumerable{string}"/> containing the new word list.</returns>
         public async Task<IEnumerable<string>> CreateWordList(IRsgDictionary dictionary)
         {
-            IEnumerable<string> wordList = dictionary.IsSourceLocal
+            var wordList = dictionary.IsSourceLocal
                 ? await CreateWordListFromFile(dictionary.Source)
                 : await CreateWordListFromHttp(dictionary.Source);
 
@@ -61,7 +54,7 @@ namespace RSG.Core.Services
         {
             try
             {
-                IEnumerable<string> wordList = await IOUtility.ReadLinesASync(source);
+                var wordList = await IOUtility.ReadLinesASync(source);
                 return wordList;
             }
             catch
