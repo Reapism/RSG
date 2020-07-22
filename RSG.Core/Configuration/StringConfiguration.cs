@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace RSG.Core.Configuration
 {
-    public class StringConfiguration : IStringConfiguration, ILoadConfiguration<StringConfiguration>
+    public class StringConfiguration : IStringConfiguration, ILoad<StringConfiguration>
     {
         public StringConfiguration()
         {

@@ -1,18 +1,22 @@
 ﻿using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
+using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace RSG.Core.Configuration
 {
     public class DictionaryConfiguration : IDictionaryConfiguration
     {
         private bool isFullyInitialized;
+        private IList<RsgDictionary> dictionaries;
 
         public DictionaryConfiguration()
         {
+            isFullyInitialized = false;
         }
 
         /// <summary>
