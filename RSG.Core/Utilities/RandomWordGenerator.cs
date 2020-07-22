@@ -49,14 +49,14 @@ namespace RSG.Core.Utilities
         /// class thats able to generate random words.
         /// </summary>
         /// <param name="dictionaryService"></param>
+        /// <param name="characterSetService"></param>
         /// <param name="threadService"></param>
         /// <param name="dictionaryConfiguration"></param>
-        /// <param name="characterSetService"></param>
         public RandomWordGenerator(
             DictionaryService dictionaryService,
+            CharacterSetService characterSetService,
             IThreadService threadService,
-            IDictionaryConfiguration dictionaryConfiguration,
-            CharacterSetService characterSetService)
+            IDictionaryConfiguration dictionaryConfiguration)
         {
             // Set member dependencies.
             this.dictionaryService = dictionaryService;
@@ -143,12 +143,13 @@ namespace RSG.Core.Utilities
             {
                 PartitionedWords = partitionedWords
             };
+
             return words;
         }
 
         private PartitionInfo GetPartitionInfo(in BigInteger numberOfIterations)
         {
-            var threadCount = threadService.GetThreadsCount();
+            var threadCount = threadService.GetThreadsCount(numberOfIterations);
 
             var partitionSize = int.Parse(BigInteger.DivRem(
                 numberOfIterations,
@@ -265,7 +266,7 @@ namespace RSG.Core.Utilities
             if (GenerateRandomWordsResultCompleted == null)
                 return;
 
-            GenerateRandomWordsResultCompleted(this, args);
+            HandleGenerateRandomWordsResultCompleted(this, args);
         }
 
         private void HandleGenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEventArgs args)
@@ -297,7 +298,7 @@ namespace RSG.Core.Utilities
                 return;
             }
 
-            GenerateRandomWordsResultProgressChanged(this, args);
+            HandleGenerateRandomWordsResultProgressChanged(this, args);
         }
 
         private void HandleGenerateRandomWordsResultProgressChanged(object sender, ProgressChangedEventArgs args)
