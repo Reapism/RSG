@@ -55,7 +55,7 @@ namespace RSG.Core.Utilities
             }
         }
 
-        public static async Task<Stream> GetResourceStream(string fileName)
+        public static Stream GetResourceStream(string fileName)
         {
             var resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
 
