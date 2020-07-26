@@ -1,7 +1,5 @@
 ﻿using RSG.Core.Interfaces.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using RSG.Core.Utilities;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Configuration
@@ -10,12 +8,24 @@ namespace RSG.Core.Configuration
     {
         public RsgConfiguration LoadJson(string file, bool isInternal)
         {
-            throw new NotImplementedException();
+            if (isInternal)
+            {
+                var stream = ResourceUtility.GetResourceStream(file);
+                return SerializationUtility.DeserializeJson<RsgConfiguration>(stream);
+            }
+
+            return SerializationUtility.DeserializeJson<RsgConfiguration>(file);
         }
 
-        public Task<RsgConfiguration> LoadJsonAsync(string file, bool isPath)
+        public async Task<RsgConfiguration> LoadJsonAsync(string file, bool isInternal)
         {
-            throw new NotImplementedException();
+            if (isInternal)
+            {
+                var stream = ResourceUtility.GetResourceStream(file);
+                return await SerializationUtility.DeserializeJsonAsync<RsgConfiguration>(stream);
+            }
+
+            return await SerializationUtility.DeserializeJsonAsync<RsgConfiguration>(file);
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using RSG.Core.Enums;
 using RSG.Core.Interfaces.Configuration;
 using System;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace RSG.Core.Configuration
 {
@@ -13,7 +10,7 @@ namespace RSG.Core.Configuration
 
         public RsgConfiguration()
         {
-            
+
         }
 
         public Version CurrentVersion { get; set; }

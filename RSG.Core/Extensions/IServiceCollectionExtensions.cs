@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RSG.Core.Configuration;
 using RSG.Core.Interfaces;
-using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using RSG.Core.Services;
@@ -31,15 +30,11 @@ namespace RSG.Core.Extensions
 
         private static IServiceCollection RegisterCoreTypes(IServiceCollection services)
         {
-            services
-                .AddSingleton<IRsgConfiguration, RsgConfiguration>()
-                .AddSingleton<IStringConfiguration, StringConfiguration>()
-                .AddSingleton<IDictionaryConfiguration, DictionaryConfiguration>();
+            RegisterConfigurations(services);
 
             services
                 .AddTransient<IRsgDictionary, RsgDictionary>()
                 .AddTransient<ICharacterFrequency, CharacterFrequency>()
-                .AddTransient<ICharacterSet, CharacterSet>()
                 .AddTransient<IResult, Result>()
                 .AddTransient<IStringResult, StringResult>()
                 .AddTransient<IDictionaryResult, DictionaryResult>()
@@ -48,14 +43,44 @@ namespace RSG.Core.Extensions
                 .AddTransient<IStringResult, StringResult>()
                 .AddTransient<IGeneratedWord, GeneratedWord>()
                 .AddTransient<IDictionaryWordList, DictionaryWordList>()
-                .AddTransient<IThreadService, ThreadUtility>()
+                .AddTransient<IThreadService, ThreadService>()
                 .AddTransient<IShuffle<char>, Scrambler>()
                 .AddTransient<CharacterSetService>()
                 .AddTransient<RandomStringGenerator>()
                 .AddTransient<RandomWordGenerator>()
                 .AddTransient<WordListService>()
-                .AddTransient<DictionaryService>()
-                .AddTransient<DictionaryThreadService>();
+                .AddTransient<DictionaryService>();
+
+            return services;
+        }
+
+        private static IServiceCollection RegisterConfigurations(IServiceCollection services)
+        {
+            var rsgConfiguration = new LoadRsgConfiguration().LoadJson("rsg.json", false);
+            services
+                .AddSingleton(rsgConfiguration);
+
+            var stringConfig = rsgConfiguration.StringConfigurationSource;
+            var isStringConfigInternal = false;
+
+            if (string.IsNullOrEmpty(rsgConfiguration.StringConfigurationSource))
+            {
+                stringConfig = "DefaultStringConfiguration.json";
+                isStringConfigInternal = true;
+            }
+
+            var dictionaryConfig = rsgConfiguration.DictionaryConfigurationSource;
+            var isDictionaryConfigInternal = false;
+
+            if (string.IsNullOrEmpty(rsgConfiguration.DictionaryConfigurationSource))
+            {
+                dictionaryConfig = "DefaultDictionaryConfiguration.json";
+                isDictionaryConfigInternal = true;
+            }
+
+            services
+                .AddSingleton(new LoadStringConfiguration().LoadJson(stringConfig, isStringConfigInternal))
+                .AddSingleton(new LoadDictionaryConfiguration().LoadJson(dictionaryConfig, isDictionaryConfigInternal));
 
             return services;
         }

@@ -2,7 +2,6 @@
 using RSG.View.Converters;
 using System;
 using System.ComponentModel;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace RSG.View.Managers

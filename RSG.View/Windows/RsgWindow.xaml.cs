@@ -1,20 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RSG.Core.Configuration;
-using RSG.Core.Extensions;
-using RSG.Core.Interfaces.Configuration;
-using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using RSG.View.Managers;
-using RSG.View.Views;
-using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 namespace RSG.View.Windows
 {
@@ -82,7 +72,7 @@ namespace RSG.View.Windows
         private void button_Click(object sender, RoutedEventArgs e)
         {
             var result = randomStringGenerator.GenerateRandomStringsResult(5, 10);
-            foreach (string s in result.Strings)
+            foreach (var s in result.Strings)
                 MessageBox.Show(s);
         }
     }

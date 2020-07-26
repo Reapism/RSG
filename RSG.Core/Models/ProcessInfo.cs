@@ -31,12 +31,12 @@ namespace RSG.Core.Models
 
         public IEnumerable<ProcessReference> GetReferences(in Process process)
         {
-            ProcessModuleCollection processModules = process.Modules;
+            var processModules = process.Modules;
             var queue = new Queue<ProcessReference>();
 
             for (var i = 0; i < processModules.Count; i++)
             {
-                ProcessModule module = processModules[i];
+                var module = processModules[i];
                 var processReference = new ProcessReference()
                 {
                     Name = module.ModuleName,
@@ -51,12 +51,12 @@ namespace RSG.Core.Models
 
         public IEnumerable<ThreadReference> GetThreads(in Process process)
         {
-            ProcessThreadCollection threads = process.Threads;
+            var threads = process.Threads;
             var queue = new Queue<ThreadReference>();
 
             for (var i = 0; i < threads.Count; i++)
             {
-                ProcessThread module = threads[i];
+                var module = threads[i];
                 var processReference = new ThreadReference(module);
 
                 queue.Enqueue(processReference);

@@ -1,10 +1,7 @@
 ﻿using RSG.Core.Interfaces;
 using RSG.Core.Models;
 using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace RSG.Core.Extensions
 {

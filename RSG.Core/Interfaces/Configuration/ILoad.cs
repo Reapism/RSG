@@ -27,9 +27,9 @@ namespace RSG.Core.Interfaces.Configuration
         /// an existing file.
         /// </summary>
         /// <param name="file">The file name or the full path of the file.</param>
-        /// <param name="isPath">Whether the file is embedded internally in the assembly
+        /// <param name="isInternal">Whether the file is embedded internally in the assembly
         /// or exists standalone on the file system.</param>
         /// <returns>Returns an instance of <typeparamref name="T"/>.</returns>
-        Task<T> LoadJsonAsync(string file, bool isPath);
+        Task<T> LoadJsonAsync(string file, bool isInternal);
     }
 }

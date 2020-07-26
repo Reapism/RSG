@@ -28,7 +28,7 @@ namespace RSG.Core.Factories
                 StringLength = result.StringLength,
             };
 
-            IIterationsFrequency durationModel = GetDurations(statistics.Duration.Ticks, result.Iterations);
+            var durationModel = GetDurations(statistics.Duration.Ticks, result.Iterations);
 
             statistics.IterationsPerSecond = durationModel.IterationsPerSecond;
             statistics.IterationsPerMinute = durationModel.IterationsPerMinute;
@@ -41,7 +41,7 @@ namespace RSG.Core.Factories
                 BigInteger.Parse(result.CharacterList.Length.ToString()),
                 result.StringLength);
 
-            ICharacterFrequency characterModel = GetCommonCharacters(result.Strings);
+            var characterModel = GetCommonCharacters(result.Strings);
 
             statistics.LeastFrequentCharacter = characterModel.LeastFrequentCharacter;
             statistics.LeastFrequentCharacterCount = characterModel.LeastFrequentCharacterCount;
@@ -72,7 +72,7 @@ namespace RSG.Core.Factories
                 BigInteger.Parse(result.CharacterList.Length.ToString()),
                 result.StringLength);
 
-            ICharacterFrequency characterModel = GetCommonCharacters(
+            var characterModel = GetCommonCharacters(
                 new List<string> { result.Strings.FirstOrDefault() });
 
             statistics.LeastFrequentCharacter = characterModel.LeastFrequentCharacter;

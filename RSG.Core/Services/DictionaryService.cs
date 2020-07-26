@@ -1,5 +1,4 @@
 ﻿using RSG.Core.Extensions;
-using RSG.Core.Factories;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
@@ -90,7 +89,7 @@ namespace RSG.Core.Services
                 await LazyInitialize();
             }
 
-            var dictionary = dictionaryConfiguration.Dictionaries.FirstOrDefault(d => d.Name.Equals(dictionaryName,StringComparison.OrdinalIgnoreCase));
+            var dictionary = dictionaryConfiguration.Dictionaries.FirstOrDefault(d => d.Name.Equals(dictionaryName, StringComparison.OrdinalIgnoreCase));
             if (dictionary is null)
             {
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");

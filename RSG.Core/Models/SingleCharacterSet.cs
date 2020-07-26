@@ -6,6 +6,15 @@
     public class SingleCharacterSet
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="SingleCharacterSet"/> class that is empty.
+        /// </summary>
+        public SingleCharacterSet()
+        {
+            Characters = string.Empty;
+            Enabled = false;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SingleCharacterSet"/> class.
         /// </summary>
         /// <param name="characters">The characters representing this <see cref="SingleCharacterSet"/>.</param>

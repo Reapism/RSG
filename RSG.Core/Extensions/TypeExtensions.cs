@@ -30,12 +30,12 @@ namespace RSG.Core.Extensions
         public static IDictionary<string, (string, object)> GetPublicProperties<T>(this Type type)
         {
             var properties = new Dictionary<string, (string, object)>();
-            PropertyInfo[] propertiesToGet = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var propertiesToGet = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            foreach (PropertyInfo prop in propertiesToGet)
+            foreach (var prop in propertiesToGet)
             {
                 var name = prop.Name;
-                Type typeOf = prop.GetType();
+                var typeOf = prop.GetType();
                 var value = prop.GetValue(typeOf);
                 properties.Add(name, (typeOf.Name, value));
             }

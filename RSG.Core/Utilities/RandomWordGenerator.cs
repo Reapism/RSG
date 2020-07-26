@@ -8,12 +8,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
@@ -120,7 +116,7 @@ namespace RSG.Core.Utilities
             FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(10, this));
 
             var tasks = new Task[partitionInfo.NumberOfPartitions];
-            int index = 0;
+            var index = 0;
             for (; index < partitionInfo.NumberOfPartitions; index++)
             {
                 tasks[index] = Task.Factory.StartNew(() =>

@@ -13,8 +13,8 @@ namespace RSG.Core.Configuration
         {
             if (isInternal)
             {
-                var dictionaryConfiguration = ResourceUtility.GetResourceStream(file);
-                return SerializationUtility.DeserializeJson<DictionaryConfiguration>(dictionaryConfiguration);
+                var stream = ResourceUtility.GetResourceStream(file);
+                return SerializationUtility.DeserializeJson<DictionaryConfiguration>(stream);
             }
 
             return SerializationUtility.DeserializeJson<DictionaryConfiguration>(file);
@@ -32,8 +32,8 @@ namespace RSG.Core.Configuration
         {
             if (isInternal)
             {
-                var dictionaryConfiguration = ResourceUtility.GetResourceStream(file);
-                return await SerializationUtility.DeserializeJsonAsync<DictionaryConfiguration>(dictionaryConfiguration);
+                var stream = ResourceUtility.GetResourceStream(file);
+                return await SerializationUtility.DeserializeJsonAsync<DictionaryConfiguration>(stream);
             }
 
             return await SerializationUtility.DeserializeJsonAsync<DictionaryConfiguration>(file);

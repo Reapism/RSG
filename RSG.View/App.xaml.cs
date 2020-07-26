@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using RSG.View.Windows;
+﻿using RSG.View.Windows;
 using System.Linq;
 using System.Windows;
 

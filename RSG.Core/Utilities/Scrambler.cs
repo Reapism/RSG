@@ -24,7 +24,7 @@ namespace RSG.Core.Utilities
             for (var i = 0; i < array.Length; i++)
             {
                 var j = random.Next(i, array.Length); // Don't select from the entire array on subsequent loops
-                T temp = array[i];
+                var temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
             }

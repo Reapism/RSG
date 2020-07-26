@@ -1,11 +1,9 @@
 ﻿using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
-using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace RSG.Core.Configuration
 {
@@ -22,7 +20,19 @@ namespace RSG.Core.Configuration
         /// <summary>
         /// Gets or sets a <see cref="IList{T}"/> of <see cref="RsgDictionary"/>(s).
         /// </summary>
-        public IList<RsgDictionary> Dictionaries { get; set; }
+        public IList<RsgDictionary> Dictionaries
+        {
+            get
+            {
+                dictionaries = new List<RsgDictionary>();
+                return dictionaries;
+            }
+
+            set
+            {
+                dictionaries = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the source of the configuration file.

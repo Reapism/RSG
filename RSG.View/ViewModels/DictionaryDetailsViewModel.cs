@@ -2,11 +2,8 @@
 using Prism.Commands;
 using RSG.Core.Interfaces;
 using RSG.Core.Utilities;
-using System;
 using System.ComponentModel;
 using System.Numerics;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace RSG.View.ViewModels
 {

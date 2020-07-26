@@ -56,11 +56,11 @@ namespace RSG.Core.Extensions
             }
 
             var enums = ((TEnum[])Enum.GetValues(typeof(TEnum)));
-            TEnum val = enums[0];
+            var val = enums[0];
 
             if (!string.IsNullOrEmpty(value))
             {
-                foreach (TEnum enumValue in enums)
+                foreach (var enumValue in enums)
                 {
                     if (enumValue.ToString().ToUpper().Equals(value.ToUpper()))
                     {

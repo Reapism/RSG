@@ -1,5 +1,6 @@
-﻿using System.Numerics;
-using System.Threading;
+﻿using RSG.Core.Models;
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace RSG.Core.Interfaces.Configuration
 {
@@ -11,6 +12,6 @@ namespace RSG.Core.Interfaces.Configuration
     {
         BigInteger StringLength { get; set; }
 
-        ICharacterSet CharacterSet { get; set; }
+        IDictionary<string, SingleCharacterSet> Characters { get; set; }
     }
 }
