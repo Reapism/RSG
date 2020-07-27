@@ -12,32 +12,31 @@ namespace RSG.Core.Configuration
         public StringConfiguration()
         {
             Characters = new Dictionary<string, SingleCharacterSet>();
-
+            GetDefault(Characters);
         }
 
-        public void GetDefault()
+        public void GetDefault(IDictionary<string, SingleCharacterSet> characters)
         {
-            Characters.Add(
+            characters.Add(
                 CharacterSetConstants.Lowercase,
                 new SingleCharacterSet(CharacterSetConstants.LowercaseSet, true));
-            Characters.Add(
+            characters.Add(
                 CharacterSetConstants.Uppercase,
                 new SingleCharacterSet(CharacterSetConstants.UppercaseSet, true));
-            Characters.Add(
+            characters.Add(
                 CharacterSetConstants.Numbers,
                 new SingleCharacterSet(CharacterSetConstants.NumbersSet, true));
-            Characters.Add(
+            characters.Add(
                 CharacterSetConstants.Punctuation,
                 new SingleCharacterSet(CharacterSetConstants.PunctuationSet, true));
-            Characters.Add(
+            characters.Add(
                 CharacterSetConstants.Space,
                 new SingleCharacterSet(CharacterSetConstants.SpaceSet, true));
-            Characters.Add(
+            characters.Add(
                 CharacterSetConstants.Symbols,
                 new SingleCharacterSet(CharacterSetConstants.SymbolsSet, true));
         }
 
-        [JsonIgnore]
         public BigInteger StringLength { get; set; }
 
         public IDictionary<string, SingleCharacterSet> Characters { get; set; }

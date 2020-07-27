@@ -31,6 +31,8 @@ namespace RSG.Core.Services
 
         /// <summary>
         /// Gets the character list from this instance.
+        /// <para>Each invocation triggers a new scrambled
+        /// character list.</para>
         /// </summary>
         public char[] CharacterList => GetNewCharacterList();
 
@@ -58,7 +60,7 @@ namespace RSG.Core.Services
         private char[] GetCharacterListAsString()
         {
             var strBuilder = new StringBuilder();
-            var enabledCharacterSets = stringConfiguration.CharacterSet.Characters.Values.Where(set => set.Enabled);
+            var enabledCharacterSets = stringConfiguration.Characters.Values.Where(set => set.Enabled);
 
             foreach (var set in enabledCharacterSets)
             {

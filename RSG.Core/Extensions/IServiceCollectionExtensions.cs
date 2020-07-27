@@ -78,9 +78,12 @@ namespace RSG.Core.Extensions
                 isDictionaryConfigInternal = true;
             }
 
+            var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfig, isStringConfigInternal);
+            var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfig, isDictionaryConfigInternal);
+
             services
-                .AddSingleton(new LoadStringConfiguration().LoadJson(stringConfig, isStringConfigInternal))
-                .AddSingleton(new LoadDictionaryConfiguration().LoadJson(dictionaryConfig, isDictionaryConfigInternal));
+                .AddSingleton(stringConfiguration)
+                .AddSingleton(dictionaryConfiguration);
 
             return services;
         }

@@ -11,7 +11,6 @@ namespace RSG.Core.Tests.Unit
 
         public TestContainer()
         {
-
             Services = new ServiceCollection();
             Services.AddRsgCore();
             Provider = Services.BuildServiceProvider();

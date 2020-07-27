@@ -6,7 +6,7 @@ namespace RSG.Core
     {
         public RsgApplication()
         {
-
+            Initialize();
         }
 
         public void Initialize()
