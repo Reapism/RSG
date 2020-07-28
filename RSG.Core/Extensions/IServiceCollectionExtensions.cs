@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RSG.Core.Configuration;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using RSG.Core.Services;
@@ -58,7 +59,7 @@ namespace RSG.Core.Extensions
         {
             var rsgConfiguration = new LoadRsgConfiguration().LoadJson("rsg.json", false);
             services
-                .AddSingleton(rsgConfiguration);
+                .AddSingleton<IRsgConfiguration>(rsgConfiguration);
 
             var stringConfig = rsgConfiguration.StringConfigurationSource;
             var isStringConfigInternal = false;
@@ -82,8 +83,8 @@ namespace RSG.Core.Extensions
             var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfig, isDictionaryConfigInternal);
 
             services
-                .AddSingleton(stringConfiguration)
-                .AddSingleton(dictionaryConfiguration);
+                .AddSingleton<IStringConfiguration>(stringConfiguration)
+                .AddSingleton<IDictionaryConfiguration>(dictionaryConfiguration);
 
             return services;
         }
