@@ -24,7 +24,8 @@ namespace RSG.Core.Configuration
         {
             get
             {
-                dictionaries = new List<RsgDictionary>();
+                if (dictionaries is null)
+                    return new List<RsgDictionary>();
                 return dictionaries;
             }
 
@@ -32,6 +33,16 @@ namespace RSG.Core.Configuration
             {
                 dictionaries = value;
             }
+        }
+
+        public static bool operator ==(DictionaryConfiguration left, DictionaryConfiguration right)
+        {
+            return EqualityComparer<DictionaryConfiguration>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(DictionaryConfiguration left, DictionaryConfiguration right)
+        {
+            return !(left == right);
         }
 
         /// <summary>
@@ -96,5 +107,23 @@ namespace RSG.Core.Configuration
         /// Gets or sets a <see cref="ThreadPriority"/> value indicating priority of the generation.
         /// </summary>
         public ThreadPriority Priority { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is DictionaryConfiguration configuration &&
+                   EqualityComparer<IList<RsgDictionary>>.Default.Equals(Dictionaries, configuration.Dictionaries) &&
+                   Source == configuration.Source &&
+                   UseSpace == configuration.UseSpace &&
+                   UseNoise == configuration.UseNoise &&
+                   UseAliteration == configuration.UseAliteration &&
+                   CapitalizeEachWord == configuration.CapitalizeEachWord &&
+                   AliterationCharacter == configuration.AliterationCharacter &&
+                   AliterationFrequency == configuration.AliterationFrequency &&
+                   NoiseFrequency == configuration.NoiseFrequency &&
+                   NoisePerWordRange.Equals(configuration.NoisePerWordRange) &&
+                   AliterationRange.Equals(configuration.AliterationRange) &&
+                   MaximumThreadCount == configuration.MaximumThreadCount &&
+                   Priority == configuration.Priority;
+        }
     }
 }

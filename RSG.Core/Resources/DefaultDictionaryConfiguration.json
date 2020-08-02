@@ -16,7 +16,7 @@
     },
     {
       "Name": "MD5",
-      "Description": "MD5 is a wordlist made by http://www.md5this.com/tools/wordlists.html. Using this slightly modified English version, with removed a few chunk of nouns. This huge wordlist contains so much words. Doesn\u2019t include apostrophes.",
+      "Description": "MD5 is a wordlist made by http://www.md5this.com/tools/wordlists.html. Using this slightly modified English version, with removed a few chunk of nouns. This huge wordlist contains so much words. Doesn\u0027t include apostrophes.",
       "IsSourceLocal": false,
       "Source": "https://drive.google.com/uc?export=download\u0026id=1kBLZGbHv18um4X8yof21wFQyXEd1PzVv",
       "IsActive": false
@@ -43,12 +43,33 @@
       "IsActive": false
     }
   ],
-  "UseSpace": true,
+  "UseSpace": false,
+  "UseNoise": false,
+  "UseAliteration": false,
   "CapitalizeEachWord": false,
   "AliterationCharacter": "\u0000",
-  "AliterationFrequency": 1,
-  "UseNoise": false,
-  "NoiseFrequency": 1,
-  "MaximumThreadCount": 0,
+  "AliterationFrequency": 0,
+  "NoiseFrequency": 0,
+  "NoisePerWordRange": {
+    "Start": {
+      "Value": 0,
+      "IsFromEnd": false
+    },
+    "End": {
+      "Value": 0,
+      "IsFromEnd": false
+    }
+  },
+  "AliterationRange": {
+    "Start": {
+      "Value": 0,
+      "IsFromEnd": false
+    },
+    "End": {
+      "Value": 0,
+      "IsFromEnd": false
+    }
+  },
+  "MaximumThreadCount": 8,
   "Priority": 2
 }
