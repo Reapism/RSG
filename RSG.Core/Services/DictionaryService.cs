@@ -119,7 +119,11 @@ namespace RSG.Core.Services
             // Ensure the dictionary instance is not null.
             if (selectedDictionary == null)
             {
-                selectedDictionary = dictionaryConfiguration.Dictionaries.FirstOrDefault() ?? throw new ApplicationException("Dictionaries is null from the dictionary configuration.");
+                selectedDictionary = dictionaryConfiguration.Dictionaries.FirstOrDefault();
+                if (selectedDictionary is null)
+                {
+                    throw new ApplicationException("Dictionaries is null from the dictionary configuration.");
+                }
             }
 
             var wordList = await wordListService.CreateWordList(selectedDictionary);
