@@ -4,25 +4,38 @@ using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 
-namespace RSG.Core.Tests.Unit.Utilities
+namespace RSG.Core.Tests.Unit.Configuration
 {
     [TestFixture]
-    public class SerializationUtilityTests
+    class DictionaryConfigurationTests
     {
-        [Test]
-        public void Serialize()
+        [TestCase("Dictionary.json")]
+        public void Serialize(string fileName)
         {
-            var obj = 5;
-            var json = SerializationUtility.SerializeJson(obj);
-            var obj2 = SerializationUtility.DeserializeJson<int>(json);
-            Assert.AreEqual(obj, obj2);
+            var dictionaryConfiguration = CreateConfiguration();
+            Assert.DoesNotThrow(() =>
+                SerializationUtility.SerializeJson(dictionaryConfiguration, fileName, new JsonSerializerOptions() { WriteIndented = true })
+            );
+
         }
 
         [Test]
-        public void SerializeDictionaryConfiguration()
+        public void ConfigurationsAreEqualWhenDeserializing()
+        {
+            var dictionaryConfiguration = CreateConfiguration();
+            var fileName = "Dictionary.json";
+            Serialize(fileName);
+
+            var dictionaryConfigurationDeserialized = SerializationUtility.DeserializeJson<DictionaryConfiguration>(fileName);
+
+            Assert.IsTrue(dictionaryConfiguration.Equals(dictionaryConfigurationDeserialized));
+        }
+
+        private DictionaryConfiguration CreateConfiguration()
         {
             var dictionaries = new List<RsgDictionary>
             {
@@ -92,12 +105,7 @@ namespace RSG.Core.Tests.Unit.Utilities
                 UseSpace = false
             };
 
-            var fileName = "Dictionary.json";
-            SerializationUtility.SerializeJson(dictionaryConfiguration, fileName, new JsonSerializerOptions() { WriteIndented = true });
-
-            var dictionaryConfigurationDeserialized = SerializationUtility.DeserializeJson<DictionaryConfiguration>(fileName);
-
-            Assert.IsTrue(dictionaryConfiguration.Equals(dictionaryConfigurationDeserialized));
+            return dictionaryConfiguration;
         }
     }
 }
