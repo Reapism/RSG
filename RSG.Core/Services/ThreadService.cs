@@ -72,6 +72,11 @@ namespace RSG.Core.Services
             var numberOfThreadsToCreate = BigInteger.Divide(numberOfIterations, GetEnvironmentThreadsCount().ToBigInteger());
             var threads = int.Parse(numberOfThreadsToCreate.ToString());
 
+            if (threads < MinimumThreadCount)
+            {
+                return MinimumThreadCount;
+            }
+
             if (threads >= MaximumThreadCount)
             {
                 return MaximumThreadCount;
