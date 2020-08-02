@@ -13,6 +13,8 @@ namespace RSG.Core.Services
     /// </summary>
     public sealed class ThreadService : IThreadService, IThreadConfiguration
     {
+        private int minimumThreadCount;
+        private int maximumThreadCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadService"/> class
@@ -26,13 +28,41 @@ namespace RSG.Core.Services
 
         /// <summary>
         /// Gets or sets the minimum number of threads to use.
+        /// <para>Must be larger than <see langword="1"/> and less
+        /// than or equal to maximum thread count.</para>
         /// </summary>
-        public int MinimumThreadCount { get; set; }
+        public int MinimumThreadCount
+        {
+            get => minimumThreadCount;
+            set
+            {
+                if (value < 1 || value > maximumThreadCount)
+                {
+                    return;
+                }
+
+                minimumThreadCount = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the maximum number of threads to use.
+        /// <para>Must be larger or equal to the <see cref="MinimumThreadCount"/>.</para>
         /// </summary>
-        public int MaximumThreadCount { get; set; }
+
+        public int MaximumThreadCount
+        {
+            get => maximumThreadCount;
+            set
+            {
+                if (value <= minimumThreadCount)
+                {
+                    return;
+                }
+
+                maximumThreadCount = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the priority of the threads.
