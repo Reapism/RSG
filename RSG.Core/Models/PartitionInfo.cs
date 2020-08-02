@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace RSG.Core.Models
 {
-    [DebuggerDisplay("CurrentIndex = {CurrentIndex}")]
+    [DebuggerDisplay("CurrentIndex = {CurrentIndex}, NumberOfPartitions = {NumberOfPartitions}, TotalIterations = {TotalIterations}")]
     internal class PartitionInfo
     {
         internal BigInteger TotalIterations { get; set; }

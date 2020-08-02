@@ -97,7 +97,7 @@ namespace RSG.Core.Utilities
             }
             catch (Exception e)
             {
-                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(e, false, this, new DictionaryResult().Empty()));
+                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(e, false, this, new Result().Empty() as IDictionaryResult));
             }
         }
 
@@ -260,7 +260,9 @@ namespace RSG.Core.Utilities
         private void FireGenerateRandomWordsResultCompleted(GenerateRandomWordsResultEventArgs args)
         {
             if (GenerateRandomWordsResultCompleted == null)
+            {
                 return;
+            }
 
             HandleGenerateRandomWordsResultCompleted(this, args);
         }
@@ -299,7 +301,6 @@ namespace RSG.Core.Utilities
 
         private void HandleGenerateRandomWordsResultProgressChanged(object sender, ProgressChangedEventArgs args)
         {
-
             DebugUtility.Write((ToString(), args.ProgressPercentage.ToString()));
         }
     }

@@ -16,7 +16,7 @@ namespace RSG.Core.Utilities
     /// Event handler for when the <see cref="RandomWordGenerator.GenerateRandomWordsResult(System.Numerics.BigInteger)"/>
     /// Completed event is fired.
     /// </summary>
-    /// <param name="sender">The objhect who fired the event.</param>
+    /// <param name="sender">The object who fired the event.</param>
     /// <param name="e">The <see cref="GenerateRandomWordsResultEventArgs"/> args.</param>
     public delegate void GenerateRandomWordsResultCompletedEventHandler(object sender, GenerateRandomWordsResultEventArgs e);
 

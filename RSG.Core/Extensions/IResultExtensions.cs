@@ -22,10 +22,5 @@ namespace RSG.Core.Extensions
                 Strings = new string[] { }
             };
         }
-
-        public static IDictionaryResult Empty(this IDictionaryResult value)
-        {
-            return Empty(value);
-        }
     }
 }
