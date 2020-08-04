@@ -13,7 +13,6 @@ namespace RSG.View.Windows
     /// </summary>
     public partial class RsgWindow : Window
     {
-        private DictionaryService dictionaryService;
         private RandomWordGenerator randomWordGenerator;
         private RandomStringGenerator randomStringGenerator;
         private PageManager pageManager;
@@ -27,7 +26,6 @@ namespace RSG.View.Windows
 
         private void InitializeDependencies()
         {
-            dictionaryService = App.Container.Provider.GetService<DictionaryService>();
             randomWordGenerator = App.Container.Provider.GetService<RandomWordGenerator>();
             randomStringGenerator = App.Container.Provider.GetService<RandomStringGenerator>();
             pageManager = App.Container.Provider.GetService<PageManager>();
@@ -49,7 +47,7 @@ namespace RSG.View.Windows
 
         }
 
-        private async void NavigationMenu_Click(object sender, RoutedEventArgs e)
+        private void NavigationMenu_Click(object sender, RoutedEventArgs e)
         {
             var selectedMenuButton = sender as Button;
 

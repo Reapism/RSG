@@ -78,7 +78,7 @@
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/search.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="Settings" Grid.Row="4" Margin="5" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="NavigationMenu_Click" Tag="Settings" Opacity="0">
+            <Button x:Name="Settings" Grid.Row="4" Margin="5" Background="#00DDDDDD" BorderBrush="#FF25E6F0" Foreground="#FF25E6F0" Height="50" Width="50" MinWidth="50" MinHeight="50" Click="dictionary_Click" Tag="Settings" Opacity="0">
                 <StackPanel>
                     <Image HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Top" Width="50" Source="/Resources/grayscale/settings.png" StretchDirection="Both" Stretch="UniformToFill"/>
                 </StackPanel>
