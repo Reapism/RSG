@@ -57,7 +57,7 @@ namespace RSG.Core.Extensions
 
         private static IServiceCollection RegisterConfigurations(IServiceCollection services)
         {
-            var rsgConfiguration = new LoadRsgConfiguration().LoadJson("rsg.json", false);
+            var rsgConfiguration = new LoadRsgConfiguration().LoadJson(LoadRsgConfiguration.ConfigurationFileName, false);
             services
                 .AddSingleton<IRsgConfiguration>(rsgConfiguration);
 
