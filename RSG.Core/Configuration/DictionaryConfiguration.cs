@@ -2,12 +2,13 @@
 using RSG.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using System.Threading;
 
 namespace RSG.Core.Configuration
 {
-    public class DictionaryConfiguration : IDictionaryConfiguration
+    public class DictionaryConfiguration : IDictionaryConfiguration, IComparable<DictionaryConfiguration>
     {
         private bool isFullyInitialized;
         private IList<RsgDictionary> dictionaries;
@@ -25,7 +26,10 @@ namespace RSG.Core.Configuration
             get
             {
                 if (dictionaries is null)
+                {
                     return new List<RsgDictionary>();
+                }
+
                 return dictionaries;
             }
 
@@ -33,16 +37,6 @@ namespace RSG.Core.Configuration
             {
                 dictionaries = value;
             }
-        }
-
-        public static bool operator ==(DictionaryConfiguration left, DictionaryConfiguration right)
-        {
-            return EqualityComparer<DictionaryConfiguration>.Default.Equals(left, right);
-        }
-
-        public static bool operator !=(DictionaryConfiguration left, DictionaryConfiguration right)
-        {
-            return !(left == right);
         }
 
         /// <summary>
@@ -111,7 +105,7 @@ namespace RSG.Core.Configuration
         public override bool Equals(object obj)
         {
             return obj is DictionaryConfiguration configuration &&
-                   EqualityComparer<IList<RsgDictionary>>.Default.Equals(Dictionaries, configuration.Dictionaries) &&
+                   Comparer<IList<RsgDictionary>>.Default.Compare(this.Dictionaries, configuration.Dictionaries) == 0 &&
                    Source == configuration.Source &&
                    UseSpace == configuration.UseSpace &&
                    UseNoise == configuration.UseNoise &&
@@ -124,6 +118,11 @@ namespace RSG.Core.Configuration
                    AliterationRange.Equals(configuration.AliterationRange) &&
                    MaximumThreadCount == configuration.MaximumThreadCount &&
                    Priority == configuration.Priority;
+        }
+
+        public int CompareTo([AllowNull] DictionaryConfiguration other)
+        {
+
         }
     }
 }
