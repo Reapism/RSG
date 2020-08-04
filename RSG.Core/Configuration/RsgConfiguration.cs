@@ -6,7 +6,7 @@ namespace RSG.Core.Configuration
 {
     public class RsgConfiguration : IRsgConfiguration
     {
-        private const string ConfigurationFileName = "RSG.config";
+        
 
         public RsgConfiguration()
         {
