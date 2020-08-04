@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace RSG.Core.Configuration
 {
-    public class DictionaryConfiguration : IDictionaryConfiguration, IComparable<DictionaryConfiguration>
+    public class DictionaryConfiguration : IDictionaryConfiguration
     {
         private bool isFullyInitialized;
         private IList<RsgDictionary> dictionaries;
@@ -118,11 +118,6 @@ namespace RSG.Core.Configuration
                    AliterationRange.Equals(configuration.AliterationRange) &&
                    MaximumThreadCount == configuration.MaximumThreadCount &&
                    Priority == configuration.Priority;
-        }
-
-        public int CompareTo([AllowNull] DictionaryConfiguration other)
-        {
-
         }
     }
 }

@@ -6,6 +6,7 @@ using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
+using System;
 
 namespace RSG.Core.Extensions
 {
@@ -57,34 +58,41 @@ namespace RSG.Core.Extensions
 
         private static IServiceCollection RegisterConfigurations(IServiceCollection services)
         {
-            var rsgConfiguration = new LoadRsgConfiguration().LoadJson(LoadRsgConfiguration.ConfigurationFileName, false);
-            services
-                .AddSingleton<IRsgConfiguration>(rsgConfiguration);
-
-            var stringConfig = rsgConfiguration.StringConfigurationSource;
-            var isStringConfigInternal = false;
-
-            if (string.IsNullOrEmpty(rsgConfiguration.StringConfigurationSource))
+            try
             {
-                stringConfig = "DefaultStringConfiguration.json";
-                isStringConfigInternal = true;
+                var rsgConfiguration = new LoadRsgConfiguration().LoadJson(LoadRsgConfiguration.ConfigurationFileName, false);
+                services
+                    .AddSingleton<IRsgConfiguration>(rsgConfiguration);
+
+                var stringConfig = rsgConfiguration.StringConfigurationSource;
+                var isStringConfigInternal = false;
+
+                if (string.IsNullOrEmpty(rsgConfiguration.StringConfigurationSource))
+                {
+                    stringConfig = "DefaultStringConfiguration.json";
+                    isStringConfigInternal = true;
+                }
+
+                var dictionaryConfig = rsgConfiguration.DictionaryConfigurationSource;
+                var isDictionaryConfigInternal = false;
+
+                if (string.IsNullOrEmpty(rsgConfiguration.DictionaryConfigurationSource))
+                {
+                    dictionaryConfig = "DefaultDictionaryConfiguration.json";
+                    isDictionaryConfigInternal = true;
+                }
+
+                var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfig, isStringConfigInternal);
+                var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfig, isDictionaryConfigInternal);
+
+                services
+                    .AddSingleton<IStringConfiguration>(stringConfiguration)
+                    .AddSingleton<IDictionaryConfiguration>(dictionaryConfiguration);
             }
-
-            var dictionaryConfig = rsgConfiguration.DictionaryConfigurationSource;
-            var isDictionaryConfigInternal = false;
-
-            if (string.IsNullOrEmpty(rsgConfiguration.DictionaryConfigurationSource))
+            catch (Exception e)
             {
-                dictionaryConfig = "DefaultDictionaryConfiguration.json";
-                isDictionaryConfigInternal = true;
+                LogUtility.Write("Rsg Configuration", $"Unable to load rsg configuration due to exception.", e);
             }
-
-            var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfig, isStringConfigInternal);
-            var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfig, isDictionaryConfigInternal);
-
-            services
-                .AddSingleton<IStringConfiguration>(stringConfiguration)
-                .AddSingleton<IDictionaryConfiguration>(dictionaryConfiguration);
 
             return services;
         }

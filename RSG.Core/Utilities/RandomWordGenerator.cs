@@ -271,20 +271,20 @@ namespace RSG.Core.Utilities
         {
             if (args.Cancelled)
             {
-                DebugUtility.Write((ToString(), $"This process has been cancelled"));
+                LogUtility.Write(ToString(), $"This process has been cancelled", null);
                 return;
             }
 
             if (args.Error != null)
             {
-                DebugUtility.Write((ToString(), $"An exception has been thrown during the word generator: {args.Error.Message}"));
+                LogUtility.Write(ToString(), $"An exception has been thrown during the word generator", args.Error);
                 return;
             }
 
             if (args.Result != null)
             {
-                DebugUtility.Write((ToString(),
-                    $"{sender} EndTime: {args.Result.EndTime} Count: {args.Result.Words.Count}"));
+                LogUtility.Write(ToString(),
+                    $"{sender} EndTime: {args.Result.EndTime} Count: {args.Result.Words.Count}", null);
                 return;
             }
         }
@@ -301,7 +301,7 @@ namespace RSG.Core.Utilities
 
         private void HandleGenerateRandomWordsResultProgressChanged(object sender, ProgressChangedEventArgs args)
         {
-            DebugUtility.Write((ToString(), args.ProgressPercentage.ToString()));
+            LogUtility.Write(ToString(), args.ProgressPercentage.ToString(), null);
         }
     }
 }
