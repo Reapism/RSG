@@ -11,7 +11,7 @@ namespace RSG.Core.Tests.Unit.Configuration
     [TestFixture]
     class RsgConfigurationTests
     {
-        [TestCase("Rsg.json")]
+        [TestCase("RSG.config")]
         public void Serialize(string fileName)
         {
             var stringConfiguration = CreateConfiguration();
@@ -25,7 +25,7 @@ namespace RSG.Core.Tests.Unit.Configuration
         public void ConfigurationsAreEqualWhenDeserializing()
         {
             var stringConfiguration = CreateConfiguration();
-            var fileName = "Rsg.json";
+            var fileName = "RSG.config";
             Serialize(fileName);
 
             var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<RsgConfiguration>(fileName);
