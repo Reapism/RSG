@@ -91,7 +91,9 @@ namespace RSG.Core.Extensions
             }
             catch (Exception e)
             {
+                // Later if you can't find the rsg.config file, load the internal one.
                 LogUtility.Write("Rsg Configuration", $"Unable to load rsg configuration due to exception.", e);
+                throw e;
             }
 
             return services;
