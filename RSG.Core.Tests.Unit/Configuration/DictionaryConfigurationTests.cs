@@ -13,7 +13,9 @@ namespace RSG.Core.Tests.Unit.Configuration
     [TestFixture]
     class DictionaryConfigurationTests
     {
-        [TestCase("Dictionary.json")]
+        public const string ExternalConfigurationName = "Dictionary.config";
+
+        [TestCase(ExternalConfigurationName)]
         public void Serialize(string fileName)
         {
             var dictionaryConfiguration = CreateConfiguration();
@@ -27,10 +29,9 @@ namespace RSG.Core.Tests.Unit.Configuration
         public void ConfigurationsAreEqualWhenDeserializing()
         {
             var dictionaryConfiguration = CreateConfiguration();
-            var fileName = "Dictionary.json";
-            Serialize(fileName);
+            Serialize(ExternalConfigurationName);
 
-            var dictionaryConfigurationDeserialized = SerializationUtility.DeserializeJson<DictionaryConfiguration>(fileName);
+            var dictionaryConfigurationDeserialized = SerializationUtility.DeserializeJson<DictionaryConfiguration>(ExternalConfigurationName);
 
             Assert.IsTrue(dictionaryConfiguration.Equals(dictionaryConfigurationDeserialized));
         }

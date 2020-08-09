@@ -7,8 +7,11 @@ namespace RSG.Core.Configuration
     /// <summary>
     /// Responsible for creating a <see cref="StringConfiguration"/> instance.
     /// </summary>
-    public class LoadStringConfiguration : ILoad<StringConfiguration>
+    internal class LoadStringConfiguration : ILoad<StringConfiguration>
     {
+        public const string ExternalConfigurationName = "String.config";
+        public const string InternalConfigurationName = "DefaultStringConfiguration.json";
+
         public StringConfiguration LoadJson(string file, bool isInternal)
         {
             if (isInternal)

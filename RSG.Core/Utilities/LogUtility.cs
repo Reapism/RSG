@@ -4,9 +4,15 @@ using System.Threading;
 
 namespace RSG.Core.Utilities
 {
+    public enum LogType
+    {
+        Info,
+        Warning,
+        Failure,
+    }
     public static class LogUtility
     {
-        public static Dictionary<int, (string, string, Exception)> DebugByIndex { get; set; }
+        public static Dictionary<int, (LogType, string, string, Exception)> Logs { get; set; }
 
         private static int Index = 0;
 
@@ -14,11 +20,11 @@ namespace RSG.Core.Utilities
 
         static LogUtility()
         {
-            DebugByIndex = new Dictionary<int, (string, string, Exception)>();
+            Logs = new Dictionary<int, (LogType, string, string, Exception)>();
         }
 
         /// <summary>
-        /// Writes a <paramref name="value"/>to the internal
+        /// Writes a <paramref name="value"/> to the internal
         /// log dictionary.
         /// </summary>
         /// <param name="value">Title, description.</param>
@@ -26,8 +32,14 @@ namespace RSG.Core.Utilities
         {
             lock (LockObject)
             {
+                var logType = LogType.Failure;
+                if (ex is null)
+                {
+                    logType = LogType.Warning;
+                }
+
                 Interlocked.Increment(ref Index);
-                DebugByIndex.Add(Index, (title, value, ex));
+                Logs.Add(Index, (logType, title, value, ex));
             }
         }
     }

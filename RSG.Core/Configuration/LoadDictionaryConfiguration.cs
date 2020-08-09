@@ -7,8 +7,11 @@ namespace RSG.Core.Configuration
     /// <summary>
     /// Responsible for creating a <see cref="DictionaryConfiguration"/> instance.
     /// </summary>
-    public class LoadDictionaryConfiguration : ILoad<DictionaryConfiguration>
+    internal class LoadDictionaryConfiguration : ILoad<DictionaryConfiguration>
     {
+        public const string ExternalConfigurationName = "Dictionary.config";
+        public const string InternalConfigurationName = "DefaultDictionaryConfiguration.json";
+
         public DictionaryConfiguration LoadJson(string file, bool isInternal)
         {
             if (isInternal)

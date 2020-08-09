@@ -54,7 +54,9 @@ namespace RSG.Core.Utilities
 
         public static Stream GetResourceStream(string fileName)
         {
-            var resourceName = embeddedResourceNames.FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
+            var resourceName = embeddedResourceNames
+                .FirstOrDefault(name => name.EndsWith(fileName, StringComparison.OrdinalIgnoreCase) ||
+                                name.Contains(fileName, StringComparison.OrdinalIgnoreCase));
 
             if (resourceName == null)
             {

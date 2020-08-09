@@ -11,7 +11,9 @@ namespace RSG.Core.Tests.Unit.Configuration
     [TestFixture]
     class RsgConfigurationTests
     {
-        [TestCase("RSG.config")]
+        public const string ExternalConfigurationName = "RSG.config";
+
+        [TestCase(ExternalConfigurationName)]
         public void Serialize(string fileName)
         {
             var stringConfiguration = CreateConfiguration();
@@ -25,10 +27,9 @@ namespace RSG.Core.Tests.Unit.Configuration
         public void ConfigurationsAreEqualWhenDeserializing()
         {
             var stringConfiguration = CreateConfiguration();
-            var fileName = "RSG.config";
-            Serialize(fileName);
+            Serialize(ExternalConfigurationName);
 
-            var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<RsgConfiguration>(fileName);
+            var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<RsgConfiguration>(ExternalConfigurationName);
 
             Assert.IsTrue(stringConfiguration.Equals(stringConfigurationDeserialized));
         }

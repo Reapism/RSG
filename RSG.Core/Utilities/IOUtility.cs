@@ -9,7 +9,7 @@ namespace RSG.Core.Utilities
     /// Provides static utilities functions for
     /// Input/Output operations.
     /// </summary>
-    public static class IOUtility
+    internal static class IOUtility
     {
         /// <summary>
         /// Read lines from a file asynchronously using a specific
@@ -22,7 +22,9 @@ namespace RSG.Core.Utilities
         public static async Task<IEnumerable<string>> ReadLinesASync(string filePath, string delimiter = "\n")
         {
             if (!DoesFileExist(filePath))
+            {
                 throw new FileNotFoundException($"Cannot find file located at '{filePath}'.");
+            }
 
             using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             using var streamReader = new StreamReader(fileStream);

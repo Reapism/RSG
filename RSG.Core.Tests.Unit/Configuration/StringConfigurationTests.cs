@@ -14,7 +14,9 @@ namespace RSG.Core.Tests.Unit.Configuration
     [TestFixture]
     class StringConfigurationTests
     {
-        [TestCase("String.json")]
+        public const string ExternalConfigurationName = "String.config";
+
+        [TestCase(ExternalConfigurationName)]
         public void Serialize(string fileName)
         {
             var stringConfiguration = CreateConfiguration();
@@ -28,10 +30,9 @@ namespace RSG.Core.Tests.Unit.Configuration
         public void ConfigurationsAreEqualWhenDeserializing()
         {
             var stringConfiguration = CreateConfiguration();
-            var fileName = "String.json";
-            Serialize(fileName);
-
-            var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<StringConfiguration>(fileName);
+            Serialize(ExternalConfigurationName);
+            
+            var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<StringConfiguration>(ExternalConfigurationName);
 
             Assert.IsTrue(stringConfiguration.Equals(stringConfigurationDeserialized));
         }
@@ -42,6 +43,9 @@ namespace RSG.Core.Tests.Unit.Configuration
             characters.Add(CharacterSetConstants.Lowercase, new SingleCharacterSet(CharacterSetConstants.LowercaseSet, true));
             characters.Add(CharacterSetConstants.Uppercase, new SingleCharacterSet(CharacterSetConstants.UppercaseSet, true));
             characters.Add(CharacterSetConstants.Numbers, new SingleCharacterSet(CharacterSetConstants.NumbersSet, true));
+            characters.Add(CharacterSetConstants.Space, new SingleCharacterSet(CharacterSetConstants.SpaceSet, false));
+            characters.Add(CharacterSetConstants.Punctuation, new SingleCharacterSet(CharacterSetConstants.PunctuationSet, false));
+            characters.Add(CharacterSetConstants.Symbols, new SingleCharacterSet(CharacterSetConstants.SymbolsSet, false));
 
             var stringConfiguration = new StringConfiguration()
             {

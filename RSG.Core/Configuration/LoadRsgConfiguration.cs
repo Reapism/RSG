@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 
 namespace RSG.Core.Configuration
 {
-    public class LoadRsgConfiguration : ILoad<RsgConfiguration>
+    internal class LoadRsgConfiguration : ILoad<RsgConfiguration>
     {
-        public const string ConfigurationFileName = "RSG.config";
+        public const string ExternalConfigurationName = "RSG.config";
+        public const string InternalConfigurationName = "DefaultRsgConfiguration.json";
 
         public RsgConfiguration LoadJson(string file, bool isInternal)
         {

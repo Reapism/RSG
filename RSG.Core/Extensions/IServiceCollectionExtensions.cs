@@ -7,6 +7,8 @@ using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace RSG.Core.Extensions
 {
@@ -60,39 +62,68 @@ namespace RSG.Core.Extensions
         {
             try
             {
-                var rsgConfiguration = new LoadRsgConfiguration().LoadJson(LoadRsgConfiguration.ConfigurationFileName, false);
+                var dirInfo = new DirectoryInfo(Assembly.GetExecutingAssembly().Location);
+                var rsgConfigSrc = Path.Combine(dirInfo.Parent.FullName, LoadRsgConfiguration.ExternalConfigurationName);
+                var isRsgConfigInternal = false;
+                var useInternalRsgConfig = string.IsNullOrEmpty(rsgConfigSrc) || !IOUtility.DoesFileExist(rsgConfigSrc);
+
+                if (useInternalRsgConfig)
+                {
+                    rsgConfigSrc = LoadStringConfiguration.InternalConfigurationName;
+                    isRsgConfigInternal = true;
+                }
+
+                var rsgConfiguration = new LoadRsgConfiguration().LoadJson(rsgConfigSrc, isRsgConfigInternal);
                 services
                     .AddSingleton<IRsgConfiguration>(rsgConfiguration);
 
-                var stringConfig = rsgConfiguration.StringConfigurationSource;
-                var isStringConfigInternal = false;
-
-                if (string.IsNullOrEmpty(rsgConfiguration.StringConfigurationSource))
+                if (useInternalRsgConfig)
                 {
-                    stringConfig = "DefaultStringConfiguration.json";
+                    SerializationUtility.SerializeJson(rsgConfiguration, Path.Combine(dirInfo.Parent.FullName, LoadRsgConfiguration.ExternalConfigurationName));
+                }
+
+                var stringConfigSrc = rsgConfiguration.StringConfigurationSource;
+                var isStringConfigInternal = false;
+                var useInternalStringConfig = string.IsNullOrEmpty(rsgConfiguration.StringConfigurationSource) || !IOUtility.DoesFileExist(stringConfigSrc);
+
+                if (useInternalStringConfig)
+                {
+                    stringConfigSrc = LoadStringConfiguration.InternalConfigurationName;
                     isStringConfigInternal = true;
                 }
 
-                var dictionaryConfig = rsgConfiguration.DictionaryConfigurationSource;
-                var isDictionaryConfigInternal = false;
+                var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfigSrc, isStringConfigInternal);
+                services
+                    .AddSingleton<IStringConfiguration>(stringConfiguration);
 
-                if (string.IsNullOrEmpty(rsgConfiguration.DictionaryConfigurationSource))
+                if (useInternalStringConfig)
                 {
-                    dictionaryConfig = "DefaultDictionaryConfiguration.json";
+                    SerializationUtility.SerializeJson(stringConfiguration, Path.Combine(dirInfo.Parent.FullName, LoadStringConfiguration.ExternalConfigurationName));
+                }
+
+                var dictionaryConfigSrc = rsgConfiguration.DictionaryConfigurationSource;
+                var isDictionaryConfigInternal = false;
+                var useInternalDictionaryConfig = string.IsNullOrEmpty(rsgConfiguration.DictionaryConfigurationSource) || !IOUtility.DoesFileExist(stringConfigSrc);
+
+                if (useInternalDictionaryConfig)
+                {
+                    dictionaryConfigSrc = LoadDictionaryConfiguration.InternalConfigurationName;
                     isDictionaryConfigInternal = true;
                 }
 
-                var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfig, isStringConfigInternal);
-                var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfig, isDictionaryConfigInternal);
-
+                var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfigSrc, isDictionaryConfigInternal);
                 services
-                    .AddSingleton<IStringConfiguration>(stringConfiguration)
                     .AddSingleton<IDictionaryConfiguration>(dictionaryConfiguration);
+
+                if (useInternalDictionaryConfig)
+                {
+                    SerializationUtility.SerializeJson(dictionaryConfiguration, Path.Combine(dirInfo.Parent.FullName, LoadDictionaryConfiguration .ExternalConfigurationName));
+                }
+
             }
             catch (Exception e)
             {
-                // Later if you can't find the rsg.config file, load the internal one.
-                LogUtility.Write("Rsg Configuration", $"Unable to load rsg configuration due to exception.", e);
+                LogUtility.Write("Rsg Configuration", $"Unable to load internal/external rsg configuration.", e);
                 throw e;
             }
 
