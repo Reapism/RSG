@@ -77,14 +77,10 @@ namespace RSG.Core.Extensions
                 services
                     .AddSingleton<IRsgConfiguration>(rsgConfiguration);
 
-                if (useInternalRsgConfig)
-                {
-                    SerializationUtility.SerializeJson(rsgConfiguration, Path.Combine(dirInfo.Parent.FullName, LoadRsgConfiguration.ExternalConfigurationName));
-                }
-
                 var stringConfigSrc = rsgConfiguration.StringConfigurationSource;
                 var isStringConfigInternal = false;
                 var useInternalStringConfig = string.IsNullOrEmpty(rsgConfiguration.StringConfigurationSource) || !IOUtility.DoesFileExist(stringConfigSrc);
+                var stringPathToSerialize = Path.Combine(dirInfo.Parent.FullName, LoadStringConfiguration.ExternalConfigurationName);
 
                 if (useInternalStringConfig)
                 {
@@ -96,14 +92,10 @@ namespace RSG.Core.Extensions
                 services
                     .AddSingleton<IStringConfiguration>(stringConfiguration);
 
-                if (useInternalStringConfig)
-                {
-                    SerializationUtility.SerializeJson(stringConfiguration, Path.Combine(dirInfo.Parent.FullName, LoadStringConfiguration.ExternalConfigurationName));
-                }
-
                 var dictionaryConfigSrc = rsgConfiguration.DictionaryConfigurationSource;
                 var isDictionaryConfigInternal = false;
                 var useInternalDictionaryConfig = string.IsNullOrEmpty(rsgConfiguration.DictionaryConfigurationSource) || !IOUtility.DoesFileExist(stringConfigSrc);
+                var dictionaryPathToSerialize = Path.Combine(dirInfo.Parent.FullName, LoadDictionaryConfiguration.ExternalConfigurationName);
 
                 if (useInternalDictionaryConfig)
                 {
@@ -115,15 +107,28 @@ namespace RSG.Core.Extensions
                 services
                     .AddSingleton<IDictionaryConfiguration>(dictionaryConfiguration);
 
+                if (useInternalStringConfig)
+                {
+                    SerializationUtility.SerializeJson(stringConfiguration, stringPathToSerialize);
+                }
+
                 if (useInternalDictionaryConfig)
                 {
-                    SerializationUtility.SerializeJson(dictionaryConfiguration, Path.Combine(dirInfo.Parent.FullName, LoadDictionaryConfiguration .ExternalConfigurationName));
+                    SerializationUtility.SerializeJson(dictionaryConfiguration, dictionaryPathToSerialize);
+                }
+
+                if (useInternalRsgConfig)
+                {
+                    // Since we are using the internal rsg configuration file, set the new paths to string and dictionary configurations.
+                    rsgConfiguration.StringConfigurationSource = stringPathToSerialize;
+                    rsgConfiguration.DictionaryConfigurationSource = dictionaryPathToSerialize;
+                    SerializationUtility.SerializeJson(rsgConfiguration, Path.Combine(dirInfo.Parent.FullName, LoadRsgConfiguration.ExternalConfigurationName));
                 }
 
             }
             catch (Exception e)
             {
-                LogUtility.Write("Rsg Configuration", $"Unable to load internal/external rsg configuration.", e);
+                LogUtility.Write("Rsg Configuration", $"Unable to load internal/external rsg configuration(s).", e);
                 throw e;
             }
 
