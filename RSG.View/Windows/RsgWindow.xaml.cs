@@ -44,7 +44,6 @@ namespace RSG.View.Windows
 
             var numberOfWords = BigInteger.Parse("100003");
             await randomWordGenerator.GenerateRandomWordsResult(numberOfWords);
-
         }
 
         private void NavigationMenu_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.CommandWpf;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using RSG.Core.Enums;
 using RSG.Core.Models;
 using System;
@@ -7,7 +8,7 @@ using System.Windows;
 
 namespace RSG.View.ViewModels
 {
-    public class DictionaryEditViewModel
+    public class DictionaryEditViewModel : ViewModelBase
     {
         public DictionaryEditViewModel()
         {

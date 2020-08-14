@@ -1,26 +1,31 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Microsoft.Extensions.DependencyInjection;
 using RSG.Core.Interfaces;
 using RSG.Core.Utilities;
 using System.ComponentModel;
 using System.Numerics;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using System;
-using GalaSoft.MvvmLight.Ioc;
 using System.Windows;
 
 namespace RSG.View.ViewModels
 {
     public class DictionaryDetailsViewModel : ViewModelBase
     {
+        private readonly RandomWordGenerator randomWordGenerator;
+
         public DictionaryDetailsViewModel()
         {
-            RunCommand = new RelayCommand(OnRunAsync, canExecute: CanRun());
+            this.randomWordGenerator = randomWordGenerator;
         }
 
-        private Func<bool> CanRun()
+        private void InitializeCommands()
         {
-            return () => true;
+            RunCommand = new RelayCommand(OnRunAsync, CanRun);
+        }
+
+        private bool CanRun()
+        {
+            return true;
         }
 
         private void Generator_GenerateRandomWordsResultProgressChanged(object sender, ProgressChangedEventArgs e)
