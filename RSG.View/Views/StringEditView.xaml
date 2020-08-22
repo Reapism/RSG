@@ -15,15 +15,15 @@
                         <GradientStop Color="#FFE8E8E8" Offset="0"/>
                     </RadialGradientBrush>
                 </GroupBox.Background>
-                <Grid DataContext="StringViewModel">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <TextBox HorizontalAlignment="Stretch" Margin="5" Text="{Binding StringLengthDisplay, Mode=TwoWay}" DataContext="StringViewModel"/>
-                        <TextBox HorizontalAlignment="Stretch" Margin="5" Text="{Binding IterationsDisplay, Mode=TwoWay}" />
-                        <ComboBox HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding RandomizationTypes, Mode=OneWay}" DisplayMemberPath="SelectedRandomizationType" SelectedValuePath="RandomizationTypes" />
+                        <TextBox HorizontalAlignment="Stretch" Margin="5" />
+                        <TextBox HorizontalAlignment="Stretch" Margin="5" />
+                        <ComboBox HorizontalAlignment="Stretch" Margin="5" />
                         <Button Content="Generate" Margin="5"/>
                     </StackPanel>
                     <GroupBox Header="Generation Settings" Grid.Row="1">
