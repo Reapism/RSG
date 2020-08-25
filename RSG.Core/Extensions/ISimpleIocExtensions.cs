@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using GalaSoft.MvvmLight.Ioc;
 using RSG.Core.Configuration;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
@@ -8,58 +7,46 @@ using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace RSG.Core.Extensions
 {
-    /// <summary>
-    /// Extensions for the <see cref="IServiceCollection"/> contract to add
-    /// <see cref="RSG.Core"/> services for dependency injection.
-    /// </summary>
-    public static class IServiceCollectionExtensions
+    public static class ISimpleIocExtensions
     {
-        /// <summary>
-        /// Registers all <see cref="Core"/> required services to use the public API.
-        /// <para>The DI container requires a <see cref="IServiceCollection"/> contract
-        /// to register contracts/concretes.</para>
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> contract used to
-        /// register the contracts/concretes.</param>
-        /// <returns>Returns the <see cref="IServiceCollection"/> with the new
-        /// services from <see cref="Core"/>.</returns>
-        public static IServiceCollection AddRsgCore(this IServiceCollection services)
+        public static ISimpleIoc AddRsgCore(this ISimpleIoc container)
         {
-            return RegisterCoreTypes(services);
+            return RegisterCoreTypes(container);
         }
 
-        private static IServiceCollection RegisterCoreTypes(IServiceCollection services)
+        private static ISimpleIoc RegisterCoreTypes(ISimpleIoc container)
         {
-            RegisterConfigurations(services);
+            RegisterConfigurations(container);
 
-            services
-                .AddTransient<IRsgDictionary, RsgDictionary>()
-                .AddTransient<ICharacterFrequency, CharacterFrequency>()
-                .AddTransient<IResult, Result>()
-                .AddTransient<IStringResult, StringResult>()
-                .AddTransient<IDictionaryResult, DictionaryResult>()
-                .AddTransient<IIterationsFrequency, IterationsFrequency>()
-                .AddTransient<IStatistics, Statistics>()
-                .AddTransient<IStringResult, StringResult>()
-                .AddTransient<IGeneratedWord, GeneratedWord>()
-                .AddTransient<IDictionaryWordList, DictionaryWordList>()
-                .AddTransient<IThreadService, ThreadService>()
-                .AddTransient<IShuffle<char>, Scrambler>()
-                .AddTransient<CharacterSetService>()
-                .AddTransient<RandomStringGenerator>()
-                .AddTransient<RandomWordGenerator>()
-                .AddTransient<WordListService>()
-                .AddTransient<DictionaryService>();
+            container.Register<IRsgDictionary, RsgDictionary>();
+            container.Register<ICharacterFrequency, CharacterFrequency>();
+            container.Register<IResult, Result>();
+            container.Register<IStringResult, StringResult>();
+            container.Register<IDictionaryResult, DictionaryResult>();
+            container.Register<IIterationsFrequency, IterationsFrequency>();
+            container.Register<IStatistics, Statistics>();
+            container.Register<IStringResult, StringResult>();
+            container.Register<IGeneratedWord, GeneratedWord>();
+            container.Register<IDictionaryWordList, DictionaryWordList>();
+            container.Register<IThreadService, ThreadService>();
+            container.Register<IShuffle<char>, Scrambler>();
+            container.Register<CharacterSetService>();
+            container.Register<RandomStringGenerator>();
+            container.Register<RandomWordGenerator>();
+            container.Register<WordListService>();
+            container.Register<DictionaryService>();
 
-            return services;
+            return container;
         }
 
-        private static IServiceCollection RegisterConfigurations(IServiceCollection services)
+        private static ISimpleIoc RegisterConfigurations(ISimpleIoc container)
         {
             try
             {
@@ -75,8 +62,8 @@ namespace RSG.Core.Extensions
                 }
 
                 var rsgConfiguration = new LoadRsgConfiguration().LoadJson(rsgConfigSrc, isRsgConfigInternal);
-                services
-                    .AddSingleton<IRsgConfiguration>(rsgConfiguration);
+                container
+                    .Register<IRsgConfiguration>(() => rsgConfiguration);
 
                 var stringConfigSrc = rsgConfiguration.StringConfigurationSource;
                 var isStringConfigInternal = false;
@@ -90,8 +77,8 @@ namespace RSG.Core.Extensions
                 }
 
                 var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfigSrc, isStringConfigInternal);
-                services
-                    .AddSingleton<IStringConfiguration>(stringConfiguration);
+                container
+                    .Register<IStringConfiguration>(() => stringConfiguration);
 
                 var dictionaryConfigSrc = rsgConfiguration.DictionaryConfigurationSource;
                 var isDictionaryConfigInternal = false;
@@ -105,8 +92,8 @@ namespace RSG.Core.Extensions
                 }
 
                 var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfigSrc, isDictionaryConfigInternal);
-                services
-                    .AddSingleton<IDictionaryConfiguration>(dictionaryConfiguration);
+                container
+                    .Register<IDictionaryConfiguration>(() => dictionaryConfiguration);
 
                 if (useInternalStringConfig)
                 {
@@ -132,7 +119,7 @@ namespace RSG.Core.Extensions
                 throw e;
             }
 
-            return services;
+            return container;
         }
     }
 }

@@ -1,69 +1,61 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommonServiceLocator;
+using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Extensions.DependencyInjection;
 using RSG.Core.Extensions;
+using RSG.Core.Utilities;
 using RSG.View.Managers;
 using RSG.View.ViewModels;
 using RSG.View.Views;
+using RSG.View.Windows;
 using System;
 
 namespace RSG.View
 {
-    public class IocContainer
+    public static class IocContainer
     {
-        private IServiceCollection Services { get; set; }
+        public static SimpleIoc Container { get; }
 
-        public IServiceProvider Provider { get; set; }
-
-        public IocContainer()
+        static IocContainer()
         {
-            Services = new ServiceCollection();
+            Container = SimpleIoc.Default;
         }
 
-        /// <summary>
-        /// Initalizes the container by adding <see cref="RSG.Core"/>
-        /// type mappings.
-        /// </summary>
-        /// <param name="container"></param>
-        public static void Initialize(IocContainer container)
+        public static void Initialize()
         {
-            if (container is null)
-            {
-                container = new IocContainer();
-            }
-
-            container.Services.AddRsgCore();
-
-            RegisterViewTypes(container);
-#if DEBUG
-            container.Provider = container.Services.BuildServiceProvider(
-                new ServiceProviderOptions()
-                {
-                    ValidateOnBuild = true,
-                    ValidateScopes = true
-                });
-#else
-            container.Provider = container.Services.BuildServiceProvider();
-#endif
-
+            RegisterRsgCore();
+            //RegisterViewTypes();
+            RegisterViewModels();
         }
 
-        private static void RegisterViewTypes(IocContainer container)
+        private static void RegisterViewModels()
         {
-            container.Services
-                .AddTransient<AboutViewModel>()
-                .AddTransient<DialogViewModel>()
-                .AddTransient<DictionaryDetailsViewModel>()
-                .AddTransient<SearchDetailsViewModel>()
-                .AddTransient<SearchEditViewModel>()
-                .AddTransient<StringDetailsViewModel>()
-                .AddTransient<StringEditViewModel>()
-                .AddTransient<AboutView>()
-                .AddTransient<Dialog>()
-                .AddTransient<DictionaryDetailsView>()
-                .AddTransient<SearchDetailsView>()
-                .AddTransient<SearchEditView>()
-                .AddTransient<SettingsEditView>()
-                .AddTransient<StringDetailsView>()
-                .AddTransient<StringEditView>();
+            Container.Register<AboutViewModel>();
+            Container.Register<DialogViewModel>();
+            Container.Register<DictionaryDetailsViewModel>();
+            Container.Register<DictionaryEditViewModel>();
+            Container.Register<SearchDetailsViewModel>();
+            Container.Register<SearchEditViewModel>();
+            Container.Register<StringDetailsViewModel>();
+            Container.Register<StringEditViewModel>();
+            Container.Register<SettingsEditViewModel>();
+        }
+
+        private static void RegisterViewTypes()
+        {
+            Container.Register<AboutView>();
+            Container.Register<Dialog>();
+            Container.Register<DictionaryDetailsView>();
+            Container.Register<DictionaryEditView>();
+            Container.Register<SearchDetailsView>();
+            Container.Register<SearchEditView>();
+            Container.Register<StringDetailsView>();
+            Container.Register<StringEditView>();
+            Container.Register<SettingsEditView>();
+        }
+
+        private static void RegisterRsgCore()
+        {
+            Container.AddRsgCore();
         }
     }
 }
