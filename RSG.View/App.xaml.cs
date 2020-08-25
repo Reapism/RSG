@@ -9,19 +9,13 @@ namespace RSG.View
     /// </summary>
     public partial class App : Application
     {
-        public static IocContainer Container { get; private set; }
+        public ViewModelLocator ViewModelLocator { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
-            IocContainer.Initialize(Container);
-
-
-            if (Container.Provider != null)
-            {
-                var mainWindow = Current.Windows.OfType<RsgWindow>().FirstOrDefault();
-            }
+            IocContainer.Initialize();
+            ViewModelLocator = Resources["Locator"] as ViewModelLocator;
         }
     }
 }

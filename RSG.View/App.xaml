@@ -5,14 +5,19 @@
     xmlns:SettingsViews="clr-namespace:RSG.View.Views.Settings"
     xmlns:ViewModels="clr-namespace:RSG.View.ViewModels"
     xmlns:Views="clr-namespace:RSG.View.Views"
+    xmlns:b="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:d="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:RSG.View"
     StartupUri="Windows/RsgWindow.xaml">
     <Application.Resources>
-        <!--  Create a Shared ContextMenu  -->
-        <ContextMenu x:Key="SharedContextMenu" x:Shared="true">
-            <MenuItem Header="Color" IsCheckable="true" />
-            <Separator />
-            <MenuItem Header="Shape" />
-        </ContextMenu>
+        <ResourceDictionary>
+            <local:ViewModelLocator x:Key="Locator" />
+            <!--  Create a Shared ContextMenu  -->
+            <ContextMenu x:Key="SharedContextMenu" x:Shared="true">
+                <MenuItem Header="Color" IsCheckable="true" />
+                <Separator />
+                <MenuItem Header="Shape" />
+            </ContextMenu>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
