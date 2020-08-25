@@ -23,7 +23,7 @@ namespace RSG.View.Managers
         Settings = 4
     }
 
-    internal class PageManager
+    public class PageManager
     {
         public PageManager()
         {

@@ -1,119 +1,214 @@
-﻿<UserControl x:Class="RSG.View.Views.DictionaryEditView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RSG.View.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="RSG.View.Views.DictionaryEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModels="clr-namespace:RSG.View.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RSG.View.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding DictionaryEditViewModel, Source={StaticResource Locator}}"
+    mc:Ignorable="d">
     <Grid>
         <Grid Background="White">
             <Grid.RowDefinitions>
-                <RowDefinition Height="75*"/>
-                <RowDefinition Height="41*"/>
-                <RowDefinition Height="109*"/>
-                <RowDefinition Height="20*"/>
+                <RowDefinition Height="75*" />
+                <RowDefinition Height="41*" />
+                <RowDefinition Height="109*" />
+                <RowDefinition Height="20*" />
             </Grid.RowDefinitions>
             <GroupBox Header="Generate">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="365*"/>
+                        <ColumnDefinition Width="20*" />
+                        <ColumnDefinition Width="365*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Margin="5"  Source="/Resources/grayscale/iterations.png"/>
-                    <TextBox Grid.Row="0" Grid.Column="1"  Margin="5" MaxHeight="50"/>
-                    <Image Grid.Row="1" Margin="5" Source="/Resources/grayscale/dictionary.png"/>
-                    <ComboBox Grid.Row="1" Grid.Column="1"  Margin="5" MaxHeight="50"/>
-                    <Image Grid.Row="2" Margin="5" Source="/Resources/grayscale/settings.png"/>
-                    <ComboBox Grid.Row="2" Grid.Column="1"  Margin="5" MaxHeight="50"/>
+                    <Image
+                        Grid.Row="0"
+                        Margin="5"
+                        Source="/Resources/grayscale/iterations.png" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        MaxHeight="50"
+                        Margin="5" />
+                    <Image
+                        Grid.Row="1"
+                        Margin="5"
+                        Source="/Resources/grayscale/dictionary.png" />
+                    <ComboBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        MaxHeight="50"
+                        Margin="5" />
+                    <Image
+                        Grid.Row="2"
+                        Margin="5"
+                        Source="/Resources/grayscale/settings.png" />
+                    <ComboBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        MaxHeight="50"
+                        Margin="5" />
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Randomization Method" Grid.Row="1">
+            <GroupBox Grid.Row="1" Header="Randomization Method">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="365*"/>
+                        <ColumnDefinition Width="20*" />
+                        <ColumnDefinition Width="365*" />
                     </Grid.ColumnDefinitions>
-                    <Image Margin="5"  Source="/Resources/grayscale/random.png"/>
-                    <ComboBox Grid.Column="1" Margin="5,10,5,10" MaxHeight="50"/>
+                    <Image Margin="5" Source="/Resources/grayscale/random.png" />
+                    <ComboBox
+                        Grid.Column="1"
+                        MaxHeight="50"
+                        Margin="5,10,5,10" />
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Properties" Grid.Row="2">
+            <GroupBox Grid.Row="2" Header="Properties">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="75*"/>
-                        <ColumnDefinition Width="75*"/>
-                        <ColumnDefinition Width="75*"/>
-                        <ColumnDefinition Width="75*"/>
-                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="20*" />
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="75*" />
+                        <ColumnDefinition Width="75*" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <CheckBox Grid.Row="0" Margin="5" Content="Use uppercase"/>
-                        <CheckBox Grid.Row="1" Margin="5" Content="Use spacing"/>
-                        <CheckBox Grid.Row="2" Margin="5" Content="Use punctuation"/>
-                        <CheckBox Grid.Row="3" Margin="5" Content="Use aliterations"/>
-                        <CheckBox Grid.Row="4" Margin="5" Content="Use noise"/>
+                        <CheckBox
+                            Grid.Row="0"
+                            Margin="5"
+                            Content="Use uppercase" />
+                        <CheckBox
+                            Grid.Row="1"
+                            Margin="5"
+                            Content="Use spacing" />
+                        <CheckBox
+                            Grid.Row="2"
+                            Margin="5"
+                            Content="Use punctuation" />
+                        <CheckBox
+                            Grid.Row="3"
+                            Margin="5"
+                            Content="Use aliterations" />
+                        <CheckBox
+                            Grid.Row="4"
+                            Margin="5"
+                            Content="Use noise" />
                     </Grid>
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Row="3" Grid.Column="0" Margin="5" MaxHeight="40" Text="Min"/>
-                        <TextBox Grid.Row="3" Grid.Column="1" Margin="5" MaxHeight="40" Text="Max"/>
-                        <TextBox Grid.Row="4" Grid.Column="0" Margin="5" MaxHeight="40" Text="Min"/>
-                        <TextBox Grid.Row="4" Grid.Column="1" Margin="5" MaxHeight="40" Text="Max"/>
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            MaxHeight="40"
+                            Margin="5"
+                            Text="Min" />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            MaxHeight="40"
+                            Margin="5"
+                            Text="Max" />
+                        <TextBox
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            MaxHeight="40"
+                            Margin="5"
+                            Text="Min" />
+                        <TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            MaxHeight="40"
+                            Margin="5"
+                            Text="Max" />
                     </Grid>
                     <Grid Grid.Column="3">
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                            <CheckBox Grid.Row="0" Margin="5" Content="Generate Book"/>
-                        <CheckBox Grid.Row="1" Margin="5" Content="Use Max Threads"/>
+                        <CheckBox
+                            Grid.Row="0"
+                            Margin="5"
+                            Content="Generate Book" />
+                        <CheckBox
+                            Grid.Row="1"
+                            Margin="5"
+                            Content="Use Max Threads" />
                     </Grid>
                     <Grid Grid.Column="5">
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <CheckBox Grid.Row="0" Margin="5" Content="Show stats"/>
-                        <CheckBox Grid.Row="1" Margin="5" Content="Show heavy stats"/>
-                        <Button Grid.Row="1" Margin="5" Content="Export" IsEnabled="False" ToolTip="You must generate"/>
-                        <Button Grid.Row="2" Margin="5" Content="View Log" ToolTip="View a log"/>
-                        <Button Grid.Row="3" Margin="5" Content="Randomize Settings"/>
+                        <CheckBox
+                            Grid.Row="0"
+                            Margin="5"
+                            Content="Show stats" />
+                        <CheckBox
+                            Grid.Row="1"
+                            Margin="5"
+                            Content="Show heavy stats" />
+                        <Button
+                            Grid.Row="1"
+                            Margin="5"
+                            Content="Export"
+                            IsEnabled="False"
+                            ToolTip="You must generate" />
+                        <Button
+                            Grid.Row="2"
+                            Margin="5"
+                            Content="View Log"
+                            ToolTip="View a log" />
+                        <Button
+                            Grid.Row="3"
+                            Margin="5"
+                            Content="Randomize Settings" />
                     </Grid>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Background Progress" Grid.Row="3" Visibility="Visible">
+            <GroupBox
+                Grid.Row="3"
+                Header="Background Progress"
+                Visibility="Visible">
                 <Grid>
-                    <ProgressBar Background="#4C00FFFF" Foreground="#4CC3C3C3" Value="5" MaxHeight="30" ToolTip="Display thread stuff"/>
+                    <ProgressBar
+                        MaxHeight="30"
+                        Background="#4C00FFFF"
+                        Foreground="#4CC3C3C3"
+                        ToolTip="Display thread stuff"
+                        Value="5" />
                 </Grid>
             </GroupBox>
         </Grid>

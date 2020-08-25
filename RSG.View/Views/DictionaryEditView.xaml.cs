@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace RSG.View.Views
 {
@@ -9,7 +10,14 @@ namespace RSG.View.Views
     {
         public DictionaryEditView()
         {
+            try
+            {
             InitializeComponent();
+
+            }catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    DataContext="{Binding DictionaryDetailsViewModel, Source={StaticResource Locator}}"
     mc:Ignorable="d">
     <Grid Background="White">
         <Grid>

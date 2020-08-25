@@ -1,34 +1,55 @@
-﻿<UserControl x:Class="RSG.View.Views.AboutView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RSG.View.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="RSG.View.Views.AboutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RSG.View.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:root="clr-namespace:RSG.View"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <root:ViewModelLocator x:Key="Locator" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <Binding Source="{StaticResource Locator}" />
+    </UserControl.DataContext>
     <Grid>
         <Grid Background="White" ShowGridLines="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="270*"/>
-                <RowDefinition Height="80*"/>
-                <RowDefinition Height="50*"/>
+                <RowDefinition Height="270*" />
+                <RowDefinition Height="80*" />
+                <RowDefinition Height="50*" />
             </Grid.RowDefinitions>
             <Grid Background="SpringGreen" ShowGridLines="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Padding="5" TextAlignment="Center" TextWrapping="WrapWithOverflow" Text="The RSG (Random String Generator) is the fourth iteration of the original string generator originally created for the purpose of a YouTube video."/>
-                <Image Grid.Column="1" MaxHeight="400" MaxWidth="400" Source="/Resources/high/about.png"/>
-                <TextBlock Grid.Column="2" Padding="5" TextAlignment="Center" TextWrapping="WrapWithOverflow" Text="Fun fact:"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Column="0"
+                    Padding="5"
+                    Text="The RSG (Random String Generator) is the fourth iteration of the original string generator originally created for the purpose of a YouTube video."
+                    TextAlignment="Center"
+                    TextWrapping="WrapWithOverflow" />
+                <Image
+                    Grid.Column="1"
+                    MaxWidth="400"
+                    MaxHeight="400"
+                    Source="/Resources/high/about.png" />
+                <TextBlock
+                    Grid.Column="2"
+                    Padding="5"
+                    Text="Fun fact:"
+                    TextAlignment="Center"
+                    TextWrapping="WrapWithOverflow" />
             </Grid>
-            <Grid Grid.Row="1" Background="LightCyan">
-                
-            </Grid>
-            <Grid Grid.Row="2" Background="MediumPurple">
-                
-            </Grid>
+            <Grid Grid.Row="1" Background="LightCyan" />
+            <Grid Grid.Row="2" Background="MediumPurple" />
         </Grid>
     </Grid>
 </UserControl>

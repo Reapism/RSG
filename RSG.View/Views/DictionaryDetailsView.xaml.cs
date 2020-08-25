@@ -18,7 +18,15 @@ namespace RSG.View.Views
 
         public DictionaryDetailsView(RandomWordGenerator generator)
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
             viewModel = DataContext as DictionaryDetailsViewModel;
             this.RunCommand.Click += RunButton_Click;
