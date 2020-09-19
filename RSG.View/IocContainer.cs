@@ -23,8 +23,14 @@ namespace RSG.View
         public static void Initialize()
         {
             RegisterRsgCore();
-            //RegisterViewTypes();
+            RegisterViewTypes();
             RegisterViewModels();
+            RegisterViewServices();
+        }
+
+        private static void RegisterViewServices()
+        {
+            Container.Register<PageManager>();
         }
 
         private static void RegisterViewModels()
