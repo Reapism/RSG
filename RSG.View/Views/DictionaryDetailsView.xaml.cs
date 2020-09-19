@@ -16,7 +16,7 @@ namespace RSG.View.Views
         private readonly DictionaryDetailsViewModel viewModel;
         private readonly RandomWordGenerator randomWordGenerator;
 
-        public DictionaryDetailsView(RandomWordGenerator generator)
+        public DictionaryDetailsView()
         {
             try
             {
@@ -30,7 +30,7 @@ namespace RSG.View.Views
 
             viewModel = DataContext as DictionaryDetailsViewModel;
             this.RunCommand.Click += RunButton_Click;
-            this.randomWordGenerator = generator;
+            this.randomWordGenerator = IocContainer.Container.GetInstance<RandomWordGenerator>();
         }
 
         private void RunButton_Click(object sender, RoutedEventArgs e)

@@ -15,20 +15,21 @@ namespace RSG.View.ViewModels
 
         private void InitializeCommands()
         {
-            RunCommand = new RelayCommand<RandomWordGenerator>(OnRunAsync, CanRun);
+            RunCommand = new RelayCommand(OnRunAsync, CanRun);
         }
 
-        private bool CanRun(RandomWordGenerator randomWordGenerator)
+        private bool CanRun()
         {
             return true;
         }
 
-        private async void OnRunAsync(RandomWordGenerator generator)
+        private async void OnRunAsync()
         {
+            var generator = IocContainer.Container.GetInstance<RandomWordGenerator>();
             await generator.GenerateRandomWordsResult(BigInteger.Parse("1000000"));
         }
 
-        public RelayCommand<RandomWordGenerator> RunCommand { get; set; }
+        public RelayCommand RunCommand { get; set; }
 
         public IDictionaryResult Result { get; set; }
     }
