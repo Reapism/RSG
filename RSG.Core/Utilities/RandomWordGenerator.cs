@@ -97,7 +97,7 @@ namespace RSG.Core.Utilities
             }
             catch (Exception e)
             {
-                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(e, false, this, new Result.Empty() as IDictionaryResult));
+                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(e, false, this, ResultBase.Empty() as IDictionaryResult));
             }
         }
 

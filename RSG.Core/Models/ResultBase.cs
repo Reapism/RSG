@@ -10,6 +10,20 @@ namespace RSG.Core.Models
     /// </summary>
     public abstract class ResultBase : IResult
     {
+        private static IResult emptyResult;
+
+        static ResultBase()
+        {
+            emptyResult = new Result
+            {
+                EndTime = DateTime.UnixEpoch,
+                StartTime = DateTime.UnixEpoch,
+                Iterations = BigInteger.MinusOne,
+                RandomizationType = Enums.RandomizationType.Pseudorandom
+            };
+
+        }
+
         /// <summary>
         /// Gets or sets the randomization type used during this generation instance.
         /// </summary>
@@ -36,14 +50,7 @@ namespace RSG.Core.Models
         /// <returns>Returns an empty <see cref="IResult"/>.</returns>
         public static IResult Empty()
         {
-            var negativeOne = BigInteger.Negate(BigInteger.One);
-            return new Result()
-            {
-                EndTime = DateTime.UnixEpoch,
-                StartTime = DateTime.UnixEpoch,
-                Iterations = negativeOne,
-                RandomizationType = Enums.RandomizationType.Pseudorandom,
-            };
+            return emptyResult;
         }
     }
 }
