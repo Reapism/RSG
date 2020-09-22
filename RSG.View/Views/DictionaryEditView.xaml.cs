@@ -10,14 +10,7 @@ namespace RSG.View.Views
     {
         public DictionaryEditView()
         {
-            try
-            {
             InitializeComponent();
-
-            }catch (Exception e)
-            {
-                throw e;
-            }
         }
     }
 }

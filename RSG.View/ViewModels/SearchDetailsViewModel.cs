@@ -1,6 +1,8 @@
-﻿namespace RSG.View.ViewModels
+﻿using GalaSoft.MvvmLight;
+
+namespace RSG.View.ViewModels
 {
-    public class SearchDetailsViewModel
+    public class SearchDetailsViewModel : ViewModelBase
     {
         public SearchDetailsViewModel()
         {

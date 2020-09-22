@@ -38,7 +38,7 @@
                                 Margin="5"
                                 Padding="5,10,5,10"
                                 Background="#4C48C9CD"
-                                Text="ABCVDSOIFDHDSOIFHSDOJFHSDIUFGURTIJUDFBNSUIHDFGYUSDFGYUSDGFSDF"
+                                Text="ABCDEFGHIJKLMNAOPQRSTUVWXYZabcdefghijklmnaopqrstuvwxyz0123456789"
                                 TextWrapping="Wrap">
                                 <TextBlock.TextEffects>
                                     <TextEffect

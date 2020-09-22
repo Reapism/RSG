@@ -33,7 +33,7 @@ namespace RSG.Core.Utilities
         private int maxWordIndex;
 
         /// <summary>
-        /// Event for when the <see cref="GenerateRandomWordsResult"/> function is completed.
+        /// Event for when the <see cref="Generate"/> function is completed.
         /// <para>Fired when it's cancelled, errored, or completed successfully.</para>
         /// </summary>
         public event GenerateRandomWordsResultCompletedEventHandler GenerateRandomWordsResultCompleted;
@@ -68,7 +68,12 @@ namespace RSG.Core.Utilities
             GenerateRandomWordsResultCompleted += HandleGenerateRandomWordsResultCompleted;
         }
 
-        public async Task GenerateRandomWordsResult(BigInteger numberOfIterations)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="numberOfIterations"></param>
+        /// <returns></returns>
+        public async Task Generate(BigInteger numberOfIterations)
         {
             try
             {

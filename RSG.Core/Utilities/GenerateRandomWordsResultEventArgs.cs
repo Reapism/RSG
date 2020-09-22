@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace RSG.Core.Utilities
 {
     /// <summary>
-    /// Event handler for when the <see cref="RandomWordGenerator.GenerateRandomWordsResult(System.Numerics.BigInteger)"/>
+    /// Event handler for when the <see cref="RandomWordGenerator.Generate(System.Numerics.BigInteger)"/>
     /// InProgress event is fired.
     /// </summary>
     /// <param name="sender">The object who fired the event.</param>
@@ -13,7 +13,7 @@ namespace RSG.Core.Utilities
     public delegate void GenerateRandomWordsResultProgressChangedEventHandler(object sender, ProgressChangedEventArgs e);
 
     /// <summary>
-    /// Event handler for when the <see cref="RandomWordGenerator.GenerateRandomWordsResult(System.Numerics.BigInteger)"/>
+    /// Event handler for when the <see cref="RandomWordGenerator.Generate(System.Numerics.BigInteger)"/>
     /// Completed event is fired.
     /// </summary>
     /// <param name="sender">The object who fired the event.</param>
@@ -41,7 +41,7 @@ namespace RSG.Core.Utilities
         }
 
         /// <summary>
-        /// Gets the result of the <see cref="RandomWordGenerator.GenerateRandomWordsResult(System.Numerics.BigInteger)"/>
+        /// Gets the result of the <see cref="RandomWordGenerator.Generate(System.Numerics.BigInteger)"/>
         /// member function.
         /// </summary>
         public IDictionaryResult Result { get; }
