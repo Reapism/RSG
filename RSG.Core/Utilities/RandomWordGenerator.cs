@@ -36,9 +36,13 @@ namespace RSG.Core.Utilities
         /// Event for when the <see cref="Generate"/> function is completed.
         /// <para>Fired when it's cancelled, errored, or completed successfully.</para>
         /// </summary>
-        public event GenerateRandomWordsResultCompletedEventHandler GenerateRandomWordsResultCompleted;
+        public event Completed GenerateCompleted;
 
-        public event GenerateRandomWordsResultProgressChangedEventHandler GenerateRandomWordsResultProgressChanged;
+        /// <summary>
+        /// Event for when the <see cref="ProgressChanged"/> function is in progress.
+        /// <para>Fired when progress has changed.</para>
+        /// </summary>
+        public event ProgressChanged GenerateChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
@@ -262,51 +266,20 @@ namespace RSG.Core.Utilities
             return noisePositions;
         }
 
-        private void FireGenerateRandomWordsResultCompleted(GenerateRandomWordsResultEventArgs args)
-        {
-            if (GenerateRandomWordsResultCompleted == null)
+        private void FireGenerateChanged(ProgressChangedEventArgs args)
             {
-                return;
-            }
-
-            HandleGenerateRandomWordsResultCompleted(this, args);
-        }
-
-        private void HandleGenerateRandomWordsResultCompleted(object sender, GenerateRandomWordsResultEventArgs args)
-        {
-            if (args.Cancelled)
+            if (!(GenerateChanged is null))
             {
-                LogUtility.Write(ToString(), $"This process has been cancelled", null);
-                return;
-            }
-
-            if (args.Error != null)
-            {
-                LogUtility.Write(ToString(), $"An exception has been thrown during the word generator", args.Error);
-                return;
-            }
-
-            if (args.Result != null)
-            {
-                LogUtility.Write(ToString(),
-                    $"{sender} EndTime: {args.Result.EndTime} Count: {args.Result.Words.Count}", null);
-                return;
+                GenerateChanged(this, args);
             }
         }
 
-        private void FireGenerateRandomWordsResultProgressChanged(ProgressChangedEventArgs args)
+        private void FireGenerateCompleted(DictionaryEventArgs args)
         {
-            if (GenerateRandomWordsResultProgressChanged == null)
+            if (!(GenerateCompleted is null))
             {
-                return;
+                GenerateCompleted(this, args);
             }
-
-            HandleGenerateRandomWordsResultProgressChanged(this, args);
-        }
-
-        private void HandleGenerateRandomWordsResultProgressChanged(object sender, ProgressChangedEventArgs args)
-        {
-            LogUtility.Write(ToString(), args.ProgressPercentage.ToString(), null);
         }
     }
 }
