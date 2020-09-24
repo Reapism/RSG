@@ -23,5 +23,11 @@ namespace RSG.Core.Extensions
         {
             return BigInteger.Parse(value.ToString());
         }
+
+        public static BigInteger ToBigInteger(this string value)
+        {
+            return BigInteger.Parse(value);
+        }
+
     }
 }
