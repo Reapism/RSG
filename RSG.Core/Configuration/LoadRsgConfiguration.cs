@@ -6,7 +6,7 @@ namespace RSG.Core.Configuration
 {
     internal class LoadRsgConfiguration : ILoad<RsgConfiguration>
     {
-        public const string ExternalConfigurationName = "RSG.config";
+        public const string ExternalConfigurationName = "RSG.json";
         public const string InternalConfigurationName = "DefaultRsgConfiguration.json";
 
         public RsgConfiguration LoadJson(string file, bool isInternal)

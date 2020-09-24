@@ -3,6 +3,7 @@ using RSG.Core.Configuration;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
@@ -11,14 +12,14 @@ namespace RSG.Core.Tests.Unit.Configuration
     [TestFixture]
     class RsgConfigurationTests
     {
-        public const string ExternalConfigurationName = "RSG.config";
+        public const string ExternalConfigurationName = "RSG.json";
 
         [TestCase(ExternalConfigurationName)]
         public void Serialize(string fileName)
         {
-            var stringConfiguration = CreateConfiguration();
+            var rsgConfiguration = CreateConfiguration();
             Assert.DoesNotThrow(() =>
-                SerializationUtility.SerializeJson(stringConfiguration, fileName, new JsonSerializerOptions() { WriteIndented = true })
+                SerializationUtility.SerializeJson(rsgConfiguration, fileName, new JsonSerializerOptions() { WriteIndented = true })
             );
 
         }
@@ -26,12 +27,20 @@ namespace RSG.Core.Tests.Unit.Configuration
         [Test]
         public void ConfigurationsAreEqualWhenDeserializing()
         {
-            var stringConfiguration = CreateConfiguration();
+            var rsgConfiguration = CreateConfiguration();
             Serialize(ExternalConfigurationName);
 
-            var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<RsgConfiguration>(ExternalConfigurationName);
+            var rsgConfigurationDeserialized = SerializationUtility.DeserializeJson<RsgConfiguration>(ExternalConfigurationName);
 
-            Assert.IsTrue(stringConfiguration.Equals(stringConfigurationDeserialized));
+            Assert.AreEqual(rsgConfiguration.CheckForUpdatesOnLoad, rsgConfigurationDeserialized.CheckForUpdatesOnLoad);
+            Assert.AreEqual(rsgConfiguration.CopySelectionsToClipboard, rsgConfigurationDeserialized.CopySelectionsToClipboard);
+            Assert.AreEqual(rsgConfiguration.CurrentVersion, rsgConfigurationDeserialized.CurrentVersion);
+            Assert.AreEqual(rsgConfiguration.DictionaryConfigurationSource, rsgConfigurationDeserialized.DictionaryConfigurationSource);
+            Assert.AreEqual(rsgConfiguration.FirstTimeUsingCurrentVersion, rsgConfigurationDeserialized.FirstTimeUsingCurrentVersion);
+            Assert.AreEqual(rsgConfiguration.NumberOfLaunchesThisVersion, rsgConfigurationDeserialized.NumberOfLaunchesThisVersion);
+            Assert.AreEqual(rsgConfiguration.RandomizationType, rsgConfigurationDeserialized.RandomizationType);
+            Assert.AreEqual(rsgConfiguration.StringConfigurationSource, rsgConfigurationDeserialized.StringConfigurationSource);
+            Assert.AreEqual(rsgConfiguration.UseStickyWindows, rsgConfigurationDeserialized.UseStickyWindows);
         }
 
         private RsgConfiguration CreateConfiguration()
@@ -40,7 +49,7 @@ namespace RSG.Core.Tests.Unit.Configuration
             {
                 CheckForUpdatesOnLoad = true,
                 CopySelectionsToClipboard = true,
-                CurrentVersion = new Version(1, 0, 0, 0),
+                CurrentVersion = "1.0.0.0",
                 DictionaryConfigurationSource = null,
                 FirstTimeUsingCurrentVersion = true,
                 NumberOfLaunchesThisVersion = 1,
