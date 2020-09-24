@@ -1,11 +1,17 @@
-﻿using System.Diagnostics;
+﻿using RSG.Core.Extensions;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace RSG.Core.Models
 {
-    [DebuggerDisplay("CurrentIndex = {CurrentIndex}, NumberOfPartitions = {NumberOfPartitions}, TotalIterations = {TotalIterations}")]
+    [DebuggerDisplay("NumberOfPartitions = {NumberOfPartitions}, TotalIterations = {TotalIterations}")]
     internal class PartitionInfo
     {
+        public PartitionInfo()
+        {
+            TotalIterations = BigInteger.Zero;
+        }
+
         internal BigInteger TotalIterations { get; set; }
 
         internal int NumberOfPartitions { get; set; }
@@ -14,26 +20,34 @@ namespace RSG.Core.Models
 
         internal int LastPartitionSize { get; set; }
 
-        internal int CurrentIndex { get; set; }
+        internal int ThreadCount { get; set; }
 
-        public int GetPartitionSize()
+        internal static PartitionInfo Get(in BigInteger iterations, int threadCount)
         {
-            if (IsLastPartition(CurrentIndex))
+            var fullPartSize = int.Parse(BigInteger.DivRem(
+                iterations,
+                threadCount.ToBigInteger(),
+                out var lastPartSize).ToString());
+
+            if (lastPartSize == BigInteger.Zero)
             {
-                return LastPartitionSize;
+                lastPartSize = fullPartSize.ToBigInteger();
+            }
+            else
+            {
+                lastPartSize += fullPartSize.ToBigInteger();
             }
 
-            return FullPartitionSize;
-        }
-
-        private bool IsLastPartition(int currentIndex)
-        {
-            if (currentIndex < NumberOfPartitions - 1)
+            var partitionInfo = new PartitionInfo()
             {
-                return false;
-            }
+                TotalIterations = iterations,
+                ThreadCount = threadCount,
+                FullPartitionSize = fullPartSize,
+                LastPartitionSize = (int)lastPartSize,
+                NumberOfPartitions = threadCount
+            };
 
-            return true;
+            return partitionInfo;
         }
     }
 }
