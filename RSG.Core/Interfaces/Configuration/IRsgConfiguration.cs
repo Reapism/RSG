@@ -8,8 +8,6 @@ namespace RSG.Core.Interfaces.Configuration
     /// </summary>
     public interface IRsgConfiguration
     {
-        Version CurrentVersion { get; set; }
-
         int NumberOfLaunchesThisVersion { get; set; }
 
         int NumberOfLaunchesTotal { get; set; }
@@ -23,6 +21,8 @@ namespace RSG.Core.Interfaces.Configuration
         bool UseStickyWindows { get; set; }
 
         RandomizationType RandomizationType { get; set; }
+
+        string CurrentVersion { get; set; }
 
         string DictionaryConfigurationSource { get; set; }
 
