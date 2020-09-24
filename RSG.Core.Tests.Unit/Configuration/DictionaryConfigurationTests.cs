@@ -13,7 +13,7 @@ namespace RSG.Core.Tests.Unit.Configuration
     [TestFixture]
     class DictionaryConfigurationTests
     {
-        public const string ExternalConfigurationName = "Dictionary.config";
+        public const string ExternalConfigurationName = "Dictionary.json";
 
         [TestCase(ExternalConfigurationName)]
         public void Serialize(string fileName)
@@ -33,7 +33,26 @@ namespace RSG.Core.Tests.Unit.Configuration
 
             var dictionaryConfigurationDeserialized = SerializationUtility.DeserializeJson<DictionaryConfiguration>(ExternalConfigurationName);
 
-            Assert.IsTrue(dictionaryConfiguration.Equals(dictionaryConfigurationDeserialized));
+            Assert.AreEqual(dictionaryConfiguration.AliterationCharacter, dictionaryConfigurationDeserialized.AliterationCharacter);
+            Assert.AreEqual(dictionaryConfiguration.AliterationFrequency, dictionaryConfigurationDeserialized.AliterationFrequency);
+            Assert.AreEqual(dictionaryConfiguration.AliterationRange, dictionaryConfigurationDeserialized.AliterationRange);
+            Assert.AreEqual(dictionaryConfiguration.CapitalizeEachWord, dictionaryConfigurationDeserialized.CapitalizeEachWord);
+            Assert.AreEqual(dictionaryConfiguration.MaximumThreadCount, dictionaryConfigurationDeserialized.MaximumThreadCount);
+            Assert.AreEqual(dictionaryConfiguration.NoiseFrequency, dictionaryConfigurationDeserialized.NoiseFrequency);
+            Assert.AreEqual(dictionaryConfiguration.NoisePerWordRange, dictionaryConfigurationDeserialized.NoisePerWordRange);
+            Assert.AreEqual(dictionaryConfiguration.Priority, dictionaryConfigurationDeserialized.Priority);
+            Assert.AreEqual(dictionaryConfiguration.Source, dictionaryConfigurationDeserialized.Source);
+            Assert.AreEqual(dictionaryConfiguration.UseAliteration, dictionaryConfigurationDeserialized.UseAliteration);
+            Assert.AreEqual(dictionaryConfiguration.UseNoise, dictionaryConfigurationDeserialized.UseNoise);
+            Assert.AreEqual(dictionaryConfiguration.UseSpace, dictionaryConfigurationDeserialized.UseSpace);
+
+            for(var i = 0; i < dictionaryConfiguration.Dictionaries.Count; i++)
+            {
+                if (!dictionaryConfiguration.Dictionaries[i].Equals(dictionaryConfigurationDeserialized.Dictionaries[i]))
+                {
+                    Assert.Fail($"The dictionary at index {i} dont match\nExpected:\n{dictionaryConfiguration.Dictionaries[i]} \n\nActual:\n{dictionaryConfigurationDeserialized.Dictionaries[i]}");
+                }
+            }
         }
 
         private DictionaryConfiguration CreateConfiguration()
