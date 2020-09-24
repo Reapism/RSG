@@ -1,5 +1,4 @@
-﻿using RSG.Core.Extensions;
-using RSG.Core.Interfaces;
+﻿using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
@@ -10,8 +9,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
@@ -124,7 +121,7 @@ namespace RSG.Core.Utilities
             for (; index < partitionInfo.NumberOfPartitions; index++)
             {
                 var iterations = index == partitionInfo.NumberOfPartitions - 1 ?
-                    partitionInfo.LastPartitionSize : 
+                    partitionInfo.LastPartitionSize :
                     partitionInfo.FullPartitionSize;
                 tasks[index] = Task.Run(() =>
                 {
