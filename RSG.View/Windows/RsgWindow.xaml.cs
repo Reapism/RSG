@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using RSG.View.Managers;
+﻿using RSG.View.Managers;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,7 +17,8 @@ namespace RSG.View.Windows
             try
             {
                 InitializeComponent();
-            }catch (Exception e )
+            }
+            catch (Exception e)
             {
                 throw e;
             }
