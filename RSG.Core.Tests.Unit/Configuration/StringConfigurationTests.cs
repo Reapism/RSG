@@ -5,6 +5,7 @@ using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.Json;
@@ -14,7 +15,7 @@ namespace RSG.Core.Tests.Unit.Configuration
     [TestFixture]
     class StringConfigurationTests
     {
-        public const string ExternalConfigurationName = "String.config";
+        public const string ExternalConfigurationName = "String.json";
 
         [TestCase(ExternalConfigurationName)]
         public void Serialize(string fileName)
@@ -34,7 +35,12 @@ namespace RSG.Core.Tests.Unit.Configuration
             
             var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<StringConfiguration>(ExternalConfigurationName);
 
-            Assert.IsTrue(stringConfiguration.Equals(stringConfigurationDeserialized));
+            foreach(var charSet in stringConfiguration.Characters)
+            {
+                Assert.AreEqual(charSet.Key, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Key);
+                Assert.AreEqual(charSet.Value.Characters, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Value.Characters);
+                Assert.AreEqual(charSet.Value.Enabled, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Value.Enabled);
+            }
         }
 
         private StringConfiguration CreateConfiguration()
