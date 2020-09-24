@@ -133,18 +133,6 @@ namespace RSG.Core.Services
             isFullyInitialized = true;
         }
 
-        private ConcurrentDictionary<string, IRsgDictionary> GetDictionaries()
-        {
-            var dictionaries = new ConcurrentDictionary<string, IRsgDictionary>();
-
-            foreach (var dictionary in dictionaryConfiguration.Dictionaries)
-            {
-                dictionaries.TryAdd(dictionary.Name, dictionary);
-            }
-
-            return dictionaries;
-        }
-
         private bool DoesDictionaryExist(string dictionaryName)
         {
             return dictionaryConfiguration.Dictionaries.Any(d => d.Name.Equals(dictionaryName, StringComparison.OrdinalIgnoreCase));
