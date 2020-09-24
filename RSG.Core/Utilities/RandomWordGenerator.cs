@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
@@ -27,7 +29,6 @@ namespace RSG.Core.Utilities
         private readonly IThreadService threadService;
         private readonly IDictionaryConfiguration dictionaryConfiguration;
         private readonly CharacterSetService characterSetService;
-        private readonly char[] characterSet;
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
         private int minWordIndex;
         private int maxWordIndex;
@@ -64,16 +65,12 @@ namespace RSG.Core.Utilities
             this.dictionaryConfiguration = dictionaryConfiguration;
             this.characterSetService = characterSetService;
 
-            characterSet = characterSetService.CharacterList;
             minWordIndex = 0;
-
-            // Subscribe to the handlers
-            GenerateRandomWordsResultProgressChanged += HandleGenerateRandomWordsResultProgressChanged;
-            GenerateRandomWordsResultCompleted += HandleGenerateRandomWordsResultCompleted;
         }
 
         /// <summary>
-        /// 
+        /// Runs the <see cref="Generate(BigInteger)"/> routine.
+        /// <para>Subscribe to <see cref=""/></para>
         /// </summary>
         /// <param name="numberOfIterations"></param>
         /// <returns></returns>
@@ -83,11 +80,11 @@ namespace RSG.Core.Utilities
             {
                 await LazyInitialization();
 
-                FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(5, this));
-
+                var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadsCount(numberOfIterations));
                 maxWordIndex = dictionary.WordList.Count();
+
                 var startTime = DateTime.Now;
-                var words = await GenerateWords(numberOfIterations);
+                var words = await GenerateWords(partitionInfo);
 
                 var endDate = DateTime.Now;
 
@@ -101,12 +98,12 @@ namespace RSG.Core.Utilities
                     Words = words
                 };
 
-                FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(100, this));
-                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(null, false, null, result));
+                FireGenerateChanged(new ProgressChangedEventArgs(100, this));
+                FireGenerateCompleted(new DictionaryEventArgs(null, false, null, result));
             }
             catch (Exception e)
             {
-                FireGenerateRandomWordsResultCompleted(new GenerateRandomWordsResultEventArgs(e, false, this, ResultBase.Empty() as IDictionaryResult));
+                FireGenerateCompleted(new DictionaryEventArgs(e, false, this, ResultBase.Empty() as IDictionaryResult));
             }
         }
 
@@ -115,90 +112,48 @@ namespace RSG.Core.Utilities
             dictionary = await dictionaryService.GetSelectedDictionaryAsync();
         }
 
-        private async Task<WordContainer> GenerateWords(BigInteger numberOfIterations)
+        private async Task<WordContainer> GenerateWords(PartitionInfo partitionInfo)
         {
             var partitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
-            var partitionInfo = GetPartitionInfo(numberOfIterations);
             var useNoise = dictionaryConfiguration.UseNoise;
-            var fullPartitions = partitionInfo.NumberOfPartitions;
 
-            FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(10, this));
+            FireGenerateChanged(new ProgressChangedEventArgs(10, this));
 
             var tasks = new Task[partitionInfo.NumberOfPartitions];
             var index = 0;
             for (; index < partitionInfo.NumberOfPartitions; index++)
             {
-                tasks[index] = Task.Factory.StartNew(() =>
+                var iterations = index == partitionInfo.NumberOfPartitions - 1 ?
+                    partitionInfo.LastPartitionSize : 
+                    partitionInfo.FullPartitionSize;
+                tasks[index] = Task.Run(() =>
                 {
-                    var info = GetPartitionInfo(numberOfIterations, index);
-
                     var wordsPartition = useNoise ?
-                        GeneratePartitionedWordsWithNoise(info) :
-                        GeneratePartitionedWords(info);
+                        GeneratePartitionedWordsWithNoise(iterations) :
+                        GeneratePartitionedWords(iterations);
 
                     partitionedWords.Enqueue(wordsPartition);
                 });
             }
 
-            Task.WaitAll(tasks);
+            await Task.WhenAll(tasks);
 
-            FireGenerateRandomWordsResultProgressChanged(new ProgressChangedEventArgs(90, this));
+            FireGenerateChanged(new ProgressChangedEventArgs(98, this));
 
             var words = new WordContainer(dictionaryConfiguration.UseNoise)
             {
                 PartitionedWords = partitionedWords
             };
 
+            //FireGenerateCompleted(new DictionaryEventArgs(null, false, null, new DictionaryResult() { Words = words }));
             return words;
         }
 
-        private PartitionInfo GetPartitionInfo(in BigInteger numberOfIterations)
+        private ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWords(int iterations)
         {
-            var threadCount = threadService.GetThreadsCount(numberOfIterations);
+            var words = new ConcurrentDictionary<int, IGeneratedWord>(1, iterations);
 
-            var partitionSize = int.Parse(BigInteger.DivRem(
-                numberOfIterations,
-                threadCount.ToBigInteger(),
-                out var lastPartitionSize).ToString());
-
-            // If there is nothing left over from division,
-            // its an even split, last partition should be
-            // the same size as all.
-            if (lastPartitionSize == BigInteger.Zero)
-            {
-                lastPartitionSize = partitionSize.ToBigInteger();
-            }
-            else
-            {
-                lastPartitionSize += partitionSize.ToBigInteger();
-            }
-
-            var partitionInfo = new PartitionInfo()
-            {
-                FullPartitionSize = partitionSize,
-                LastPartitionSize = int.Parse(lastPartitionSize.ToString()),
-                NumberOfPartitions = threadCount,
-                TotalIterations = numberOfIterations,
-                CurrentIndex = 0
-            };
-
-            return partitionInfo;
-        }
-
-        private PartitionInfo GetPartitionInfo(in BigInteger numberOfIterations, int currentIndex)
-        {
-            var partitionInfo = GetPartitionInfo(numberOfIterations);
-            partitionInfo.CurrentIndex = currentIndex;
-
-            return partitionInfo;
-        }
-
-        private ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWords(PartitionInfo partitionInfo)
-        {
-            var words = new ConcurrentDictionary<int, IGeneratedWord>();
-            var partitionSize = partitionInfo.GetPartitionSize();
-
-            for (var i = 0; i < partitionSize; i++)
+            for (var i = 0; i < iterations; i++)
             {
                 var generatedWord = new GeneratedWord()
                 {
@@ -211,12 +166,11 @@ namespace RSG.Core.Utilities
             return words;
         }
 
-        private ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWordsWithNoise(PartitionInfo partitionInfo)
+        private ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWordsWithNoise(int iterations)
         {
-            var words = new ConcurrentDictionary<int, IGeneratedWord>();
-            var partitionSize = partitionInfo.GetPartitionSize();
+            var words = new ConcurrentDictionary<int, IGeneratedWord>(1, iterations);
 
-            for (var i = 0; i < partitionSize; i++)
+            for (var i = 0; i < iterations; i++)
             {
                 var generatedWord = new GeneratedWord()
                 {
@@ -243,6 +197,7 @@ namespace RSG.Core.Utilities
             var percentage = dictionaryConfiguration.NoiseFrequency;
             var chance = RandomProvider.Random.Next(100) + 1;
             var noisePositions = new SortedDictionary<int, IPositionCharacterPair>();
+            var characterSet = characterSetService.CharacterList;
 
             // Chance is in range of the percentage.
             if (chance <= percentage)
@@ -267,7 +222,7 @@ namespace RSG.Core.Utilities
         }
 
         private void FireGenerateChanged(ProgressChangedEventArgs args)
-            {
+        {
             if (!(GenerateChanged is null))
             {
                 GenerateChanged(this, args);
