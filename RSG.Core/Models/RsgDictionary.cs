@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Numerics;
 using System.Text.Json.Serialization;
 
@@ -43,6 +44,43 @@ namespace RSG.Core.Models
         public int Compare([AllowNull] RsgDictionary x, [AllowNull] RsgDictionary y)
         {
             return string.Compare(x?.Name, y?.Name, true, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Checks if the object is equal to this instance.
+        /// <para>Ignores the <see cref="WordList"/> property.</para>
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is RsgDictionary dictionary))
+            {
+                return false;
+            }
+
+            return this.Count == dictionary.Count &&
+                this.Description == dictionary.Description &&
+                this.IsActive == dictionary.IsActive &&
+                this.IsSourceLocal == dictionary.IsSourceLocal &&
+                this.Source == dictionary.Source &&
+                this.Name == dictionary.Name;
+        }
+
+        public override string ToString()
+        {
+            string words;
+
+            if (WordList is null)
+            {
+                words = string.Empty;
+            }
+            else
+            {
+                words = string.Join(", ", WordList.Values);
+            }
+
+            return $"Name: {Name}\nDescription: {Description}\nSource: {Source}\nIsActive: {IsActive}\nIsSourceLocal: {IsSourceLocal}\nCount: {Count}\nWordList: {words}";
         }
     }
 }
