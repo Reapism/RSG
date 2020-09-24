@@ -1,6 +1,8 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
@@ -69,8 +71,32 @@ namespace RSG.Core.Models
             return PartitionedWords.ElementAt(partitionIndex);
         }
 
+        public bool Contains(string word)
+        {
+            foreach (var kvp in PartitionedWords)
+            {
+                if (kvp.Any(e => e.Value.Word.Equals(word, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public int GetNumberOfOccurencesFor(string word)
+        {
+            var counter = 0;
+            foreach (var kvp in PartitionedWords)
+            {
+                counter += kvp.Count(e => e.Value.Word.Equals(word, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return counter;
+        }
+
         /// <summary>
-        /// Sets the new count of all the words stored.
+        /// Gets the new count of all the words stored.
         /// </summary>
         private BigInteger GetCount()
         {
