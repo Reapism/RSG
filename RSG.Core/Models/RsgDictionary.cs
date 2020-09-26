@@ -50,8 +50,8 @@ namespace RSG.Core.Models
         /// Checks if the object is equal to this instance.
         /// <para>Ignores the <see cref="WordList"/> property.</para>
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The object to compare to this instance.</param>
+        /// <returns>Whether the object parameter and this instance are equal.</returns>
         public override bool Equals(object obj)
         {
             if (!(obj is RsgDictionary dictionary))

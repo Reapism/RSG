@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
@@ -116,6 +117,7 @@ namespace RSG.Core.Utilities
 
             FireGenerateChanged(new ProgressChangedEventArgs(10, this));
 
+            // Multi-Threaded block
             var tasks = new Task[partitionInfo.NumberOfPartitions];
             var index = 0;
             for (; index < partitionInfo.NumberOfPartitions; index++)
