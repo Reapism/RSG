@@ -3,6 +3,7 @@ using RSG.Core.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 
@@ -71,6 +72,15 @@ namespace RSG.Core.Models
             return PartitionedWords.ElementAt(partitionIndex);
         }
 
+        public IGeneratedWord GetWordFromIteration(int iteration)
+        {
+            var partitionIndex = GetPartitionIndexFromIteration(iteration);
+            var partition = GetWordsAtIndex(partitionIndex);
+
+            throw new NotImplementedException("Awaiting other functions");
+
+        }
+
         public bool Contains(string word)
         {
             foreach (var kvp in PartitionedWords)
@@ -84,6 +94,21 @@ namespace RSG.Core.Models
             return false;
         }
 
+        public int GetNumberOfNoiseAppendedFor(string word)
+        {
+            throw new NotImplementedException("Awaiting other functions");
+        }
+
+        public int GetNumberOfNoiseAppendedFor(string word)
+        {
+            throw new NotImplementedException("Awaiting other functions");
+        }
+
+        public WordStats GetWordStatsFor(string word)
+        {
+
+        }
+
         public int GetNumberOfOccurencesFor(string word)
         {
             var counter = 0;
@@ -93,6 +118,19 @@ namespace RSG.Core.Models
             }
 
             return counter;
+        }
+
+        private int GetPartitionIndexFromIteration(int iteration)
+        {
+            var count = Count;
+            if (iteration >= count)
+            {
+                throw new IndexOutOfRangeException($"Index out of range! Select between 0 and {count}");
+            }
+
+            // Lets say total count is 8000 words from 8 partitions, I want iteration 3003, Look at Partition 3 index 3.
+            var index = count % PartitionedWords.;
+            
         }
 
         /// <summary>
@@ -109,5 +147,14 @@ namespace RSG.Core.Models
 
             return count;
         }
+    }
+
+    internal class WordStats
+    {
+        public int NumberOfOccurrences { get; set; }
+        public int NumberOfNoiseAppended { get; set; }
+        public double ProbabilityOfAppearing { get; set; } // use double.ToString("P", CultureInfo.Inv..) to format this
+        public string? WordDefinition { get; set; }
+        public string IsFinite
     }
 }
