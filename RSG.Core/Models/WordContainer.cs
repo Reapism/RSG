@@ -99,12 +99,18 @@ namespace RSG.Core.Models
             throw new NotImplementedException("Awaiting other functions");
         }
 
-        public int GetNumberOfNoiseAppendedFor(string word)
+        public int GetNumberOfNoiseAppendedFor(IGeneratedWord word)
         {
             throw new NotImplementedException("Awaiting other functions");
         }
 
         public WordStats GetWordStatsFor(string word)
+        {
+            return new WordStats() { NumberOfOccurrences = GetNumberOfOccurencesFor(word), P
+            }
+        }
+
+        public WordStats GetWordStatsFor(IGeneratedWord word)
         {
 
         }
@@ -120,6 +126,17 @@ namespace RSG.Core.Models
             return counter;
         }
 
+        public int GetNumberOfOccurencesFor(IGeneratedWord word)
+        {
+            var counter = 0;
+            foreach (var kvp in PartitionedWords)
+            {
+                counter += kvp.Count(e => e.Value.Word.Equals(word.Word, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return counter;
+        }
+
         private int GetPartitionIndexFromIteration(int iteration)
         {
             var count = Count;
@@ -128,9 +145,22 @@ namespace RSG.Core.Models
                 throw new IndexOutOfRangeException($"Index out of range! Select between 0 and {count}");
             }
 
-            // Lets say total count is 8000 words from 8 partitions, I want iteration 3003, Look at Partition 3 index 3.
-            var index = count % PartitionedWords.;
-            
+            // Lets say total count is 8007 words from 8 partitions.
+            // Part[0-6] is 1k words and Part[7] is 1007 words.
+            // Iteration is 3003, return partition index 3.
+            var minRange = 0;
+            var maxRange = PartitionedWords.First().Count;
+            int partitionIndex;
+            for (partitionIndex = 1; partitionIndex < PartitionedWords.Count; partitionIndex++)
+            {
+                minRange += PartitionedWords.ElementAt(partitionIndex).Count;
+                if (minRange < iteration && iteration < maxRange)
+                {
+                    return partitionIndex;
+                }
+                maxRange += minRange;
+            }
+
         }
 
         /// <summary>
@@ -149,12 +179,31 @@ namespace RSG.Core.Models
         }
     }
 
-    internal class WordStats
+    public class WordStats
     {
+        /// <summary>
+        /// Gets or sets the generated word.
+        /// </summary>
+        public IGeneratedWord Word { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of occurences the word was found in the generation.
+        /// </summary>
         public int NumberOfOccurrences { get; set; }
-        public int NumberOfNoiseAppended { get; set; }
+
+        /// <summary>
+        /// Gets the number of noise appended to this generated word.
+        /// </summary>
+        public int NumberOfNoiseAppended { get => Word.NoisyCharacterPositions.Count(); }
+
+        /// <summary>
+        /// Gets or sets the probability of this word generating.
+        /// </summary>
         public double ProbabilityOfAppearing { get; set; } // use double.ToString("P", CultureInfo.Inv..) to format this
+
+        /// <summary>
+        /// Gets or sets the definition of this word.
+        /// </summary>
         public string? WordDefinition { get; set; }
-        public string IsFinite
     }
 }
