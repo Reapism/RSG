@@ -1,6 +1,8 @@
 ﻿using RSG.Core.Extensions;
+using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Threading;
 
 namespace RSG.Core.Models
 {
@@ -22,6 +24,10 @@ namespace RSG.Core.Models
 
         internal int ThreadCount { get; set; }
 
+        internal int TotalThreadPoolThreads { get; set; }
+
+        internal int TotalAsyncIOThreads { get; set; }
+
         internal static PartitionInfo Get(in BigInteger iterations, int threadCount)
         {
             var fullPartSize = int.Parse(BigInteger.DivRem(
@@ -38,14 +44,18 @@ namespace RSG.Core.Models
                 lastPartSize += fullPartSize.ToBigInteger();
             }
 
+            ThreadPool.GetAvailableThreads(out var _, out var asyncIoThreads);
             var partitionInfo = new PartitionInfo()
             {
                 TotalIterations = iterations,
                 ThreadCount = threadCount,
                 FullPartitionSize = fullPartSize,
                 LastPartitionSize = (int)lastPartSize,
-                NumberOfPartitions = threadCount
+                NumberOfPartitions = threadCount,
+                TotalThreadPoolThreads = ThreadPool.ThreadCount,
+                TotalAsyncIOThreads = asyncIoThreads
             };
+
 
             return partitionInfo;
         }
