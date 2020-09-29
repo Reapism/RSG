@@ -106,13 +106,10 @@ namespace RSG.Core.Models
 
         public WordStats GetWordStatsFor(string word)
         {
-            return new WordStats() { NumberOfOccurrences = GetNumberOfOccurencesFor(word), P
-            }
-        }
-
-        public WordStats GetWordStatsFor(IGeneratedWord word)
-        {
-
+            return new WordStats()
+            {
+                NumberOfOccurrences = GetNumberOfOccurencesFor(word)
+            };
         }
 
         public int GetNumberOfOccurencesFor(string word)
@@ -158,9 +155,11 @@ namespace RSG.Core.Models
                 {
                     return partitionIndex;
                 }
+
                 maxRange += minRange;
             }
 
+            return -1;
         }
 
         /// <summary>

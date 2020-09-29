@@ -47,10 +47,10 @@ namespace RSG.View.Views
             MessageBox.Show($"{nonGeneratedWords} out of {result.Words.Count} were not generated successfully. {perc.ToString("P",CultureInfo.InvariantCulture)} successfully generated!");
         }
 
-        private async void RunCommand_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void RunCommand_Click(object sender, RoutedEventArgs e)
         {
             RunCommand.IsEnabled = false;
-            await randomWordGenerator.Generate(BigInteger.Parse("100004"));
+            await randomWordGenerator.Generate(BigInteger.Parse("100000"));
         }
     }
 }

@@ -82,7 +82,7 @@ namespace RSG.Core.Utilities
                 maxWordIndex = dictionary.WordList.Count();
 
                 var startTime = DateTime.Now;
-                var words = await GenerateWords(partitionInfo);
+                var words = GenerateWords(partitionInfo);
 
                 var endDate = DateTime.Now;
 
@@ -110,7 +110,7 @@ namespace RSG.Core.Utilities
             dictionary = await dictionaryService.GetSelectedDictionaryAsync();
         }
 
-        private async Task<WordContainer> GenerateWords(PartitionInfo partitionInfo)
+        private WordContainer GenerateWords(PartitionInfo partitionInfo)
         {
             var partitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
             var useNoise = dictionaryConfiguration.UseNoise;
@@ -135,7 +135,7 @@ namespace RSG.Core.Utilities
                 });
             }
 
-            await Task.WhenAll(tasks);
+            var task = Task.WhenAll(tasks).IsCompleted;
 
             FireGenerateChanged(new ProgressChangedEventArgs(98, this));
 
@@ -144,7 +144,6 @@ namespace RSG.Core.Utilities
                 PartitionedWords = partitionedWords
             };
 
-            //FireGenerateCompleted(new DictionaryEventArgs(null, false, null, new DictionaryResult() { Words = words }));
             return words;
         }
 
