@@ -28,20 +28,6 @@ namespace RSG.Core.Utilities
         private readonly IDictionaryConfiguration dictionaryConfiguration;
         private readonly CharacterSetService characterSetService;
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
-        private int minWordIndex;
-        private int maxWordIndex;
-
-        /// <summary>
-        /// Event for when the <see cref="Generate"/> function is completed.
-        /// <para>Fired when it's cancelled, errored, or completed successfully.</para>
-        /// </summary>
-        public event Completed GenerateCompleted;
-
-        /// <summary>
-        /// Event for when the <see cref="ProgressChanged"/> function is in progress.
-        /// <para>Fired when progress has changed.</para>
-        /// </summary>
-        public event ProgressChanged GenerateChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
@@ -62,15 +48,26 @@ namespace RSG.Core.Utilities
             this.threadService = threadService;
             this.dictionaryConfiguration = dictionaryConfiguration;
             this.characterSetService = characterSetService;
-
-            minWordIndex = 0;
         }
 
         /// <summary>
-        /// Runs the <see cref="Generate(BigInteger)"/> routine.
-        /// <para>Subscribe to <see cref=""/></para>
+        /// Event for when the <see cref="Generate"/> function is completed.
+        /// <para>Fired when it's cancelled, errored, or completed successfully.</para>
         /// </summary>
-        /// <param name="numberOfIterations"></param>
+        public event Completed GenerateCompleted;
+
+        /// <summary>
+        /// Event for when the <see cref="ProgressChanged"/> function is in progress.
+        /// <para>Fired when progress has changed.</para>
+        /// </summary>
+        public event ProgressChanged GenerateChanged;
+
+        /// <summary>
+        /// Runs the <see cref="Generate(BigInteger)"/> routine.
+        /// <para>Subscribe to <see cref="GenerateChanged"/> and
+        /// <see cref="GenerateCompleted"/> events.</para>
+        /// </summary>
+        /// <param name="numberOfIterations">The number of words to generate.</param>
         /// <returns></returns>
         public async Task Generate(BigInteger numberOfIterations)
         {
@@ -79,29 +76,14 @@ namespace RSG.Core.Utilities
                 await LazyInitialization();
 
                 var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadsCount(numberOfIterations));
-                maxWordIndex = dictionary.WordList.Count();
 
-                var startTime = DateTime.Now;
-                var words = GenerateWords(partitionInfo);
+                FireGenerateChanged(new ProgressChangedEventArgs(5, this));
 
-                var endDate = DateTime.Now;
-
-                var result = new DictionaryResult()
-                {
-                    Dictionary = this.dictionary,
-                    StartTime = startTime,
-                    EndTime = endDate,
-                    Iterations = numberOfIterations,
-                    RandomizationType = RandomProvider.SelectedRandomizationType,
-                    Words = words
-                };
-
-                FireGenerateChanged(new ProgressChangedEventArgs(100, this));
-                FireGenerateCompleted(new DictionaryEventArgs(null, false, null, result));
+                GenerateWords(partitionInfo);
             }
             catch (Exception e)
             {
-                FireGenerateCompleted(new DictionaryEventArgs(e, false, this, ResultBase.Empty() as IDictionaryResult));
+                FireGenerateCompleted(new DictionaryEventArgs(e, false, this, Result.Empty.As<IDictionaryResult>()));
             }
         }
 
@@ -110,10 +92,11 @@ namespace RSG.Core.Utilities
             dictionary = await dictionaryService.GetSelectedDictionaryAsync();
         }
 
-        private WordContainer GenerateWords(PartitionInfo partitionInfo)
+        private void GenerateWords(PartitionInfo partitionInfo)
         {
-            var partitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
+            var partitionedWords = new ConcurrentQueue<IDictionary<int, IGeneratedWord>>();
             var useNoise = dictionaryConfiguration.UseNoise;
+            var startTime = DateTime.Now;
 
             FireGenerateChanged(new ProgressChangedEventArgs(10, this));
 
@@ -122,11 +105,12 @@ namespace RSG.Core.Utilities
             var index = 0;
             for (; index < partitionInfo.NumberOfPartitions; index++)
             {
-                var iterations = index == partitionInfo.NumberOfPartitions - 1 ?
-                    partitionInfo.LastPartitionSize :
-                    partitionInfo.FullPartitionSize;
                 tasks[index] = Task.Run(() =>
                 {
+                    var iterations = index == partitionInfo.NumberOfPartitions - 1 ?
+                        partitionInfo.LastPartitionSize :
+                        partitionInfo.FullPartitionSize;
+
                     var wordsPartition = useNoise ?
                         GeneratePartitionedWordsWithNoise(iterations) :
                         GeneratePartitionedWords(iterations);
@@ -135,21 +119,36 @@ namespace RSG.Core.Utilities
                 });
             }
 
-            var task = Task.WhenAll(tasks).IsCompleted;
-
-            FireGenerateChanged(new ProgressChangedEventArgs(98, this));
-
-            var words = new WordContainer(dictionaryConfiguration.UseNoise)
+            try
             {
-                PartitionedWords = partitionedWords
-            };
+                Task.WaitAll(tasks);
 
-            return words;
+                var words = new WordContainer(dictionaryConfiguration.UseNoise)
+                {
+                    PartitionedWords = partitionedWords
+                };
+
+                var result = new DictionaryResult()
+                {
+                    Dictionary = dictionary,
+                    StartTime = startTime,
+                    EndTime = DateTime.Now,
+                    Iterations = partitionInfo.TotalIterations,
+                    RandomizationType = RandomProvider.SelectedRandomizationType,
+                    Words = words
+                };
+
+                FireGenerateCompleted(new DictionaryEventArgs(null, false, null, result));
+            }
+            catch (AggregateException ae)
+            {
+                FireGenerateCompleted(new DictionaryEventArgs(ae.Flatten(), false, ae, Result.Empty.As<IDictionaryResult>()));
+            }
         }
 
-        private ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWords(int iterations)
+        private IDictionary<int, IGeneratedWord> GeneratePartitionedWords(int iterations)
         {
-            var words = new ConcurrentDictionary<int, IGeneratedWord>(1, iterations);
+            var words = new Dictionary<int, IGeneratedWord>(iterations);
 
             for (var i = 0; i < iterations; i++)
             {
@@ -158,15 +157,15 @@ namespace RSG.Core.Utilities
                     Word = GenerateRandomWord(),
                 };
 
-                words.TryAdd(i, generatedWord);
+                words.Add(i, generatedWord);
             }
 
             return words;
         }
 
-        private ConcurrentDictionary<int, IGeneratedWord> GeneratePartitionedWordsWithNoise(int iterations)
+        private IDictionary<int, IGeneratedWord> GeneratePartitionedWordsWithNoise(int iterations)
         {
-            var words = new ConcurrentDictionary<int, IGeneratedWord>(1, iterations);
+            var words = new Dictionary<int, IGeneratedWord>(iterations);
 
             for (var i = 0; i < iterations; i++)
             {
@@ -177,7 +176,7 @@ namespace RSG.Core.Utilities
 
                 generatedWord.NoisyCharacterPositions = GenerateNoisyCharacterPositions(generatedWord.Word.Length);
 
-                words.TryAdd(i, generatedWord);
+                words.Add(i, generatedWord);
             }
 
             return words;
@@ -185,7 +184,7 @@ namespace RSG.Core.Utilities
 
         private string GenerateRandomWord()
         {
-            var rndValue = RandomProvider.Random.Next(minWordIndex, maxWordIndex);
+            var rndValue = RandomProvider.Random.Next(0, dictionary.WordList.Count);
 
             return dictionary.WordList[rndValue];
         }
@@ -212,7 +211,7 @@ namespace RSG.Core.Utilities
                         Character = character,
                         Position = position
                     };
-                    noisePositions.TryAdd(i, pair);
+                    noisePositions.Add(i, pair);
                 }
             }
 
