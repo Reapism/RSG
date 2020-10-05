@@ -24,13 +24,13 @@ namespace RSG.Core.Models
             IsNoisy = isNoisy;
 
             // Queue is number of partitions, Dictionary is number of words K: index, V: IGeneratedWord
-            PartitionedWords = new ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>>();
+            PartitionedWords = new ConcurrentQueue<IDictionary<int, IGeneratedWord>>();
         }
 
         /// <summary>
         /// Gets a value that maps a partitioned collection of <see cref="IGeneratedWord"/>(s).
         /// </summary>
-        public ConcurrentQueue<ConcurrentDictionary<int, IGeneratedWord>> PartitionedWords { get; internal set; }
+        public ConcurrentQueue<IDictionary<int, IGeneratedWord>> PartitionedWords { get; internal set; }
 
         /// <summary>
         /// Gets the number of total words stored in this instance.
@@ -59,7 +59,7 @@ namespace RSG.Core.Models
         /// </summary>
         /// <param name="partitionIndex">The index of the parent collection.</param>
         /// <returns>A specific partition </returns>
-        public ConcurrentDictionary<int, IGeneratedWord> GetWordsAtIndex(int partitionIndex)
+        public IDictionary<int, IGeneratedWord> GetWordsAtIndex(int partitionIndex)
         {
             var count = PartitionedWords.Count();
             var emptyQueue = new ConcurrentDictionary<int, IGeneratedWord>();
