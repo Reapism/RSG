@@ -8,17 +8,9 @@ namespace RSG.Core.Models
     /// <summary>
     /// Represents properties of an RSG dictionary.
     /// </summary>
-    public class DictionaryResult : IDictionaryResult
+    public class DictionaryResult : ResultBase, IDictionaryResult
     {
         public IRsgDictionary Dictionary { get; set; }
-
-        public RandomizationType RandomizationType { get; set; }
-
-        public BigInteger Iterations { get; set; }
-
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
 
         public WordContainer Words { get; set; }
     }

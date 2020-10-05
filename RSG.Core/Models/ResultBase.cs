@@ -2,6 +2,7 @@
 using RSG.Core.Interfaces;
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace RSG.Core.Models
 {
@@ -10,19 +11,33 @@ namespace RSG.Core.Models
     /// </summary>
     public abstract class ResultBase : IResult
     {
-        private static IResult emptyResult;
-
         static ResultBase()
         {
-            emptyResult = new Result
+            Empty = new Result
             {
                 EndTime = DateTime.UnixEpoch,
                 StartTime = DateTime.UnixEpoch,
                 Iterations = BigInteger.MinusOne,
-                RandomizationType = Enums.RandomizationType.Pseudorandom
+                RandomizationType = RandomizationType.Pseudorandom
             };
 
         }
+
+        /// Returns an empty <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">An <see cref="IResult"/> type.</typeparam>
+        /// <returns>Returns an empty casted <typeparamref name="T"/>.</returns>
+        public T As<T>()
+            where T : IResult
+        {
+            return (T)Empty;
+        }
+
+        /// <summary>
+        /// Gets an empty representation of <see cref="IResult"/>.
+        /// </summary>
+        /// <returns>Returns an empty <see cref="IResult"/>.</returns>
+        public static IResult Empty { get; private set; }
 
         /// <summary>
         /// Gets or sets the randomization type used during this generation instance.
@@ -43,14 +58,5 @@ namespace RSG.Core.Models
         /// Gets or sets the end time of this generation.
         /// </summary>
         public DateTime EndTime { get; set; }
-
-        /// <summary>
-        /// Returns an empty representation of <see cref="IResult"/>.
-        /// </summary>
-        /// <returns>Returns an empty <see cref="IResult"/>.</returns>
-        public static IResult Empty()
-        {
-            return emptyResult;
-        }
     }
 }

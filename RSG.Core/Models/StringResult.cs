@@ -6,20 +6,12 @@ using System.Numerics;
 
 namespace RSG.Core.Models
 {
-    public class StringResult : IStringResult
+    public class StringResult : ResultBase, IStringResult
     {
         public string Characters { get; set; }
 
         public IEnumerable<string> Strings { get; set; }
 
         public BigInteger StringLength { get; set; }
-
-        public RandomizationType RandomizationType { get; set; }
-
-        public BigInteger Iterations { get; set; }
-
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
     }
 }

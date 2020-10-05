@@ -13,5 +13,13 @@ namespace RSG.Core.Interfaces
         DateTime StartTime { get; set; }
 
         DateTime EndTime { get; set; }
+
+        /// <summary>
+        /// Returns an empty <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">An <see cref="IResult"/> type.</typeparam>
+        /// <returns>Returns an empty casted <typeparamref name="T"/>.</returns>
+        public T As<T>()
+            where T : IResult;
     }
 }
