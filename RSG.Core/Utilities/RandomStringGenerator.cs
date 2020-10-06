@@ -11,13 +11,13 @@ namespace RSG.Core.Utilities
 {
     public class RandomStringGenerator : IRandomStringGenerator
     {
-        private CharacterSetService _characterSetService;
-        private char[] _characterList;
+        private readonly ICharacterSetService characterSetService;
+        private char[] characterList;
 
-        public RandomStringGenerator(CharacterSetService characterSetService)
+        public RandomStringGenerator(ICharacterSetService characterSetService)
         {
-            _characterSetService = characterSetService;
-            _characterList = _characterSetService.CharacterList;
+            this.characterSetService = characterSetService;
+            characterList = this.characterSetService.CharacterList;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace RSG.Core.Utilities
 
             var result = new StringResult()
             {
-                Characters = _characterList.ToString() ?? string.Empty,
+                Characters = characterList.ToString() ?? string.Empty,
                 StringLength = stringLength,
                 Iterations = numberOfIterations,
                 RandomizationType = RandomProvider.SelectedRandomizationType,
@@ -74,11 +74,11 @@ namespace RSG.Core.Utilities
         private string GenerateRandomString(BigInteger length)
         {
             var stringBuilder = new StringBuilder();
-            var maxLength = _characterList.Length;
+            var maxLength = characterList.Length;
 
             for (var bi = BigInteger.Zero; bi < length; bi++)
             {
-                stringBuilder.Append(_characterList[RandomProvider.Random.Value.Next(maxLength)]);
+                stringBuilder.Append(characterList[RandomProvider.Random.Value.Next(maxLength)]);
             }
 
             return stringBuilder.ToString();
