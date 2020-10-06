@@ -2,7 +2,7 @@
 using RSG.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
 using System.Threading;
 
@@ -11,7 +11,7 @@ namespace RSG.Core.Configuration
     public class DictionaryConfiguration : IDictionaryConfiguration
     {
         private bool isFullyInitialized;
-        private IList<RsgDictionary> dictionaries;
+        private ObservableCollection<RsgDictionary> dictionaries;
 
         public DictionaryConfiguration()
         {
@@ -21,7 +21,7 @@ namespace RSG.Core.Configuration
         /// <summary>
         /// Gets or sets a <see cref="IList{T}"/> of <see cref="RsgDictionary"/>(s).
         /// </summary>
-        public IList<RsgDictionary> Dictionaries
+        public ObservableCollection<RsgDictionary> Dictionaries
         {
             get
             {

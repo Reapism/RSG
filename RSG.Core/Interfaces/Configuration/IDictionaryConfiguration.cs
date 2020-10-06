@@ -1,6 +1,6 @@
 ﻿using RSG.Core.Models;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 
 namespace RSG.Core.Interfaces.Configuration
@@ -8,9 +8,9 @@ namespace RSG.Core.Interfaces.Configuration
     public interface IDictionaryConfiguration
     {
         /// <summary>
-        /// Gets or sets a <see cref="IList{T}"/> of <see cref="RsgDictionary"/>(s).
+        /// Gets or sets a <see cref="ObservableCollection{T}"/> of <see cref="RsgDictionary"/>(s).
         /// </summary>
-        IList<RsgDictionary> Dictionaries { get; set; }
+        ObservableCollection<RsgDictionary> Dictionaries { get; set; }
 
         /// <summary>
         /// Gets or sets the source of the configuration file.
