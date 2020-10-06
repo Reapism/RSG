@@ -35,11 +35,11 @@ namespace RSG.Core.Extensions
             container.Register<IDictionaryWordList, DictionaryWordList>();
             container.Register<IThreadService, ThreadService>();
             container.Register<IShuffle<char>, Scrambler>();
-            container.Register<CharacterSetService>();
-            container.Register<RandomStringGenerator>();
-            container.Register<RandomWordGenerator>();
-            container.Register<WordListService>();
-            container.Register<DictionaryService>();
+            container.Register<ICharacterSetService, CharacterSetService>();
+            container.Register<IRandomStringGenerator, RandomStringGenerator>();
+            container.Register<IRandomWordGenerator, RandomWordGenerator>();
+            container.Register<IWordListService, WordListService>();
+            container.Register<IDictionaryService, DictionaryService>();
 
             return container;
         }
