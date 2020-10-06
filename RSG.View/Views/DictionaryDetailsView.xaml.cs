@@ -1,4 +1,5 @@
-﻿using RSG.Core.Utilities;
+﻿using RSG.Core.Interfaces.Services;
+using RSG.Core.Utilities;
 using System.Globalization;
 using System.Numerics;
 using System.Windows;
@@ -11,13 +12,13 @@ namespace RSG.View.Views
     /// </summary>
     public partial class DictionaryDetailsView : UserControl
     {
-        private readonly RandomWordGenerator randomWordGenerator;
+        private readonly IRandomWordGenerator randomWordGenerator;
 
-        public DictionaryDetailsView(RandomWordGenerator randomWordGenerator)
+        public DictionaryDetailsView(IRandomWordGenerator randomWordGenerator)
         {
             InitializeComponent();
 
-            randomWordGenerator = IocContainer.Container.GetInstance<RandomWordGenerator>();
+            this.randomWordGenerator = randomWordGenerator;
 
             SubscribeEvents();
         }
