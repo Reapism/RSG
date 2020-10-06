@@ -15,7 +15,7 @@ namespace RSG.View.Views
     {
         private readonly RandomWordGenerator randomWordGenerator;
 
-        public DictionaryDetailsView()
+        public DictionaryDetailsView(RandomWordGenerator randomWordGenerator)
         {
             InitializeComponent();
 
@@ -50,7 +50,7 @@ namespace RSG.View.Views
         private async void RunCommand_Click(object sender, RoutedEventArgs e)
         {
             RunCommand.IsEnabled = false;
-            await randomWordGenerator.Generate(BigInteger.Parse("1000013"));
+            await randomWordGenerator.GenerateAsync(BigInteger.Parse("1000013"));
         }
     }
 }
