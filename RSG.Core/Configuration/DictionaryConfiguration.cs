@@ -27,7 +27,7 @@ namespace RSG.Core.Configuration
             {
                 if (dictionaries is null)
                 {
-                    return new List<RsgDictionary>();
+                    return new ObservableCollection<RsgDictionary>();
                 }
 
                 return dictionaries;
