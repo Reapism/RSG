@@ -1,6 +1,7 @@
 ﻿using RSG.Core.Constants;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
+using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace RSG.Core.Services
     /// <summary>
     /// A service for creating a <see cref="ICharacterSet"/>
     /// </summary>
-    public class CharacterSetService
+    public class CharacterSetService : ICharacterSetService
     {
         private readonly IStringConfiguration stringConfiguration;
         private readonly IShuffle<char> shuffle;
