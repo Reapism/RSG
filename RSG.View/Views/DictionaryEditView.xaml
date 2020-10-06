@@ -190,7 +190,7 @@
                             Grid.Row="2"
                             Margin="5"
                             Content="View Log"
-                            ToolTip="View a log" Click="Button_Click" />
+                            ToolTip="View a log" />
                         <Button
                             Grid.Row="3"
                             Margin="5"

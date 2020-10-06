@@ -4,6 +4,7 @@ using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -57,7 +58,7 @@ namespace RSG.Core.Tests.Unit.Configuration
 
         private DictionaryConfiguration CreateConfiguration()
         {
-            var dictionaries = new List<RsgDictionary>
+            var dictionaries = new ObservableCollection<RsgDictionary>
             {
                 new RsgDictionary()
                 {
