@@ -1,5 +1,6 @@
 ﻿using RSG.Core.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 
@@ -10,7 +11,7 @@ namespace RSG.Core.Interfaces.Configuration
         /// <summary>
         /// Gets or sets a <see cref="ObservableCollection{T}"/> of <see cref="RsgDictionary"/>(s).
         /// </summary>
-        ObservableCollection<RsgDictionary> Dictionaries { get; set; }
+        IList<RsgDictionary> Dictionaries { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use spaces in generating words or not.
