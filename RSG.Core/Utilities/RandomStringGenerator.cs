@@ -77,7 +77,7 @@ namespace RSG.Core.Utilities
 
             for (var bi = BigInteger.Zero; bi < length; bi++)
             {
-                stringBuilder.Append(_characterList[RandomProvider.Random.Next(maxLength)]);
+                stringBuilder.Append(_characterList[RandomProvider.Random.Value.Next(maxLength)]);
             }
 
             return stringBuilder.ToString();

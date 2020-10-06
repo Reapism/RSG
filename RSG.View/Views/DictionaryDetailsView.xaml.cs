@@ -50,7 +50,7 @@ namespace RSG.View.Views
         private async void RunCommand_Click(object sender, RoutedEventArgs e)
         {
             RunCommand.IsEnabled = false;
-            await randomWordGenerator.Generate(BigInteger.Parse("100000"));
+            await randomWordGenerator.Generate(BigInteger.Parse("1000013"));
         }
     }
 }

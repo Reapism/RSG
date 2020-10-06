@@ -44,7 +44,7 @@ namespace RSG.Core.Services
         private char[] ScrambleCharacterList()
         {
             var allCharacters = CleanCharacterList();
-            shuffle.Shuffle(allCharacters, RandomProvider.Random);
+            shuffle.Shuffle(allCharacters, RandomProvider.Random.Value);
 
             return allCharacters;
         }
