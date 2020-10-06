@@ -13,12 +13,6 @@ namespace RSG.Core.Interfaces.Configuration
         ObservableCollection<RsgDictionary> Dictionaries { get; set; }
 
         /// <summary>
-        /// Gets or sets the source of the configuration file.
-        /// <para>Must be a local source.</para>
-        /// </summary>
-        string Source { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to use spaces in generating words or not.
         /// </summary>
         bool UseSpace { get; set; }

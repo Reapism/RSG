@@ -40,13 +40,6 @@ namespace RSG.Core.Configuration
         }
 
         /// <summary>
-        /// Gets or sets the source of the configuration file.
-        /// <para>Must be a local source.</para>
-        /// </summary>
-        [JsonIgnore]
-        public string Source { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to use spaces in generating words or not.
         /// </summary>
         public bool UseSpace { get; set; }
@@ -106,7 +99,6 @@ namespace RSG.Core.Configuration
         {
             return obj is DictionaryConfiguration configuration &&
                    Comparer<IList<RsgDictionary>>.Default.Compare(this.Dictionaries, configuration.Dictionaries) == 0 &&
-                   Source == configuration.Source &&
                    UseSpace == configuration.UseSpace &&
                    UseNoise == configuration.UseNoise &&
                    UseAliteration == configuration.UseAliteration &&

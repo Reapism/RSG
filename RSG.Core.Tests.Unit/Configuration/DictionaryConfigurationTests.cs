@@ -42,7 +42,6 @@ namespace RSG.Core.Tests.Unit.Configuration
             Assert.AreEqual(dictionaryConfiguration.NoiseFrequency, dictionaryConfigurationDeserialized.NoiseFrequency);
             Assert.AreEqual(dictionaryConfiguration.NoisePerWordRange, dictionaryConfigurationDeserialized.NoisePerWordRange);
             Assert.AreEqual(dictionaryConfiguration.Priority, dictionaryConfigurationDeserialized.Priority);
-            Assert.AreEqual(dictionaryConfiguration.Source, dictionaryConfigurationDeserialized.Source);
             Assert.AreEqual(dictionaryConfiguration.UseAliteration, dictionaryConfigurationDeserialized.UseAliteration);
             Assert.AreEqual(dictionaryConfiguration.UseNoise, dictionaryConfigurationDeserialized.UseNoise);
             Assert.AreEqual(dictionaryConfiguration.UseSpace, dictionaryConfigurationDeserialized.UseSpace);
@@ -121,7 +120,6 @@ namespace RSG.Core.Tests.Unit.Configuration
                 NoiseFrequency = 0.0D,
                 NoisePerWordRange = new Range(new Index(0), new Index(0)),
                 Priority = ThreadPriority.Normal,
-                Source = null, // Will not be serialized.
                 UseNoise = false,
                 UseSpace = false
             };
