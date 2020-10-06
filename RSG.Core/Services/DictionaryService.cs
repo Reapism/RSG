@@ -18,7 +18,7 @@ namespace RSG.Core.Services
     public class DictionaryService : IDictionaryService
     {
         // Dependencies
-        private readonly WordListService wordListService;
+        private readonly IWordListService wordListService;
         private readonly IDictionaryConfiguration dictionaryConfiguration;
 
         // Members
@@ -32,7 +32,7 @@ namespace RSG.Core.Services
         /// the <see cref="IDictionaryConfiguration.Dictionaries"/>.</param>
         /// <param name="dictionaryConfiguration">The dictionary configuration.</param>
         public DictionaryService(
-            WordListService wordListService,
+            IWordListService wordListService,
             IDictionaryConfiguration dictionaryConfiguration)
         {
             this.wordListService = wordListService;
@@ -95,9 +95,7 @@ namespace RSG.Core.Services
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
             }
 
-            var words = await wordListService.CreateWordList(dictionary);
-            selectedDictionary.WordList = wordListService.CreateIndexedWordList(words);
-            selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
+            await GetWordListFor();
         }
 
         /// <summary>
@@ -126,11 +124,16 @@ namespace RSG.Core.Services
                 }
             }
 
-            var wordList = await wordListService.CreateWordList(selectedDictionary);
-
-            selectedDictionary.WordList = wordListService.CreateIndexedWordList(wordList);
-            selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
+            await GetWordListFor();
             isFullyInitialized = true;
+        }
+
+        private async Task GetWordListFor()
+        {
+            var wordList = await wordListService.CreateAsync(selectedDictionary);
+
+            selectedDictionary.WordList = wordList;
+            selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
         }
 
         private bool DoesDictionaryExist(string dictionaryName)
