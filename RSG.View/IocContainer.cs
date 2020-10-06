@@ -1,13 +1,8 @@
-﻿using CommonServiceLocator;
-using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using GalaSoft.MvvmLight.Ioc;
 using RSG.Core.Extensions;
-using RSG.Core.Utilities;
 using RSG.View.Managers;
 using RSG.View.ViewModels;
 using RSG.View.Views;
-using RSG.View.Windows;
-using System;
 
 namespace RSG.View
 {
