@@ -11,28 +11,8 @@ namespace RSG.Core.Services
     /// Contains methods for generating wordlists from an
     /// <see cref="IRsgDictionary"/>.
     /// </summary>
-    public class WordListService
+    public class WordListService : IWordListService
     {
-        /// <summary>
-        /// Creates a key/value pair wordlist which, maps indexes to words.
-        /// </summary>
-        /// <param name="words"></param>
-        /// <returns></returns>
-        public IDictionary<int, string> CreateIndexedWordList(IEnumerable<string> words)
-        {
-            var wordCount = words.Count();
-            var dictionary = new Dictionary<int, string>(wordCount);
-            var index = 0;
-
-            foreach (var word in words)
-            {
-                dictionary.Add(index, word);
-                index++;
-            }
-
-            return dictionary;
-        }
-
         /// <summary>
         /// Creates a sequence of words from an <see cref="IRsgDictionary"/>.
         /// <para>Returns an empty sequence if unable to read/download dictionary from
@@ -41,13 +21,17 @@ namespace RSG.Core.Services
         /// <param name="dictionary">A contract representing a
         /// <see cref="IRsgDictionary"/>.</param>
         /// <returns>A new <see cref="IEnumerable{string}"/> containing the new word list.</returns>
-        public async Task<IEnumerable<string>> CreateWordList(IRsgDictionary dictionary)
+        public async Task<IDictionary<int, string>> CreateAsync(IRsgDictionary dictionary)
         {
+            var wordDictionary = new Dictionary<int, string>();
             var wordList = dictionary.IsSourceLocal
                 ? await CreateWordListFromFile(dictionary.Source)
                 : await CreateWordListFromHttp(dictionary.Source);
 
-            return wordList;
+            var index = 0;
+            wordList.ToDictionary(e => { return index++; });
+
+            return wordDictionary;
         }
 
         private async Task<IEnumerable<string>> CreateWordListFromFile(string source)
