@@ -1,24 +1,24 @@
 ﻿using RSG.Core.Enums;
+using System;
+using System.Threading;
 
 namespace RSG.Core.Services
 {
     public static class RandomProvider
     {
-        private static System.Random PsuedoRandom;
-        private static System.Random ReapRandom;
+        private static ThreadLocal<Random> PsuedoRandom;
 
+        private static int seed = Environment.TickCount;
         static RandomProvider()
         {
-            PsuedoRandom = new System.Random();
-            ReapRandom = new System.Random(PsuedoRandom.Next(int.MinValue, int.MaxValue));
+            PsuedoRandom = new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));
         }
 
         public static RandomizationType SelectedRandomizationType { get; set; }
 
-        public static System.Random Random => SelectedRandomizationType switch
+        public static ThreadLocal<Random> Random => SelectedRandomizationType switch
         {
             RandomizationType.Pseudorandom => PsuedoRandom,
-            RandomizationType.ReapRandom => ReapRandom,
             _ => PsuedoRandom,
         };
     }
