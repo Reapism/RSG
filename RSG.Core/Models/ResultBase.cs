@@ -2,7 +2,6 @@
 using RSG.Core.Interfaces;
 using System;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace RSG.Core.Models
 {

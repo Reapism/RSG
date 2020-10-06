@@ -1,6 +1,4 @@
 ﻿using RSG.Core.Models;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Interfaces.Services

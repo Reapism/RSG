@@ -3,9 +3,7 @@ using RSG.Core.Configuration;
 using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 
@@ -46,7 +44,7 @@ namespace RSG.Core.Tests.Unit.Configuration
             Assert.AreEqual(dictionaryConfiguration.UseNoise, dictionaryConfigurationDeserialized.UseNoise);
             Assert.AreEqual(dictionaryConfiguration.UseSpace, dictionaryConfigurationDeserialized.UseSpace);
 
-            for(var i = 0; i < dictionaryConfiguration.Dictionaries.Count; i++)
+            for (var i = 0; i < dictionaryConfiguration.Dictionaries.Count; i++)
             {
                 if (!dictionaryConfiguration.Dictionaries[i].Equals(dictionaryConfigurationDeserialized.Dictionaries[i]))
                 {

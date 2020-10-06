@@ -1,5 +1,4 @@
 ﻿using RSG.Core.Extensions;
-using System;
 using System.Diagnostics;
 using System.Numerics;
 using System.Threading;

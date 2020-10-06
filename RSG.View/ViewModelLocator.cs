@@ -1,7 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using Microsoft.Extensions.DependencyInjection;
 using RSG.View.ViewModels;
-using System;
 
 namespace RSG.View
 {
@@ -12,7 +10,7 @@ namespace RSG.View
             if (ViewModelBase.IsInDesignModeStatic)
             {
 
-            }             
+            }
         }
 
         private T Get<T>()

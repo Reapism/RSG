@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using RSG.Core.Configuration;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;

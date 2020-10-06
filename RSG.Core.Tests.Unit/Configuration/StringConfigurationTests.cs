@@ -3,11 +3,9 @@ using RSG.Core.Configuration;
 using RSG.Core.Constants;
 using RSG.Core.Models;
 using RSG.Core.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Text.Json;
 
 namespace RSG.Core.Tests.Unit.Configuration
@@ -32,10 +30,10 @@ namespace RSG.Core.Tests.Unit.Configuration
         {
             var stringConfiguration = CreateConfiguration();
             Serialize(ExternalConfigurationName);
-            
+
             var stringConfigurationDeserialized = SerializationUtility.DeserializeJson<StringConfiguration>(ExternalConfigurationName);
 
-            foreach(var charSet in stringConfiguration.Characters)
+            foreach (var charSet in stringConfiguration.Characters)
             {
                 Assert.AreEqual(charSet.Key, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Key);
                 Assert.AreEqual(charSet.Value.Characters, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Value.Characters);

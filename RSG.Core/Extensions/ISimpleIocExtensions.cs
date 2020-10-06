@@ -7,10 +7,8 @@ using RSG.Core.Models;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace RSG.Core.Extensions
 {

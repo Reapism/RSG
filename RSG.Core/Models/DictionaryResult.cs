@@ -1,7 +1,4 @@
-﻿using RSG.Core.Enums;
-using RSG.Core.Interfaces;
-using System;
-using System.Numerics;
+﻿using RSG.Core.Interfaces;
 
 namespace RSG.Core.Models
 {

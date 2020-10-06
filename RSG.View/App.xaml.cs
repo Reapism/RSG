@@ -1,6 +1,4 @@
-﻿using RSG.View.Windows;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 
 namespace RSG.View
 {

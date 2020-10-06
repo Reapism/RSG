@@ -8,8 +8,6 @@ using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RSG.View.ViewModels
 {
@@ -54,7 +52,7 @@ namespace RSG.View.ViewModels
 
         public string Iterations { get; set; }
         public RsgDictionary SelectedDictionary { get; set; }
-        public ObservableCollection<IRsgDictionary> Dictionaries{ get; set; }
+        public ObservableCollection<IRsgDictionary> Dictionaries { get; set; }
         public RandomizationType SelectedRandomizationType { get; set; }
         public IEnumerable<RandomizationType> RandomizationTypes { get; set; }
 
@@ -69,5 +67,5 @@ namespace RSG.View.ViewModels
         public RelayCommand RandomizeSettings { get; set; }
         public RelayCommand<RandomWordGenerator> Generate { get; set; }
 
-}
+    }
 }

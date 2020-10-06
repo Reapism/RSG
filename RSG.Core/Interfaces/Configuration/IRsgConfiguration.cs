@@ -1,5 +1,4 @@
 ﻿using RSG.Core.Enums;
-using System;
 
 namespace RSG.Core.Interfaces.Configuration
 {

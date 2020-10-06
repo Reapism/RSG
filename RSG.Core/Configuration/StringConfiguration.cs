@@ -3,7 +3,6 @@ using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Text.Json.Serialization;
 
 namespace RSG.Core.Configuration
 {
