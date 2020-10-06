@@ -1,9 +1,9 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
+using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +12,10 @@ namespace RSG.Core.Services
     /// <summary>
     /// Holds a collection of dictionaries, and provides methods for CRUD
     /// operations on the collection of <see cref="IRsgDictionary"/>(s).
-    /// <para>Lazily initalizes the selected dictionary until <see cref="GetSelectedDictionaryAsync"/>
-    /// or <see cref="SelectDictionaryAsync(string)"/> is called.</para>
+    /// <para>Lazily initalizes the selected dictionary until <see cref="SelectedAsync"/>
+    /// or <see cref="SelectAsync(string)"/> is called.</para>
     /// </summary>
-    public class DictionaryService
+    public class DictionaryService : IDictionaryService
     {
         // Dependencies
         private readonly WordListService wordListService;
@@ -45,7 +45,7 @@ namespace RSG.Core.Services
         /// </summary>
         /// <param name="dictionary">The dictionary to remove.</param>
         /// <returns>Whether the dictionary was successfully removed.</returns>
-        public bool RemoveDictionary(IRsgDictionary dictionary)
+        public bool Remove(IRsgDictionary dictionary)
         {
             if (dictionary is null)
             {
@@ -60,7 +60,7 @@ namespace RSG.Core.Services
         /// </summary>
         /// <param name="dictionary">The dictionary to add.</param>
         /// <exception cref="ArgumentException">If the <paramref name="dictionary"/> is <see langword="null"/>.</exception>
-        public void AddDictionary(IRsgDictionary dictionary)
+        public void Add(IRsgDictionary dictionary)
         {
             if (dictionary is null)
             {
@@ -82,7 +82,7 @@ namespace RSG.Core.Services
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <exception cref="ArgumentException">Thrown if the dictionary
         /// name was not found.</exception>
-        public async Task SelectDictionaryAsync(string dictionaryName)
+        public async Task SelectAsync(string dictionaryName)
         {
             if (!isFullyInitialized)
             {
@@ -104,7 +104,7 @@ namespace RSG.Core.Services
         /// Returns the selected dictionary in an asynchronous operation.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<RsgDictionary> GetSelectedDictionaryAsync()
+        public async Task<RsgDictionary> SelectedAsync()
         {
             if (!isFullyInitialized)
             {
