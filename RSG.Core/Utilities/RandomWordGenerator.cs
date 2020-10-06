@@ -21,13 +21,14 @@ namespace RSG.Core.Utilities
     /// <remarks>
     /// This class cannot be inherited.
     /// </remarks>
-    public sealed class RandomWordGenerator
+    public sealed class RandomWordGenerator : IRandomWordGenerator
     {
-        private readonly DictionaryService dictionaryService;
+        private readonly IDictionaryService dictionaryService;
         private readonly IThreadService threadService;
         private readonly IDictionaryConfiguration dictionaryConfiguration;
-        private readonly CharacterSetService characterSetService;
+        private readonly ICharacterSetService characterSetService;
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
+        private int maxValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
@@ -38,8 +39,8 @@ namespace RSG.Core.Utilities
         /// <param name="threadService"></param>
         /// <param name="dictionaryConfiguration"></param>
         public RandomWordGenerator(
-            DictionaryService dictionaryService,
-            CharacterSetService characterSetService,
+            IDictionaryService dictionaryService,
+            ICharacterSetService characterSetService,
             IThreadService threadService,
             IDictionaryConfiguration dictionaryConfiguration)
         {
@@ -51,7 +52,7 @@ namespace RSG.Core.Utilities
         }
 
         /// <summary>
-        /// Event for when the <see cref="Generate"/> function is completed.
+        /// Event for when the <see cref="GenerateAsync"/> function is completed.
         /// <para>Fired when it's cancelled, errored, or completed successfully.</para>
         /// </summary>
         public event Completed GenerateCompleted;
@@ -63,13 +64,13 @@ namespace RSG.Core.Utilities
         public event ProgressChanged GenerateChanged;
 
         /// <summary>
-        /// Runs the <see cref="Generate(BigInteger)"/> routine.
+        /// Runs the <see cref="GenerateAsync(BigInteger)"/> routine.
         /// <para>Subscribe to <see cref="GenerateChanged"/> and
         /// <see cref="GenerateCompleted"/> events.</para>
         /// </summary>
         /// <param name="numberOfIterations">The number of words to generate.</param>
         /// <returns></returns>
-        public async Task Generate(BigInteger numberOfIterations)
+        public async Task GenerateAsync(BigInteger numberOfIterations)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace RSG.Core.Utilities
 
         private async Task LazyInitialization()
         {
-            dictionary = await dictionaryService.GetSelectedDictionaryAsync();
+            dictionary = await dictionaryService.SelectedAsync();
         }
 
         private void GenerateWords(PartitionInfo partitionInfo)
@@ -97,6 +98,7 @@ namespace RSG.Core.Utilities
             var partitionedWords = new ConcurrentQueue<IDictionary<int, IGeneratedWord>>();
             var useNoise = dictionaryConfiguration.UseNoise;
             var startTime = DateTime.Now;
+            maxValue = dictionary.WordList.Count;
 
             FireGenerateChanged(new ProgressChangedEventArgs(10, this));
 
@@ -184,7 +186,7 @@ namespace RSG.Core.Utilities
 
         private string GenerateRandomWord()
         {
-            var rndValue = RandomProvider.Random.Value.Next(0, dictionary.WordList.Count);
+            var rndValue = RandomProvider.Random.Value.Next(0, maxValue);
 
             return dictionary.WordList[rndValue];
         }
