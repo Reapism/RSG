@@ -157,6 +157,8 @@ namespace RSG.Core.Utilities
                     Word = GenerateRandomWord(),
                 };
 
+                int progressPercentage = (90 / iterations) * (i + 1);
+                GenerateChanged(this, new ProgressChangedEventArgs(progressPercentage, null));
                 words.Add(i, generatedWord);
             }
 
