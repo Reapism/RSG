@@ -34,9 +34,9 @@ namespace RSG.Core.Utilities
         /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
         /// class thats able to generate random words.
         /// </summary>
-        /// <param name="dictionaryService"></param>
-        /// <param name="characterSetService"></param>
-        /// <param name="threadService"></param>
+        /// <param name="dictionaryService">A service for retrieving dictionaries.</param>
+        /// <param name="characterSetService">A service for getting a character list.</param>
+        /// <param name="threadService">A service for getting the number of threads.</param>
         /// <param name="dictionaryConfiguration"></param>
         public RandomWordGenerator(
             IDictionaryService dictionaryService,
