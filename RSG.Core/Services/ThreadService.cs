@@ -38,7 +38,7 @@ namespace RSG.Core.Services
             {
                 if (value < 1 || value > maximumThreadCount)
                 {
-                    return;
+                    minimumThreadCount = 1;
                 }
 
                 minimumThreadCount = value;
