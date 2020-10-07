@@ -13,16 +13,15 @@
     <Grid>
         <Grid Background="White">
             <Grid.RowDefinitions>
-                <RowDefinition Height="75*" />
-                <RowDefinition Height="41*" />
-                <RowDefinition Height="109*" />
-                <RowDefinition Height="20*" />
+                <RowDefinition Height="35*" />
+                <RowDefinition Height="70*" />
+                <RowDefinition Height="10*" />
             </Grid.RowDefinitions>
             <GroupBox Header="Generate">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*" />
-                        <ColumnDefinition Width="365*" />
+                        <ColumnDefinition Width="30*" />
+                        <ColumnDefinition Width="370*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -31,58 +30,50 @@
                     </Grid.RowDefinitions>
                     <Image
                         Grid.Row="0"
-                        Margin="5"
-                        Source="/Resources/grayscale/iterations.png" />
+                        Source="/Resources/grayscale/iterations.png" 
+                        MinWidth="25"
+                        MinHeight="25"/>
                     <TextBox
                         Grid.Row="0"
                         Grid.Column="1"
-                        MaxHeight="50"
-                        Margin="5" />
+                        MaxHeight="30"
+                        Margin="10,5,0,5"
+                        Text="{Binding Iterations, NotifyOnValidationError=True, Mode=TwoWay}"/>
                     <Image
                         Grid.Row="1"
-                        Margin="5"
-                        Source="/Resources/grayscale/dictionary.png" />
+                        Margin="2"
+                        Source="/Resources/grayscale/dictionary.png" 
+                        MinWidth="25"
+                        MinHeight="25"/>
                     <ComboBox
                         Grid.Row="1"
                         Grid.Column="1"
-                        MaxHeight="50"
-                        Margin="5" />
+                        MaxHeight="30"
+                        Margin="10,5,0,5" />
                     <Image
                         Grid.Row="2"
-                        Margin="5"
-                        Source="/Resources/grayscale/settings.png" />
+                        Margin="2"
+                        Source="/Resources/grayscale/random.png"
+                        MinWidth="25"
+                        MinHeight="25" />
                     <ComboBox
                         Grid.Row="2"
                         Grid.Column="1"
-                        MaxHeight="50"
-                        Margin="5" />
+                        MaxHeight="30"
+                        Margin="10,5,0,5" />
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Row="1" Header="Randomization Method">
+            <GroupBox Grid.Row="1" Header="Properties">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*" />
-                        <ColumnDefinition Width="365*" />
+                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="10*" />
                     </Grid.ColumnDefinitions>
-                    <Image Margin="5" Source="/Resources/grayscale/random.png" />
-                    <ComboBox
-                        Grid.Column="1"
-                        MaxHeight="50"
-                        Margin="5,10,5,10" />
-                </Grid>
-            </GroupBox>
-            <GroupBox Grid.Row="2" Header="Properties">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*" />
-                        <ColumnDefinition Width="75*" />
-                        <ColumnDefinition Width="75*" />
-                        <ColumnDefinition Width="75*" />
-                        <ColumnDefinition Width="75*" />
-                        <ColumnDefinition Width="75*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="0">
                         <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
@@ -91,24 +82,52 @@
                         </Grid.RowDefinitions>
                         <CheckBox
                             Grid.Row="0"
-                            Margin="5"
+                            Margin="2"
                             Content="Use uppercase" />
                         <CheckBox
                             Grid.Row="1"
-                            Margin="5"
+                            Margin="2"
                             Content="Use spacing" />
                         <CheckBox
                             Grid.Row="2"
-                            Margin="5"
+                            Margin="2"
                             Content="Use punctuation" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Margin="2"
+                            Text="Use aliterations" />
+                        <TextBlock
+                            Grid.Row="4"
+                            Margin="2"
+                            Text="Use noise" />
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <CheckBox
+                            Grid.Row="0"
+                            Margin="2"
+                            Content="Generate Book" />
+                        <CheckBox
+                            Grid.Row="1"
+                            Margin="2"
+                            Content="Use Max Threads" />
+                        <CheckBox
+                            Grid.Row="2"
+                            Margin="2"
+                            Content="Show stats" />
                         <CheckBox
                             Grid.Row="3"
-                            Margin="5"
-                            Content="Use aliterations" />
-                        <CheckBox
-                            Grid.Row="4"
-                            Margin="5"
-                            Content="Use noise" />
+                            Margin="2"
+                            Content="Show detailed stats" 
+                            ToolTip="Shows detailed statistics by computing all permutations and generating details about performance."/>
                     </Grid>
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
@@ -117,84 +136,30 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBox
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            MaxHeight="40"
-                            Margin="5"
-                            Text="Min" />
-                        <TextBox
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            MaxHeight="40"
-                            Margin="5"
-                            Text="Max" />
-                        <TextBox
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            MaxHeight="40"
-                            Margin="5"
-                            Text="Min" />
-                        <TextBox
-                            Grid.Row="4"
-                            Grid.Column="1"
-                            MaxHeight="40"
-                            Margin="5"
-                            Text="Max" />
-                    </Grid>
-                    <Grid Grid.Column="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <CheckBox
-                            Grid.Row="0"
-                            Margin="5"
-                            Content="Generate Book" />
-                        <CheckBox
-                            Grid.Row="1"
-                            Margin="5"
-                            Content="Use Max Threads" />
-                    </Grid>
-                    <Grid Grid.Column="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <CheckBox
-                            Grid.Row="0"
-                            Margin="5"
-                            Content="Show stats" />
-                        <CheckBox
-                            Grid.Row="1"
-                            Margin="5"
-                            Content="Show heavy stats" />
                         <Button
-                            Grid.Row="1"
+                            Grid.Row="0"
                             Margin="5"
                             Content="Export"
                             IsEnabled="False"
                             ToolTip="You must generate" />
                         <Button
-                            Grid.Row="2"
+                            Grid.Row="1"
                             Margin="5"
                             Content="View Log"
                             ToolTip="View a log" />
                         <Button
+                            Grid.Row="2"
+                            Margin="5"
+                            Content="Export JSON" />
+                        <Button
                             Grid.Row="3"
                             Margin="5"
-                            Content="Randomize Settings" />
+                            Content="Generate"
+                            ToolTip="Generate the amount of words"
+                            Command="{Binding GenerateCommand}" />
                     </Grid>
                 </Grid>
             </GroupBox>
@@ -204,11 +169,12 @@
                 Visibility="Visible">
                 <Grid>
                     <ProgressBar
+                        x:Name="BackgroundProgress"
                         MaxHeight="30"
                         Background="#4C00FFFF"
                         Foreground="#4CC3C3C3"
                         ToolTip="Display thread stuff"
-                        Value="5" />
+                        Value="{Binding CurrentProgress}" />
                 </Grid>
             </GroupBox>
         </Grid>
