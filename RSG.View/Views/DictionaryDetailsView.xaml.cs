@@ -12,44 +12,9 @@ namespace RSG.View.Views
     /// </summary>
     public partial class DictionaryDetailsView : UserControl
     {
-        private readonly IRandomWordGenerator randomWordGenerator;
-
-        public DictionaryDetailsView(IRandomWordGenerator randomWordGenerator)
+        public DictionaryDetailsView()
         {
             InitializeComponent();
-
-            this.randomWordGenerator = randomWordGenerator;
-
-            SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            randomWordGenerator.GenerateCompleted += RandomWordGenerator_GenerateRandomWordsResultCompleted;
-            randomWordGenerator.GenerateChanged += RandomWordGenerator_GenerateRandomWordsResultProgressChanged;
-
-        }
-
-        private void RandomWordGenerator_GenerateRandomWordsResultProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
-        {
-            this.Progress.Value = e.ProgressPercentage;
-        }
-
-        private void RandomWordGenerator_GenerateRandomWordsResultCompleted(object sender, DictionaryEventArgs e)
-        {
-            var result = e.Result;
-
-            var nonGeneratedWords = result.Words.GetNumberOfOccurencesFor("aardvark");
-            var generatedWords = (int)result.Words.Count - nonGeneratedWords;
-            var perc = (double)generatedWords / (int)result.Words.Count;
-            RunCommand.IsEnabled = true;
-            MessageBox.Show($"{nonGeneratedWords} out of {result.Words.Count} were not generated successfully. {perc.ToString("P", CultureInfo.InvariantCulture)} successfully generated!");
-        }
-
-        private async void RunCommand_Click(object sender, RoutedEventArgs e)
-        {
-            RunCommand.IsEnabled = false;
-            await randomWordGenerator.GenerateAsync(BigInteger.Parse("1000013"));
         }
     }
 }
