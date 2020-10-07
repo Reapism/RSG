@@ -1,5 +1,6 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Result;
 using System;
 using System.ComponentModel;
 using System.IO;

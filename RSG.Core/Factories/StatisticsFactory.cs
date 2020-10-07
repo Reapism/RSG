@@ -1,5 +1,6 @@
 ﻿using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Result;
 using RSG.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,11 @@ namespace RSG.Core.Factories
         /// <param name="result">A <see cref="Result"/> instance used to
         /// construct the <see cref="DetailedStatistics"/> instance.</param>
         /// <returns>A <see cref="DetailedStatistics"/> instance.</returns>
-        public static DetailedStatistics CreateDetailedStatistics(in Result result)
+        public static DetailedStatistics CreateDetailedStatistics(in IStringResult result)
         {
             var statistics = new DetailedStatistics()
             {
-                CharacterList = result.CharacterList,
+                CharacterList = result.Characters,
                 Duration = result.EndTime - result.StartTime,
                 Iterations = result.Iterations,
                 RandomizationType = result.RandomizationType.GetDescription(),
@@ -38,7 +39,7 @@ namespace RSG.Core.Factories
             statistics.IterationsPerCentury = durationModel.IterationsPerCentury;
 
             statistics.Permutations = GetPermutations(
-                BigInteger.Parse(result.CharacterList.Length.ToString()),
+                BigInteger.Parse(result.Characters.Length.ToString()),
                 result.StringLength);
 
             var characterModel = GetCommonCharacters(result.Strings);
@@ -58,18 +59,18 @@ namespace RSG.Core.Factories
         /// <param name="result">A <see cref="Result"/> instance used to
         /// construct the <see cref="Statistics"/> instance.</param>
         /// <returns>A <see cref="Statistics"/> instance.</returns>
-        public static Statistics CreateStatistics(in Result result)
+        public static Statistics CreateStatistics(in IStringResult result)
         {
             var statistics = new Statistics()
             {
-                CharacterList = result.CharacterList,
+                CharacterList = result.Characters,
                 Iterations = result.Iterations,
                 RandomizationType = result.RandomizationType.GetDescription(),
                 StringLength = result.StringLength,
             };
 
             statistics.Permutations = GetPermutations(
-                BigInteger.Parse(result.CharacterList.Length.ToString()),
+                BigInteger.Parse(result.Characters.Length.ToString()),
                 result.StringLength);
 
             var characterModel = GetCommonCharacters(

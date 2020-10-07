@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using RSG.Core.Interfaces.Result;
+using System.Numerics;
 
 namespace RSG.Core.Interfaces.Services
 {
