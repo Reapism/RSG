@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <Folder Include="Ioc\" />
+    <Folder Include="Models\View\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
