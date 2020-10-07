@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using RSG.Core.Interfaces.Result;
+using System.Collections.Generic;
 using System.Numerics;
 
-namespace RSG.Core.Models
+namespace RSG.Core.Models.Result
 {
-    /// <summary>
-    /// The necessary resulting information of generating random strings
-    /// to construct a <see cref="StatisticsDetailed"/> instance.
-    /// </summary>
-    public class Result : ResultBase
+    public class StringResult : ResultBase, IStringResult
     {
         /// <summary>
         /// Gets or sets the character list used to generate the strings.
         /// </summary>
-        public string CharacterList { get; set; }
+        public string Characters { get; set; }
 
         /// <summary>
         /// Gets or sets the random strings produced by the generation.

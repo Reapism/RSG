@@ -1,6 +1,8 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Factories;
+using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Result;
 
-namespace RSG.Core.Models
+namespace RSG.Core.Models.Result
 {
     /// <summary>
     /// Represents properties of an RSG dictionary.

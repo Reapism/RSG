@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 
-namespace RSG.Core.Interfaces
+namespace RSG.Core.Interfaces.Result
 {
     /// <summary>
     /// Represents a particular result.

@@ -1,6 +1,6 @@
 ﻿using RSG.Core.Models;
 
-namespace RSG.Core.Interfaces
+namespace RSG.Core.Interfaces.Result
 {
     /// <summary>
     /// Represents the result of generating words from

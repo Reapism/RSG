@@ -1,9 +1,10 @@
 ﻿using RSG.Core.Enums;
 using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Result;
 using System;
 using System.Numerics;
 
-namespace RSG.Core.Models
+namespace RSG.Core.Models.Result
 {
     /// <summary>
     /// The base class for a Result
@@ -19,17 +20,6 @@ namespace RSG.Core.Models
                 Iterations = BigInteger.MinusOne,
                 RandomizationType = RandomizationType.Pseudorandom
             };
-
-        }
-
-        /// Returns an empty <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">An <see cref="IResult"/> type.</typeparam>
-        /// <returns>Returns an empty casted <typeparamref name="T"/>.</returns>
-        public T As<T>()
-            where T : IResult
-        {
-            return (T)Empty;
         }
 
         /// <summary>
