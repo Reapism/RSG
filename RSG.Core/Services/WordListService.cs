@@ -29,7 +29,7 @@ namespace RSG.Core.Services
                 : await CreateWordListFromHttp(dictionary.Source);
 
             var index = 0;
-            wordList.ToDictionary(e => { return index++; });
+            wordDictionary = wordList.ToDictionary(e => { return index++; });
 
             return wordDictionary;
         }
