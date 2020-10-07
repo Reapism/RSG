@@ -1,7 +1,9 @@
 ﻿using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
+using RSG.Core.Interfaces.Result;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
+using RSG.Core.Models.Result;
 using RSG.Core.Services;
 using System;
 using System.Collections.Concurrent;
@@ -82,7 +84,7 @@ namespace RSG.Core.Utilities
             }
             catch (Exception e)
             {
-                FireGenerateCompleted(new DictionaryEventArgs(e, false, this, Result.Empty.As<IDictionaryResult>()));
+                FireGenerateCompleted(new DictionaryEventArgs(e, false, this, null));
             }
         }
 
@@ -142,7 +144,7 @@ namespace RSG.Core.Utilities
             }
             catch (AggregateException ae)
             {
-                FireGenerateCompleted(new DictionaryEventArgs(ae.Flatten(), false, ae, Result.Empty.As<IDictionaryResult>()));
+                FireGenerateCompleted(new DictionaryEventArgs(ae.Flatten(), false, ae, null));
             }
         }
 
