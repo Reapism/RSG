@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using RSG.Core.Extensions;
-using RSG.Core.Interfaces.Services;
 using RSG.View.Managers;
 using RSG.View.ViewModels;
 using RSG.View.Views;
@@ -46,7 +45,7 @@ namespace RSG.View
         {
             Container.Register<AboutView>();
             Container.Register<Dialog>();
-            Container.Register(() => new DictionaryDetailsView(Container.GetInstance<IRandomWordGenerator>()));
+            Container.Register<DictionaryDetailsView>();
             Container.Register<DictionaryEditView>();
             Container.Register<SearchDetailsView>();
             Container.Register<SearchEditView>();
