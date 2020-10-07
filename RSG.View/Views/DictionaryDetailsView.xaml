@@ -14,21 +14,16 @@
     <Grid Background="White">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*" />
-                <RowDefinition Height="2*" />
+                <RowDefinition Height="20*" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <ListView
                 x:Name="ListView"
-                Margin="5"
+                Margin="2"
                 Background="#4C67E5F9"
                 BorderBrush="#FF0A47FF"
                 ContextMenu="{DynamicResource SharedContextMenu}" />
-            <Button
-                x:Name="RunCommand"
-                Grid.Row="1"
-                Click="RunCommand_Click" />
-            <ProgressBar x:Name="Progress" Grid.Row="2" />
+            <ProgressBar Grid.Row="2" Margin="2" Foreground="Black" Background="DarkCyan"/>
         </Grid>
     </Grid>
 </UserControl>
