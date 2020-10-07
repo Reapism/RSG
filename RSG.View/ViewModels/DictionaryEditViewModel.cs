@@ -5,11 +5,14 @@ using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
+using RSG.Core.Services;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RSG.View.ViewModels
 {
@@ -43,14 +46,14 @@ namespace RSG.View.ViewModels
                 var perc = (double)generatedWords / (int)e.Result.Words.Count;
                 var str = ($"{nonGeneratedWords} out of {e.Result.Words.Count} were not generated successfully. {perc.ToString("P", CultureInfo.InvariantCulture)} successfully generated!");
                 var c = true;
-                GC.Collect();
+                CurrentProgress = 0;
             }
 
         }
 
         private async void RandomWordGenerator_GenerateChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            CurrentProgress = e.ProgressPercentage;
+            Task.Run(() => { Thread.Sleep(RandomProvider.Random.Value.Next(100, 500)); CurrentProgress = e.ProgressPercentage; });
         }
 
         private async void RunGenerate()
@@ -60,7 +63,7 @@ namespace RSG.View.ViewModels
 
         private bool CanExecuteGenerate()
         {
-            return (!(randomWordGenerator is null) && (!(Iterations is null)));
+            return (!(randomWordGenerator is null) && (!(Iterations is null)) && CurrentProgress == 0);
         }
 
         private void RunRandomizeSettings()

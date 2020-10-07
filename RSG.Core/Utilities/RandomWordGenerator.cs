@@ -29,7 +29,7 @@ namespace RSG.Core.Utilities
         private readonly ICharacterSetService characterSetService;
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
         private int maxValue;
-
+        private int progressPercentage;
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
         /// class thats able to generate random words.
@@ -49,6 +49,7 @@ namespace RSG.Core.Utilities
             this.threadService = threadService;
             this.dictionaryConfiguration = dictionaryConfiguration;
             this.characterSetService = characterSetService;
+            progressPercentage = 0;
         }
 
         /// <summary>
@@ -72,13 +73,14 @@ namespace RSG.Core.Utilities
         /// <returns></returns>
         public async Task GenerateAsync(BigInteger numberOfIterations)
         {
+            progressPercentage = 0;
             try
             {
                 await LazyInitialization();
 
                 var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadsCount(numberOfIterations));
 
-                FireGenerateChanged(new ProgressChangedEventArgs(5, this));
+                FireGenerateChanged(new ProgressChangedEventArgs(progressPercentage += 5, this));
 
                 GenerateWords(partitionInfo);
             }
@@ -139,7 +141,7 @@ namespace RSG.Core.Utilities
                     RandomizationType = RandomProvider.SelectedRandomizationType,
                     Words = words
                 };
-
+                FireGenerateChanged(new ProgressChangedEventArgs(100, null));
                 FireGenerateCompleted(new DictionaryEventArgs(null, false, null, result));
             }
             catch (AggregateException ae)
@@ -159,10 +161,11 @@ namespace RSG.Core.Utilities
                     Word = GenerateRandomWord(),
                 };
 
-                int progressPercentage = (90 / iterations) * (i + 1);
-                GenerateChanged(this, new ProgressChangedEventArgs(progressPercentage, null));
+                int progressPercentage = (int)(90D / iterations) * (i + 1) * 100;
                 words.Add(i, generatedWord);
             }
+            progressPercentage += 10;
+            GenerateChanged(this, new ProgressChangedEventArgs(progressPercentage, null));
 
             return words;
         }
