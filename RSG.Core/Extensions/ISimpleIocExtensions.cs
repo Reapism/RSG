@@ -39,7 +39,7 @@ namespace RSG.Core.Extensions
             container.Register<IShuffle<char>, Scrambler>();
             container.Register<ICharacterSetService, CharacterSetService>();
             container.Register<IRandomStringGenerator, RandomStringGenerator>();
-            container.Register<IRandomWordGenerator, RandomWordGenerator>();
+            container.Register<IGenerator, RandomWordGenerator>();
             container.Register<IWordListService, WordListService>();
             container.Register<IDictionaryService, DictionaryService>();
 

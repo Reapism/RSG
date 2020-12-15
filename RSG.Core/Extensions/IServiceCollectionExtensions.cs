@@ -53,7 +53,7 @@ namespace RSG.Core.Extensions
                 .AddTransient<IShuffle<char>, Scrambler>()
                 .AddTransient<ICharacterSetService, CharacterSetService>()
                 .AddTransient<IRandomStringGenerator, RandomStringGenerator>()
-                .AddTransient<IRandomWordGenerator, RandomWordGenerator>()
+                .AddTransient<IGenerator, RandomWordGenerator>()
                 .AddTransient<IWordListService, WordListService>()
                 .AddTransient<IDictionaryService, DictionaryService>();
 
