@@ -43,7 +43,7 @@ namespace RSG.Core.Models
                 lastPartSize += fullPartSize.ToBigInteger();
             }
 
-            ThreadPool.GetAvailableThreads(out var _, out var asyncIoThreads);
+            ThreadPool.GetMaxThreads(out var workerThreads, out var completionThreads);
             var partitionInfo = new PartitionInfo()
             {
                 TotalIterations = iterations,
@@ -51,8 +51,8 @@ namespace RSG.Core.Models
                 FullPartitionSize = fullPartSize,
                 LastPartitionSize = (int)lastPartSize,
                 NumberOfPartitions = threadCount,
-                TotalThreadPoolThreads = ThreadPool.ThreadCount,
-                TotalAsyncIOThreads = asyncIoThreads
+                TotalThreadPoolThreads = workerThreads,
+                TotalAsyncIOThreads = completionThreads
             };
 
 
