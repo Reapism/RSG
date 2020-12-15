@@ -18,11 +18,11 @@ namespace RSG.View.ViewModels
 {
     public class DictionaryEditViewModel : ViewModelBase
     {
-        private readonly IRandomWordGenerator randomWordGenerator;
+        private readonly IGenerator randomWordGenerator;
         private int currentProgress;
         private string iterations;
 
-        public DictionaryEditViewModel(IRandomWordGenerator randomWordGenerator)
+        public DictionaryEditViewModel(IGenerator randomWordGenerator)
         {
             ViewLogCommand = new RelayCommand(RunViewLog, CanExecuteViewLog);
             RandomizeSettingsCommand = new RelayCommand(RunRandomizeSettings, CanExecuteRandomizeSettings);
@@ -53,7 +53,7 @@ namespace RSG.View.ViewModels
 
         private async void RandomWordGenerator_GenerateChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            Task.Run(() => { Thread.Sleep(RandomProvider.Random.Value.Next(100, 500)); CurrentProgress = e.ProgressPercentage; });
+
         }
 
         private async void RunGenerate()

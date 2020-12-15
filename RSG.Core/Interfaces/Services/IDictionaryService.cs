@@ -13,7 +13,6 @@ namespace RSG.Core.Interfaces.Services
         /// Adds an <see cref="IRsgDictionary"/>.
         /// </summary>
         /// <param name="dictionary">The <see cref="IRsgDictionary"/> to add.</param>
-        /// <returns>Whether the <see cref="IRsgDictionary"/> was added.</returns>
         void Add(IRsgDictionary dictionary);
 
         /// <summary>
