@@ -21,7 +21,7 @@ namespace RSG.Core.Utilities
     /// <remarks>
     /// This class cannot be inherited.
     /// </remarks>
-    public sealed class RandomWordGenerator : IRandomWordGenerator
+    public sealed class RandomWordGenerator : IGenerator
     {
         private readonly IDictionaryService dictionaryService;
         private readonly IThreadService threadService;
@@ -30,6 +30,7 @@ namespace RSG.Core.Utilities
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
         private int maxValue;
         private int progressPercentage;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
         /// class thats able to generate random words.
@@ -37,7 +38,7 @@ namespace RSG.Core.Utilities
         /// <param name="dictionaryService">A service for retrieving dictionaries.</param>
         /// <param name="characterSetService">A service for getting a character list.</param>
         /// <param name="threadService">A service for getting the number of threads.</param>
-        /// <param name="dictionaryConfiguration"></param>
+        /// <param name="dictionaryConfiguration">The dictionary configuration settings.</param>
         public RandomWordGenerator(
             IDictionaryService dictionaryService,
             ICharacterSetService characterSetService,
@@ -70,7 +71,7 @@ namespace RSG.Core.Utilities
         /// <see cref="GenerateCompleted"/> events.</para>
         /// </summary>
         /// <param name="numberOfIterations">The number of words to generate.</param>
-        /// <returns></returns>
+        /// <returns>Returns an empty task.</returns>
         public async Task GenerateAsync(BigInteger numberOfIterations)
         {
             progressPercentage = 0;
@@ -161,11 +162,13 @@ namespace RSG.Core.Utilities
                     Word = GenerateRandomWord(),
                 };
 
-                int progressPercentage = (int)(90D / iterations) * (i + 1) * 100;
+                var progress = 100.0 * i / iterations;
                 words.Add(i, generatedWord);
+                if (progress % 10 == 0)
+                {
+                    FireGenerateChanged(new ProgressChangedEventArgs((int)progress, null));
+                }
             }
-            progressPercentage += 10;
-            GenerateChanged(this, new ProgressChangedEventArgs(progressPercentage, null));
 
             return words;
         }
