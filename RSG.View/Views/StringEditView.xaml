@@ -31,38 +31,51 @@
                         <ComboBox Margin="5" HorizontalAlignment="Stretch" />
                         <Button Margin="5" Content="Generate" />
                     </StackPanel>
-                    <GroupBox Grid.Row="1" Header="Generation Settings">
-                        <StackPanel>
-                            <TextBlock
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <GroupBox Header="Generation Settings">
+                            <StackPanel>
+                                <TextBlock
                                 MinHeight="50"
                                 Margin="5"
                                 Padding="5,10,5,10"
-                                Background="#4C48C9CD"
+                                Background="Transparent"
                                 Text="ABCDEFGHIJKLMNAOPQRSTUVWXYZabcdefghijklmnaopqrstuvwxyz0123456789"
                                 TextWrapping="Wrap">
-                                <TextBlock.TextEffects>
-                                    <TextEffect
+                                    <TextBlock.TextEffects>
+                                        <TextEffect
                                         Foreground="#FF389FDA"
                                         PositionCount="5"
                                         PositionStart="0" />
-                                    <TextEffect
+                                        <TextEffect
                                         Foreground="#FF7056C9"
                                         PositionCount="5"
                                         PositionStart="5" />
-                                </TextBlock.TextEffects>
-                            </TextBlock>
-                            <Button
+                                    </TextBlock.TextEffects>
+                                </TextBlock>
+                                <Button
                                 MinHeight="20"
                                 Margin="5"
-                                Background="#4C48C9CD"
+                                Background="Transparent"
                                 Content="Add Characters" />
-                            <Button
+                                <Button
                                 MinHeight="20"
                                 Margin="5"
-                                Background="#4C48C9CD"
+                                Background="Transparent"
                                 Content="Remove Characters" />
-                        </StackPanel>
-                    </GroupBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Grid.Row="1" Header="Character Presets">
+                            <StackPanel>
+                                <Button Margin="5" Content="Passwords" />
+                                <Button Margin="5" Content="Hash" />
+                                <Button Margin="5" Content="Guid" />
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
                 </Grid>
             </GroupBox>
         </Grid>
