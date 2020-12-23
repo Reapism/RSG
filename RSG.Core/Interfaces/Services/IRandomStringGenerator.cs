@@ -1,5 +1,6 @@
 ﻿using RSG.Core.Interfaces.Result;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace RSG.Core.Interfaces.Services
 {
@@ -7,6 +8,10 @@ namespace RSG.Core.Interfaces.Services
     {
         IStringResult Generate(int numberOfIterations, int stringLength);
 
-        IStringResult Generate(in BigInteger numberOfIterations, in BigInteger stringLength);
+        IStringResult Generate(BigInteger numberOfIterations, BigInteger stringLength);
+
+        Task<IStringResult> GenerateAsync(int numberOfIterations, int stringLength);
+
+        Task<IStringResult> GenerateAsync(BigInteger numberOfIterations, BigInteger stringLength);
     }
 }
