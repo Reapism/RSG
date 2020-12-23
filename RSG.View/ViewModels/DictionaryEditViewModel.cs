@@ -41,14 +41,8 @@ namespace RSG.View.ViewModels
 
             if (!(e.Result is null))
             {
-                var nonGeneratedWords = e.Result.Words.GetNumberOfOccurencesFor("aardvark");
-                var generatedWords = (int)e.Result.Words.Count - nonGeneratedWords;
-                var perc = (double)generatedWords / (int)e.Result.Words.Count;
-                var str = ($"{nonGeneratedWords} out of {e.Result.Words.Count} were not generated successfully. {perc.ToString("P", CultureInfo.InvariantCulture)} successfully generated!");
-                var c = true;
                 CurrentProgress = 0;
             }
-
         }
 
         private async void RandomWordGenerator_GenerateChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
