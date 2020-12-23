@@ -77,7 +77,6 @@ namespace RSG.Core.Models
             var partition = GetWordsAtIndex(partitionIndex);
 
             throw new NotImplementedException("Awaiting other functions");
-
         }
 
         public bool Contains(string word)
