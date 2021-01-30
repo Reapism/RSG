@@ -1,10 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Services;
+using RSG.Core.Models;
 using System;
 using System.Numerics;
-using System.Linq;
-using RSG.Core.Models;
 
 namespace RSG.View.ViewModels
 {
@@ -12,11 +12,46 @@ namespace RSG.View.ViewModels
     {
         private readonly IStringConfiguration stringConfiguration;
         private readonly ICharacterSetService characterSetService;
+        private readonly IRandomStringGenerator randomStringGenerator;
 
-        public StringEditViewModel(IStringConfiguration stringConfiguration, ICharacterSetService characterSetService)
+        public StringEditViewModel(IStringConfiguration stringConfiguration, ICharacterSetService characterSetService, IRandomStringGenerator randomStringGenerator)
         {
             this.stringConfiguration = stringConfiguration;
             this.characterSetService = characterSetService;
+            this.randomStringGenerator = randomStringGenerator;
+            GenerateCommand = new RelayCommand(RunGenerate, CanExecuteGenerate);
+            AddCharactersCommand = new RelayCommand(RunGenerate, CanExecuteGenerate);
+            RemoveCharactersCommand = new RelayCommand(RunRemoveCharacters, CanExecuteRemoveCharacters);
+        }
+
+        private bool CanExecuteGenerate()
+        {
+            return !string.IsNullOrWhiteSpace(LengthInput) && !string.IsNullOrWhiteSpace(IterationsInput);
+        }
+
+        private async void RunGenerate()
+        {
+            await randomStringGenerator.GenerateAsync(Iterations, Length);
+        }
+
+        private bool CanExecuteAddCharacters()
+        {
+            return !string.IsNullOrWhiteSpace(LengthInput) && !string.IsNullOrWhiteSpace(IterationsInput);
+        }
+
+        private async void RunAddCharacters()
+        {
+            
+        }
+
+        private bool CanExecuteRemoveCharacters()
+        {
+            return !string.IsNullOrWhiteSpace(LengthInput) && !string.IsNullOrWhiteSpace(IterationsInput);
+        }
+
+        private async void RunRemoveCharacters()
+        {
+            await randomStringGenerator.GenerateAsync(Iterations, Length);
         }
 
         public BigInteger Length { get; set; }
@@ -50,5 +85,12 @@ namespace RSG.View.ViewModels
                 }
             }
         }
+
+        public RelayCommand GenerateCommand { get; set; }
+        public RelayCommand AddCharactersCommand { get; set; }
+        public RelayCommand RemoveCharactersCommand { get; set; }
+        public RelayCommand PasswordPresetCommand { get; set; }
+        public RelayCommand HashPresetCommand { get; set; }
+        public RelayCommand GuidPresetCommand { get; set; }
     }
 }
