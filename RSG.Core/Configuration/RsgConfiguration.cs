@@ -1,9 +1,8 @@
 ﻿using RSG.Core.Enums;
-using RSG.Core.Interfaces.Configuration;
 
 namespace RSG.Core.Configuration
 {
-    public class RsgConfiguration : IRsgConfiguration
+    public class RsgConfiguration
     {
         public RsgConfiguration()
         {

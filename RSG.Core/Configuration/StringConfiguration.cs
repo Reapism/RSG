@@ -6,38 +6,38 @@ using System.Numerics;
 
 namespace RSG.Core.Configuration
 {
-    public class StringConfiguration : IStringConfiguration
+    public class StringConfiguration : ICharacterSetProvider
     {
+        private static IList<CharacterSet> DefaultCharacterSet =>
+            new List<CharacterSet>()
+            {
+                new CharacterSet(CharacterSetConstants.Lowercase, CharacterSetConstants.LowercaseSet, true),
+                new CharacterSet(CharacterSetConstants.Uppercase, CharacterSetConstants.UppercaseSet, true),
+                new CharacterSet(CharacterSetConstants.Numbers, CharacterSetConstants.NumbersSet, true),
+                new CharacterSet(CharacterSetConstants.Punctuation, CharacterSetConstants.PunctuationSet, true),
+                new CharacterSet(CharacterSetConstants.Space, CharacterSetConstants.SpaceSet, true),
+                new CharacterSet(CharacterSetConstants.Symbols, CharacterSetConstants.SymbolsSet, true)
+            };
+
         public StringConfiguration()
         {
-            Characters = new Dictionary<string, SingleCharacterSet>();
-            GetDefault(Characters);
+            Characters = new List<CharacterSet>();
         }
 
-        public void GetDefault(IDictionary<string, SingleCharacterSet> characters)
+        /// <summary>
+        /// Gets the default character sets. 
+        /// </summary>
+        public static IList<CharacterSet> Default
         {
-            characters.Add(
-                CharacterSetConstants.Lowercase,
-                new SingleCharacterSet(CharacterSetConstants.LowercaseSet, true));
-            characters.Add(
-                CharacterSetConstants.Uppercase,
-                new SingleCharacterSet(CharacterSetConstants.UppercaseSet, true));
-            characters.Add(
-                CharacterSetConstants.Numbers,
-                new SingleCharacterSet(CharacterSetConstants.NumbersSet, true));
-            characters.Add(
-                CharacterSetConstants.Punctuation,
-                new SingleCharacterSet(CharacterSetConstants.PunctuationSet, true));
-            characters.Add(
-                CharacterSetConstants.Space,
-                new SingleCharacterSet(CharacterSetConstants.SpaceSet, true));
-            characters.Add(
-                CharacterSetConstants.Symbols,
-                new SingleCharacterSet(CharacterSetConstants.SymbolsSet, true));
+            get
+            {
+                return DefaultCharacterSet;
+            }
         }
 
         public BigInteger StringLength { get; set; }
 
-        public IDictionary<string, SingleCharacterSet> Characters { get; set; }
+        public BigInteger Iterations { get; set; }
+        public IList<CharacterSet> Characters { get; set; }
     }
 }

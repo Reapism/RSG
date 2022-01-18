@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace RSG.Core.Configuration
 {
-    public class DictionaryConfiguration : IDictionaryConfiguration
+    public class DictionaryConfiguration : IDictionaryProvider
     {
         private bool isFullyInitialized;
         private IList<RsgDictionary> dictionaries;
