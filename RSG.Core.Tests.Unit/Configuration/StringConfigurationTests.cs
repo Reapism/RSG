@@ -43,13 +43,13 @@ namespace RSG.Core.Tests.Unit.Configuration
 
         private StringConfiguration CreateConfiguration()
         {
-            var characters = new Dictionary<string, SingleCharacterSet>();
-            characters.Add(CharacterSetConstants.Lowercase, new SingleCharacterSet(CharacterSetConstants.LowercaseSet, true));
-            characters.Add(CharacterSetConstants.Uppercase, new SingleCharacterSet(CharacterSetConstants.UppercaseSet, true));
-            characters.Add(CharacterSetConstants.Numbers, new SingleCharacterSet(CharacterSetConstants.NumbersSet, true));
-            characters.Add(CharacterSetConstants.Space, new SingleCharacterSet(CharacterSetConstants.SpaceSet, false));
-            characters.Add(CharacterSetConstants.Punctuation, new SingleCharacterSet(CharacterSetConstants.PunctuationSet, false));
-            characters.Add(CharacterSetConstants.Symbols, new SingleCharacterSet(CharacterSetConstants.SymbolsSet, false));
+            var characters = new Dictionary<string, CharacterSet>();
+            characters.Add(CharacterSetConstants.Lowercase, new CharacterSet(CharacterSetConstants.LowercaseSet, true));
+            characters.Add(CharacterSetConstants.Uppercase, new CharacterSet(CharacterSetConstants.UppercaseSet, true));
+            characters.Add(CharacterSetConstants.Numbers, new CharacterSet(CharacterSetConstants.NumbersSet, true));
+            characters.Add(CharacterSetConstants.Space, new CharacterSet(CharacterSetConstants.SpaceSet, false));
+            characters.Add(CharacterSetConstants.Punctuation, new CharacterSet(CharacterSetConstants.PunctuationSet, false));
+            characters.Add(CharacterSetConstants.Symbols, new CharacterSet(CharacterSetConstants.SymbolsSet, false));
 
             var stringConfiguration = new StringConfiguration()
             {

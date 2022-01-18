@@ -35,11 +35,11 @@ namespace RSG.Core.Extensions
             container.Register<IStringResult, StringResult>();
             container.Register<IGeneratedWord, GeneratedWord>();
             container.Register<IDictionaryWordList, DictionaryWordList>();
-            container.Register<IThreadService, ThreadService>();
+            container.Register<IThreadCount, ThreadCountService>();
             container.Register<IShuffle<char>, Scrambler>();
             container.Register<ICharacterSetService, CharacterSetService>();
             container.Register<IRandomStringGenerator, RandomStringGenerator>();
-            container.Register<IGenerator, RandomWordGenerator>();
+            container.Register<IGeneratorEvents, RandomWordGenerator>();
             container.Register<IWordListService, WordListService>();
             container.Register<IDictionaryService, DictionaryService>();
 
@@ -63,7 +63,7 @@ namespace RSG.Core.Extensions
 
                 var rsgConfiguration = new LoadRsgConfiguration().LoadJson(rsgConfigSrc, isRsgConfigInternal);
                 container
-                    .Register<IRsgConfiguration>(() => rsgConfiguration);
+                    .Register(() => rsgConfiguration);
 
                 var stringConfigSrc = rsgConfiguration.StringConfigurationSource;
                 var isStringConfigInternal = false;
@@ -78,7 +78,7 @@ namespace RSG.Core.Extensions
 
                 var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfigSrc, isStringConfigInternal);
                 container
-                    .Register<IStringConfiguration>(() => stringConfiguration);
+                    .Register<ICharacterSetProvider>(() => stringConfiguration);
 
                 var dictionaryConfigSrc = rsgConfiguration.DictionaryConfigurationSource;
                 var isDictionaryConfigInternal = false;
@@ -93,7 +93,7 @@ namespace RSG.Core.Extensions
 
                 var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfigSrc, isDictionaryConfigInternal);
                 container
-                    .Register<IDictionaryConfiguration>(() => dictionaryConfiguration);
+                    .Register<IDictionaryProvider>(() => dictionaryConfiguration);
 
                 if (useInternalStringConfig)
                 {

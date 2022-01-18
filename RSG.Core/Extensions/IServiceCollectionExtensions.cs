@@ -49,11 +49,11 @@ namespace RSG.Core.Extensions
                 .AddTransient<IStringResult, StringResult>()
                 .AddTransient<IGeneratedWord, GeneratedWord>()
                 .AddTransient<IDictionaryWordList, DictionaryWordList>()
-                .AddTransient<IThreadService, ThreadService>()
+                .AddTransient<IThreadCount, ThreadCountService>()
                 .AddTransient<IShuffle<char>, Scrambler>()
                 .AddTransient<ICharacterSetService, CharacterSetService>()
                 .AddTransient<IRandomStringGenerator, RandomStringGenerator>()
-                .AddTransient<IGenerator, RandomWordGenerator>()
+                .AddTransient<IGeneratorEvents, RandomWordGenerator>()
                 .AddTransient<IWordListService, WordListService>()
                 .AddTransient<IDictionaryService, DictionaryService>();
 
@@ -77,7 +77,7 @@ namespace RSG.Core.Extensions
 
                 var rsgConfiguration = new LoadRsgConfiguration().LoadJson(rsgConfigSrc, isRsgConfigInternal);
                 services
-                    .AddSingleton<IRsgConfiguration>(rsgConfiguration);
+                    .AddSingleton(rsgConfiguration);
 
                 var stringConfigSrc = rsgConfiguration.StringConfigurationSource;
                 var isStringConfigInternal = false;
@@ -92,7 +92,7 @@ namespace RSG.Core.Extensions
 
                 var stringConfiguration = new LoadStringConfiguration().LoadJson(stringConfigSrc, isStringConfigInternal);
                 services
-                    .AddSingleton<IStringConfiguration>(stringConfiguration);
+                    .AddSingleton<ICharacterSetProvider>(stringConfiguration);
 
                 var dictionaryConfigSrc = rsgConfiguration.DictionaryConfigurationSource;
                 var isDictionaryConfigInternal = false;
@@ -107,7 +107,7 @@ namespace RSG.Core.Extensions
 
                 var dictionaryConfiguration = new LoadDictionaryConfiguration().LoadJson(dictionaryConfigSrc, isDictionaryConfigInternal);
                 services
-                    .AddSingleton<IDictionaryConfiguration>(dictionaryConfiguration);
+                    .AddSingleton<IDictionaryProvider>(dictionaryConfiguration);
 
                 if (useInternalStringConfig)
                 {

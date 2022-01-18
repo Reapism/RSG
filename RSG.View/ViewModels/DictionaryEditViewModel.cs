@@ -18,11 +18,11 @@ namespace RSG.View.ViewModels
 {
     public class DictionaryEditViewModel : ViewModelBase
     {
-        private readonly IGenerator randomWordGenerator;
+        private readonly IGeneratorEvents randomWordGenerator;
         private int currentProgress;
         private string iterations;
 
-        public DictionaryEditViewModel(IGenerator randomWordGenerator)
+        public DictionaryEditViewModel(IGeneratorEvents randomWordGenerator)
         {
             ViewLogCommand = new RelayCommand(RunViewLog, CanExecuteViewLog);
             RandomizeSettingsCommand = new RelayCommand(RunRandomizeSettings, CanExecuteRandomizeSettings);

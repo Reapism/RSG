@@ -1,4 +1,5 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Configuration;
+using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Result;
 using RSG.Core.Interfaces.Services;
@@ -21,11 +22,11 @@ namespace RSG.Core.Utilities
     /// <remarks>
     /// This class cannot be inherited.
     /// </remarks>
-    public sealed class RandomWordGenerator : IGenerator
+    public sealed class RandomWordGenerator : IGeneratorEvents
     {
         private readonly IDictionaryService dictionaryService;
-        private readonly IThreadService threadService;
-        private readonly IDictionaryConfiguration dictionaryConfiguration;
+        private readonly IThreadCount threadService;
+        private readonly DictionaryConfiguration dictionaryConfiguration;
         private readonly ICharacterSetService characterSetService;
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
         private int maxValue;
@@ -42,8 +43,8 @@ namespace RSG.Core.Utilities
         public RandomWordGenerator(
             IDictionaryService dictionaryService,
             ICharacterSetService characterSetService,
-            IThreadService threadService,
-            IDictionaryConfiguration dictionaryConfiguration)
+            IThreadCount threadService,
+            DictionaryConfiguration dictionaryConfiguration)
         {
             // Set member dependencies.
             this.dictionaryService = dictionaryService;
@@ -81,7 +82,7 @@ namespace RSG.Core.Utilities
 
                 var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadsCount(numberOfIterations));
 
-                FireGenerateChanged(new ProgressChangedEventArgs(progressPercentage += 5, this));
+                FireGenerateChanged(new ProgressChangedEventArgs(progressPercentage += 5, $"Created {partitionInfo.NumberOfPartitions} partitions {partitionInfo.}."));
 
                 GenerateWords(partitionInfo);
             }

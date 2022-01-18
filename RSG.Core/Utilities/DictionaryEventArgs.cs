@@ -1,5 +1,4 @@
-﻿using RSG.Core.Interfaces;
-using RSG.Core.Interfaces.Result;
+﻿using RSG.Core.Interfaces.Result;
 using System;
 using System.ComponentModel;
 
@@ -23,7 +22,6 @@ namespace RSG.Core.Utilities
 
     public class DictionaryEventArgs : AsyncCompletedEventArgs
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryEventArgs"/> class with a
         /// <see cref="IDictionaryResult"/> instance.

@@ -37,7 +37,7 @@ namespace RSG.Core.Models
         public BigInteger Count => GetCount();
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="WordContainer"/>
+        /// Gets a value indicating whether this <see cref="WordContainer"/>
         /// instance contains noise.
         /// </summary>
         public bool IsNoisy { get; }

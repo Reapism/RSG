@@ -10,11 +10,11 @@ namespace RSG.View.ViewModels
 {
     public class StringEditViewModel : ViewModelBase
     {
-        private readonly IStringConfiguration stringConfiguration;
+        private readonly ICharacterSetProvider stringConfiguration;
         private readonly ICharacterSetService characterSetService;
         private readonly IRandomStringGenerator randomStringGenerator;
 
-        public StringEditViewModel(IStringConfiguration stringConfiguration, ICharacterSetService characterSetService, IRandomStringGenerator randomStringGenerator)
+        public StringEditViewModel(ICharacterSetProvider stringConfiguration, ICharacterSetService characterSetService, IRandomStringGenerator randomStringGenerator)
         {
             this.stringConfiguration = stringConfiguration;
             this.characterSetService = characterSetService;
@@ -80,7 +80,7 @@ namespace RSG.View.ViewModels
                         {
                             characterSetToAdd = value.Remove(indexOfAnyEnabledCharacter);
                         }
-                        stringConfiguration.Characters.Add($"NewSet{characterSetToAdd}", new SingleCharacterSet(characterSetToAdd, true));
+                        stringConfiguration.Characters.Add($"NewSet{characterSetToAdd}", new CharacterSet(characterSetToAdd, true));
                     }
                 }
             }

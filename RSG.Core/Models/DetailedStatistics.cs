@@ -10,34 +10,49 @@ namespace RSG.Core.Models
     {
         /// <inheritdoc/>
         public BigInteger StringLength { get; set; }
+
         /// <inheritdoc/>
         public BigInteger Iterations { get; set; }
+
         /// <inheritdoc/>
         public BigInteger Permutations { get; set; }
+
         /// <inheritdoc/>
         public string RandomizationType { get; set; }
+
         /// <inheritdoc/>
         public string CharacterList { get; set; }
+
         /// <inheritdoc/>
         public IEnumerable<int> MostFrequentCharacterCount { get; set; }
+
         /// <inheritdoc/>
         public IEnumerable<int> LeastFrequentCharacterCount { get; set; }
+
         /// <inheritdoc/>
         public IEnumerable<char> MostFrequentCharacter { get; set; }
+
         /// <inheritdoc/>
         public IEnumerable<char> LeastFrequentCharacter { get; set; }
+
         /// <inheritdoc/>
         public TimeSpan Duration { get; set; }
+
         /// <inheritdoc/>
         public TimeSpan IterationsPerSecond { get; set; }
+
         /// <inheritdoc/>
         public TimeSpan IterationsPerMinute { get; set; }
+
         /// <inheritdoc/>
         public TimeSpan IterationsPerHour { get; set; }
+
         /// <inheritdoc/>
         public TimeSpan IterationsPerDay { get; set; }
+
         /// <inheritdoc/>
         public TimeSpan IterationsPerYear { get; set; }
+
         /// <inheritdoc/>
         public TimeSpan IterationsPerCentury { get; set; }
 

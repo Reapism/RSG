@@ -19,7 +19,7 @@ namespace RSG.Core.Services
     {
         // Dependencies
         private readonly IWordListService wordListService;
-        private readonly IDictionaryConfiguration dictionaryConfiguration;
+        private readonly IDictionaryProvider dictionaryConfiguration;
 
         // Members
         private RsgDictionary selectedDictionary;
@@ -29,11 +29,11 @@ namespace RSG.Core.Services
         /// Initializes a new instance of the <see cref="DictionaryService"/> class.
         /// </summary>
         /// <param name="wordListService">Used to construct the wordlist contained in
-        /// the <see cref="IDictionaryConfiguration.Dictionaries"/>.</param>
+        /// the <see cref="IDictionaryProvider.Dictionaries"/>.</param>
         /// <param name="dictionaryConfiguration">The dictionary configuration.</param>
         public DictionaryService(
             IWordListService wordListService,
-            IDictionaryConfiguration dictionaryConfiguration)
+            IDictionaryProvider dictionaryConfiguration)
         {
             this.wordListService = wordListService;
             this.dictionaryConfiguration = dictionaryConfiguration;
