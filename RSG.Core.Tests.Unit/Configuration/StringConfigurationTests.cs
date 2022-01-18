@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using RSG.Core.Configuration;
 using RSG.Core.Constants;
+using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using RSG.Core.Utilities;
 using System.Collections.Generic;
@@ -35,25 +36,17 @@ namespace RSG.Core.Tests.Unit.Configuration
 
             foreach (var charSet in stringConfiguration.Characters)
             {
-                Assert.AreEqual(charSet.Key, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Key);
-                Assert.AreEqual(charSet.Value.Characters, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Value.Characters);
-                Assert.AreEqual(charSet.Value.Enabled, stringConfigurationDeserialized.Characters.First(e => e.Key == charSet.Key).Value.Enabled);
+                Assert.AreEqual(charSet.Name, stringConfigurationDeserialized.Characters.First(e => e.Name == charSet.Name).Name);
+                Assert.AreEqual(charSet.Characters, stringConfigurationDeserialized.Characters.First(e => e.Characters == charSet.Characters).Characters);
+                Assert.AreEqual(charSet.Enabled, stringConfigurationDeserialized.Characters.First(e => e.Enabled == charSet.Enabled).Enabled);
             }
         }
 
         private StringConfiguration CreateConfiguration()
         {
-            var characters = new Dictionary<string, CharacterSet>();
-            characters.Add(CharacterSetConstants.Lowercase, new CharacterSet(CharacterSetConstants.LowercaseSet, true));
-            characters.Add(CharacterSetConstants.Uppercase, new CharacterSet(CharacterSetConstants.UppercaseSet, true));
-            characters.Add(CharacterSetConstants.Numbers, new CharacterSet(CharacterSetConstants.NumbersSet, true));
-            characters.Add(CharacterSetConstants.Space, new CharacterSet(CharacterSetConstants.SpaceSet, false));
-            characters.Add(CharacterSetConstants.Punctuation, new CharacterSet(CharacterSetConstants.PunctuationSet, false));
-            characters.Add(CharacterSetConstants.Symbols, new CharacterSet(CharacterSetConstants.SymbolsSet, false));
-
             var stringConfiguration = new StringConfiguration()
             {
-                Characters = characters,
+                Characters = StringConfiguration.Default,
                 StringLength = BigInteger.Zero
             };
 
