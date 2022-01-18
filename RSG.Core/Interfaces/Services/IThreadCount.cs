@@ -5,7 +5,7 @@ namespace RSG.Core.Interfaces.Services
     /// <summary>
     /// Provides contracts for getting the thread count given an arbitrary criteria.
     /// </summary>
-    public interface IThreadService
+    public interface IThreadCount
     {
         /// <summary>
         /// Gets the number of threads to use given the number
