@@ -11,17 +11,17 @@ namespace RSG.Core.Services
     /// </summary>
     public class CharacterSetService : ICharacterSetService
     {
-        private readonly IStringConfiguration stringConfiguration;
+        private readonly ICharacterSetProvider stringConfiguration;
         private readonly IShuffle<char> shuffle;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CharacterSetService"/> class.
         /// </summary>
-        /// <param name="stringConfiguration">An instance of the <see cref="IStringConfiguration"/>.</param>
+        /// <param name="stringConfiguration">An instance of the <see cref="ICharacterSetProvider"/>.</param>
         /// <param name="shuffle">An instance of <see cref="IShuffle{T}"/> of type
         /// <see langword="char"/>.</param>
         public CharacterSetService(
-            IStringConfiguration stringConfiguration,
+            ICharacterSetProvider stringConfiguration,
             IShuffle<char> shuffle)
         {
             this.stringConfiguration = stringConfiguration;
