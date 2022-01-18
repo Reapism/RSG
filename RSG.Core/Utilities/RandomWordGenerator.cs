@@ -82,7 +82,7 @@ namespace RSG.Core.Utilities
 
                 var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadsCount(numberOfIterations));
 
-                FireGenerateChanged(new ProgressChangedEventArgs(progressPercentage += 5, $"Created {partitionInfo.NumberOfPartitions} partitions {partitionInfo.}."));
+                FireGenerateChanged(new ProgressChangedEventArgs(progressPercentage += 5, $"Created {partitionInfo.NumberOfPartitions} partitions."));
 
                 GenerateWords(partitionInfo);
             }
@@ -104,7 +104,7 @@ namespace RSG.Core.Utilities
             var startTime = DateTime.Now;
             maxValue = dictionary.WordList.Count;
 
-            FireGenerateChanged(new ProgressChangedEventArgs(10, this));
+            FireGenerateChanged(new ProgressChangedEventArgs(10, String.Empty));
 
             // Multi-Threaded block
             var tasks = new Task[partitionInfo.NumberOfPartitions];
