@@ -1,4 +1,5 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Extensions;
+using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Services;
 using System.Linq;
@@ -58,15 +59,9 @@ namespace RSG.Core.Services
 
         private char[] GetCharacterListAsString()
         {
-            var strBuilder = new StringBuilder();
-            var enabledCharacterSets = stringConfiguration.Characters.Values.Where(set => set.Enabled);
+            var enabledCharacterSets = stringConfiguration.Characters.ToCharArray();
 
-            foreach (var set in enabledCharacterSets)
-            {
-                strBuilder.Append(set.Characters);
-            }
-
-            return strBuilder.ToString().ToCharArray();
+            return enabledCharacterSets;
         }
     }
 }
