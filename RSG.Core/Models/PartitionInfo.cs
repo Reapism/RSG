@@ -8,24 +8,24 @@ namespace RSG.Core.Models
     [DebuggerDisplay("NumberOfPartitions = {NumberOfPartitions}, TotalIterations = {TotalIterations}")]
     internal class PartitionInfo
     {
-        public PartitionInfo()
+        public PartitionInfo(BigInteger iterations)
         {
-            TotalIterations = BigInteger.Zero;
+            TotalIterations = iterations;
         }
 
-        internal BigInteger TotalIterations { get; set; }
+        internal BigInteger TotalIterations { get; }
 
-        internal int NumberOfPartitions { get; set; }
+        internal int NumberOfPartitions { get; private set; }
 
-        internal int FullPartitionSize { get; set; }
+        internal int FullPartitionSize { get; private set; }
 
-        internal int LastPartitionSize { get; set; }
+        internal int LastPartitionSize { get; private set; }
 
-        internal int ThreadCount { get; set; }
+        internal int ThreadCount { get; private set; }
 
-        internal int TotalThreadPoolThreads { get; set; }
+        internal int TotalThreadPoolThreads { get; private set; }
 
-        internal int TotalAsyncIOThreads { get; set; }
+        internal int TotalAsyncIOThreads { get; private set; }
 
         internal static PartitionInfo Get(in BigInteger iterations, int threadCount)
         {
@@ -44,9 +44,8 @@ namespace RSG.Core.Models
             }
 
             ThreadPool.GetMaxThreads(out var workerThreads, out var completionThreads);
-            var partitionInfo = new PartitionInfo()
+            var partitionInfo = new PartitionInfo(iterations)
             {
-                TotalIterations = iterations,
                 ThreadCount = threadCount,
                 FullPartitionSize = fullPartSize,
                 LastPartitionSize = (int)lastPartSize,
