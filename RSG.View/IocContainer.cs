@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Extensions.DependencyInjection;
 using RSG.Core.Extensions;
 using RSG.View.Managers;
 using RSG.View.ViewModels;
@@ -8,11 +9,11 @@ namespace RSG.View
 {
     public static class IocContainer
     {
-        public static SimpleIoc Container { get; }
+        public static IServiceCollection Services { get; }
 
         static IocContainer()
         {
-            Container = SimpleIoc.Default;
+            Services = new ServiceCollection();
         }
 
         public static void Initialize()
@@ -25,38 +26,38 @@ namespace RSG.View
 
         private static void RegisterViewServices()
         {
-            Container.Register<PageManager>();
+            Services.AddScoped<PageManager>();
         }
 
         private static void RegisterViewModels()
         {
-            Container.Register<AboutViewModel>();
-            Container.Register<DialogViewModel>();
-            Container.Register<DictionaryDetailsViewModel>();
-            Container.Register<DictionaryEditViewModel>();
-            Container.Register<SearchDetailsViewModel>();
-            Container.Register<SearchEditViewModel>();
-            Container.Register<StringDetailsViewModel>();
-            Container.Register<StringEditViewModel>();
-            Container.Register<SettingsEditViewModel>();
+            Services.AddScoped<AboutViewModel>();
+            Services.AddScoped<DialogViewModel>();
+            Services.AddScoped<DictionaryDetailsViewModel>();
+            Services.AddScoped<DictionaryEditViewModel>();
+            Services.AddScoped<SearchDetailsViewModel>();
+            Services.AddScoped<SearchEditViewModel>();
+            Services.AddScoped<StringDetailsViewModel>();
+            Services.AddScoped<StringEditViewModel>();
+            Services.AddScoped<SettingsEditViewModel>();
         }
 
         private static void RegisterViewTypes()
         {
-            Container.Register<AboutView>();
-            Container.Register<Dialog>();
-            Container.Register<DictionaryDetailsView>();
-            Container.Register<DictionaryEditView>();
-            Container.Register<SearchDetailsView>();
-            Container.Register<SearchEditView>();
-            Container.Register<StringDetailsView>();
-            Container.Register<StringEditView>();
-            Container.Register<SettingsEditView>();
+            Services.AddScoped<AboutView>();
+            Services.AddScoped<Dialog>();
+            Services.AddScoped<DictionaryDetailsView>();
+            Services.AddScoped<DictionaryEditView>();
+            Services.AddScoped<SearchDetailsView>();
+            Services.AddScoped<SearchEditView>();
+            Services.AddScoped<StringDetailsView>();
+            Services.AddScoped<StringEditView>();
+            Services.AddScoped<SettingsEditView>();
         }
 
         private static void RegisterRsgCore()
         {
-            Container.AddRsgCore();
+            Services.AddRsgCore();
         }
     }
 }

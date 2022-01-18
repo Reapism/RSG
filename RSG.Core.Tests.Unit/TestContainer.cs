@@ -1,16 +1,15 @@
-﻿using GalaSoft.MvvmLight.Ioc;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RSG.Core.Extensions;
 
 namespace RSG.Core.Tests.Unit
 {
     public static class TestContainer
     {
-        public static SimpleIoc Container { get; }
-
+        private static IServiceCollection Services;
         static TestContainer()
         {
-            Container = SimpleIoc.Default;
-            Container.AddRsgCore();
+            Services = new ServiceCollection();
+            Services.AddRsgCore();
         }
     }
 }
