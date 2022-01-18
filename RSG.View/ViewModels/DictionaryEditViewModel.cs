@@ -5,14 +5,10 @@ using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
-using RSG.Core.Services;
 using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RSG.View.ViewModels
 {
@@ -45,7 +41,7 @@ namespace RSG.View.ViewModels
             }
         }
 
-        private async void RandomWordGenerator_GenerateChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        private async void RandomWordGenerator_GenerateChanged(object sender, ProgressChangedEventArgs e)
         {
 
         }
