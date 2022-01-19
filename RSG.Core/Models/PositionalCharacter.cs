@@ -2,10 +2,13 @@
 
 namespace RSG.Core.Models
 {
-    public class PositionCharacterPair : IPositionCharacterPair
+    /// <inheritdoc/>
+    public class PositionalCharacter : IPositionalCharacter
     {
+        /// <inheritdoc/>
         public int Position { get; set; }
-
+        
+        /// <inheritdoc/>
         public char Character { get; set; }
     }
 }

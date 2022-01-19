@@ -5,7 +5,7 @@ namespace RSG.Core.Models
 {
     public class GeneratedWord : IGeneratedWord
     {
-        public IDictionary<int, IPositionCharacterPair> NoisyCharacterPositions { get; set; }
+        public IDictionary<int, IPositionalCharacter> NoisyCharacterPositions { get; set; }
 
         public string Word { get; set; }
     }

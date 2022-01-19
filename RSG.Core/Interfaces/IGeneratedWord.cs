@@ -10,6 +10,6 @@ namespace RSG.Core.Interfaces
     {
         string Word { get; set; }
 
-        IDictionary<int, IPositionCharacterPair> NoisyCharacterPositions { get; set; }
+        IDictionary<int, IPositionalCharacter> NoisyCharacterPositions { get; set; }
     }
 }

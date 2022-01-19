@@ -200,11 +200,11 @@ namespace RSG.Core.Utilities
             return dictionary.WordList[rndValue];
         }
 
-        private SortedDictionary<int, IPositionCharacterPair> GenerateNoisyCharacterPositions(int wordLength)
+        private SortedDictionary<int, IPositionalCharacter> GenerateNoisyCharacterPositions(int wordLength)
         {
             var percentage = dictionaryConfiguration.NoiseFrequency;
             var chance = RandomProvider.Random.Value.Next(100) + 1;
-            var noisePositions = new SortedDictionary<int, IPositionCharacterPair>();
+            var noisePositions = new SortedDictionary<int, IPositionalCharacter>();
             var characterSet = characterSetService.CharacterList;
 
             // Chance is in range of the percentage.
@@ -217,7 +217,7 @@ namespace RSG.Core.Utilities
                 {
                     var position = RandomProvider.Random.Value.Next(wordLength);
                     var character = characterSet[RandomProvider.Random.Value.Next(characterSet.Length)];
-                    var pair = new PositionCharacterPair()
+                    var pair = new PositionalCharacter()
                     {
                         Character = character,
                         Position = position
