@@ -14,7 +14,7 @@ namespace RSG.Core.Models
     /// for RSG.
     /// <para>Used for formatting and highlighting certain properties at runtime.</para>
     /// </summary>
-    public class Log<T> : IUniqueType<T>
+    public class Log<T>
         where T : class, IResult
     {
         private Guid identifier;
@@ -63,13 +63,6 @@ namespace RSG.Core.Models
 
             await streamWriter.WriteAsync(ToString());
         }
-
-        public string GenerateUniqueChecksum(T type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string UniqueChecksum { get; }
 
         public override string ToString()
         {
