@@ -8,8 +8,20 @@ namespace RSG.Core.Interfaces
     /// </summary>
     public interface IGeneratedWord
     {
-        string Word { get; set; }
+        /// <summary>
+        /// Gets the original, unmodified generated word.
+        /// </summary>
+        string Word { get; }
 
-        IDictionary<int, IPositionalCharacter> NoisyCharacterPositions { get; set; }
+        /// <summary>
+        /// Gets the locations of additional character positions that were part of the generation settings.
+        /// </summary>
+        IEnumerable<IPositionalCharacter> AdditionalCharacterPositions { get; }
+
+        /// <summary>
+        /// Provides the ability to render the <see cref="Word"/> with potential <see cref="AdditionalCharacterPositions"/>.
+        /// </summary>
+        /// <returns>A rendered word computed via <see cref="AdditionalCharacterPositions"/></returns>
+        string RenderWord();
     }
 }
