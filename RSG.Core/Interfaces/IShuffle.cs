@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RSG.Core.Interfaces
+﻿namespace RSG.Core.Interfaces
 {
     /// <summary>
     /// Defines a generalized type-specific shuffle method
@@ -10,6 +8,11 @@ namespace RSG.Core.Interfaces
     public interface IShuffle<T>
         where T : struct
     {
-        public void Shuffle<T>(T[] array, Random random);
+        /// <summary>
+        /// Shuffles an array of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// <param name="array">The array to shuffle.</param>
+        public void Shuffle<T>(T[] array);
     }
 }
