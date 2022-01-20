@@ -6,6 +6,8 @@ This is a fun project in the meantime to inspire other work that comes along.
 ## 2022 Update
 I have revisted this project recently, and want to finish tidying up the core library before creating a nuget package.
 - ✅ Update entire solution to .NET 6 ✅
+- Update Randomization methods to be an abstraction
+- - This will add support for any random provider
 - Support `CancellationToken` on all async API's (Large task)
 - Generating statistics needs to be cleaned up
 - Update in public API methods such as the Generate methods.
