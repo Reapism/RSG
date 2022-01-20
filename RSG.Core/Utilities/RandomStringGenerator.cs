@@ -120,7 +120,7 @@ namespace RSG.Core.Utilities
 
             for (var bi = BigInteger.Zero; bi < length; bi++)
             {
-                stringBuilder.Append(characterList[RandomProvider.Random.Value.Next(maxLength)]);
+                stringBuilder.Append(characterList[RandomProvider.Random.Next(maxLength)]);
             }
 
             return stringBuilder.ToString();

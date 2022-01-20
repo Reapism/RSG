@@ -185,7 +185,7 @@ namespace RSG.Core.Utilities
                     Word = GenerateRandomWord(),
                 };
 
-                generatedWord.NoisyCharacterPositions = GenerateNoisyCharacterPositions(generatedWord.Word.Length);
+                generatedWord.AdditionalCharacterPositions = GenerateNoisyCharacterPositions(generatedWord.Word.Length);
 
                 words.Add(i, generatedWord);
             }
@@ -195,7 +195,7 @@ namespace RSG.Core.Utilities
 
         private string GenerateRandomWord()
         {
-            var rndValue = RandomProvider.Random.Value.Next(0, maxValue);
+            var rndValue = RandomProvider.Random.Next(0, maxValue);
 
             return dictionary.WordList[rndValue];
         }
@@ -203,20 +203,20 @@ namespace RSG.Core.Utilities
         private SortedDictionary<int, IPositionalCharacter> GenerateNoisyCharacterPositions(int wordLength)
         {
             var percentage = dictionaryConfiguration.NoiseFrequency;
-            var chance = RandomProvider.Random.Value.Next(100) + 1;
+            var chance = RandomProvider.Random.Next(100) + 1;
             var noisePositions = new SortedDictionary<int, IPositionalCharacter>();
             var characterSet = characterSetService.CharacterList;
 
             // Chance is in range of the percentage.
             if (chance <= percentage)
             {
-                var numberOfRandoms = RandomProvider.Random.Value.Next(wordLength) + 1;
+                var numberOfRandoms = RandomProvider.Random.Next(wordLength) + 1;
 
                 // attempt a few insertions.
                 for (var i = 0; i < numberOfRandoms;)
                 {
-                    var position = RandomProvider.Random.Value.Next(wordLength);
-                    var character = characterSet[RandomProvider.Random.Value.Next(characterSet.Length)];
+                    var position = RandomProvider.Random.Next(wordLength);
+                    var character = characterSet[RandomProvider.Random.Next(characterSet.Length)];
                     var pair = new PositionalCharacter()
                     {
                         Character = character,

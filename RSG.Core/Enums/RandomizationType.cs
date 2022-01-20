@@ -15,9 +15,9 @@ namespace RSG.Core.Enums
         Pseudorandom,
 
         /// <summary>
-        /// Reap random randomization.
+        /// Cryptographic Randomization
         /// </summary>
-        [Description("Reap Random")]
-        ReapRandom,
+        [Description("Cryptographic Random")]
+        CryptographicRandom
     }
 }
