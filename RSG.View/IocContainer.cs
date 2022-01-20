@@ -1,16 +1,16 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RSG.Core.Extensions;
 using RSG.View.Managers;
 using RSG.View.ViewModels;
 using RSG.View.Views;
+using System;
 
 namespace RSG.View
 {
     public static class IocContainer
     {
         public static IServiceCollection Services { get; }
-
+        public static IServiceProvider ServiceProvider { get; private set; }
         static IocContainer()
         {
             Services = new ServiceCollection();
@@ -22,6 +22,8 @@ namespace RSG.View
             RegisterViewTypes();
             RegisterViewModels();
             RegisterViewServices();
+
+            ServiceProvider = Services.BuildServiceProvider();
         }
 
         private static void RegisterViewServices()
