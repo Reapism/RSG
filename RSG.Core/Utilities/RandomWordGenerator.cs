@@ -1,7 +1,7 @@
 ﻿using RSG.Core.Configuration;
+using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
-using RSG.Core.Interfaces.Result;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using RSG.Core.Models.Result;
@@ -9,7 +9,7 @@ using RSG.Core.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -25,32 +25,36 @@ namespace RSG.Core.Utilities
     public sealed class RandomWordGenerator : IGeneratorEvents
     {
         private readonly IDictionaryService dictionaryService;
-        private readonly IThreadCount threadService;
+        private readonly IThreadBalancer threadService;
         private readonly DictionaryConfiguration dictionaryConfiguration;
-        private readonly ICharacterSetService characterSetService;
+        private readonly char[] characterList;
         private RsgDictionary dictionary; // Lazy instantiated in the generate results.
         private int maxValue;
         private int progressPercentage;
+        private IRandom random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomWordGenerator"/>
         /// class thats able to generate random words.
         /// </summary>
         /// <param name="dictionaryService">A service for retrieving dictionaries.</param>
-        /// <param name="characterSetService">A service for getting a character list.</param>
+        /// <param name="characterSetProvider">A service for providing a character list.</param>
         /// <param name="threadService">A service for getting the number of threads.</param>
         /// <param name="dictionaryConfiguration">The dictionary configuration settings.</param>
         public RandomWordGenerator(
             IDictionaryService dictionaryService,
-            ICharacterSetService characterSetService,
-            IThreadCount threadService,
+            ICharacterSetProvider characterSetProvider,
+            IThreadBalancer threadService,
             DictionaryConfiguration dictionaryConfiguration)
         {
             // Set member dependencies.
             this.dictionaryService = dictionaryService;
             this.threadService = threadService;
             this.dictionaryConfiguration = dictionaryConfiguration;
-            this.characterSetService = characterSetService;
+
+            characterList = characterSetProvider.ToCharArray();
+            random = RandomProvider.Random;
+
             progressPercentage = 0;
         }
 
@@ -80,7 +84,7 @@ namespace RSG.Core.Utilities
             {
                 await LazyInitialization();
 
-                var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadsCount(numberOfIterations));
+                var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadCountByIterations(numberOfIterations));
 
                 FireGenerateChanged(new ProgressChangedEventArgs(progressPercentage += 5, $"Created {partitionInfo.NumberOfPartitions} partitions."));
 
@@ -158,10 +162,7 @@ namespace RSG.Core.Utilities
 
             for (var i = 0; i < iterations; i++)
             {
-                var generatedWord = new GeneratedWord()
-                {
-                    Word = GenerateRandomWord(),
-                };
+                var generatedWord = new GeneratedWord(GenerateRandomWord(), null);
 
                 var progress = 100.0 * i / iterations;
                 words.Add(i, generatedWord);
@@ -180,12 +181,10 @@ namespace RSG.Core.Utilities
 
             for (var i = 0; i < iterations; i++)
             {
-                var generatedWord = new GeneratedWord()
-                {
-                    Word = GenerateRandomWord(),
-                };
+                var word = GenerateRandomWord();
+                var additionalCharacterPositions = GenerateNoisyCharacterPositions(word.Length);
 
-                generatedWord.AdditionalCharacterPositions = GenerateNoisyCharacterPositions(generatedWord.Word.Length);
+                var generatedWord = new GeneratedWord(word, additionalCharacterPositions);
 
                 words.Add(i, generatedWord);
             }
@@ -200,32 +199,58 @@ namespace RSG.Core.Utilities
             return dictionary.WordList[rndValue];
         }
 
-        private SortedDictionary<int, IPositionalCharacter> GenerateNoisyCharacterPositions(int wordLength)
+        // TODO look into the parameter for this method,
+        // not sure it should just be wordLength
+        // This method will need to be multithreadable
+        // maybe we pass the IGeneratedWord or the string word
+        // and then return a IGeneratedWord properly.
+        // This function should invoke per word.
+        // Also IEnumerable might need to be IDictionary
+        // the int in the key would represent the order of the generated char
+        // since its possible for two or more characters to generate noise in the 
+        // same position. But this might not be a problem since list or Queue preserves order anyways.
+        // have to choose whether to use IEnumerable and save memory but possibly convey a diff meaning
+        // or use dictionary and use more memory but convey and order.
+        private IList<IPositionalCharacter> GenerateNoisyCharacterPositions(int wordLength)
         {
-            var percentage = dictionaryConfiguration.NoiseFrequency;
-            var chance = RandomProvider.Random.Next(100) + 1;
-            var noisePositions = new SortedDictionary<int, IPositionalCharacter>();
-            var characterSet = characterSetService.CharacterList;
+            var noisePositions = new Queue<IPositionalCharacter>();
+            var noiseFrequencyPercentage = dictionaryConfiguration.NoiseFrequency;
+            var chanceToGenerateRandomNoise = random.Next(100) + 1;
+            var noisePerWordRange = dictionaryConfiguration.NoisePerWordRange;
 
             // Chance is in range of the percentage.
-            if (chance <= percentage)
+            if (chanceToGenerateRandomNoise <= noiseFrequencyPercentage)
             {
-                var numberOfRandoms = RandomProvider.Random.Next(wordLength) + 1;
+                // TODO attempt a few insertions, must be in the range specified in the config.
+                // wordLength + 1 for maxValue is not necessary, since range is a understood type min is inclusive, max is exclusive
+                // also check if random.Next vs RandomProvider.Random.Next is any different if we switch random types
+                // mid operation.
+                // Q: would the private member now reflect the different random type?
+                // create test, make classes public for time being if need be.
+                // I think we want it to change midway to show its static, or if each generate
+                // is atomic and so the generate result will have an accurate randomization type
+                // per generate.
 
-                // attempt a few insertions.
+                // optimization, maybe does not need to be computed/checked for every generated word.
+                var numberOfRandoms = noisePerWordRange.Start.Value;
+                if (noisePerWordRange.Start.Value != noisePerWordRange.End.Value)
+                {
+                    numberOfRandoms = random.Next(noisePerWordRange.Start.Value, noisePerWordRange.End.Value);
+                }
+
                 for (var i = 0; i < numberOfRandoms;)
                 {
-                    var position = RandomProvider.Random.Next(wordLength);
-                    var character = characterSet[RandomProvider.Random.Next(characterSet.Length)];
+                    var positionInWord = RandomProvider.Random.Next(wordLength);
+                    var character = characterList[RandomProvider.Random.Next(characterList.Length)];
                     var pair = new PositionalCharacter()
                     {
                         Character = character,
-                        Position = position
+                        Position = positionInWord
                     };
                     noisePositions.Add(i, pair);
                 }
             }
-
+            Queue
             return noisePositions;
         }
 
