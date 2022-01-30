@@ -1,4 +1,6 @@
 ﻿using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Request;
+using RSG.Core.Interfaces.Result;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -24,5 +26,15 @@ namespace RSG.Core.Models
         public IEnumerable<char> MostFrequentCharacter { get; set; }
         /// <inheritdoc/>
         public IEnumerable<char> LeastFrequentCharacter { get; set; }
+
+        public IStringRequest StringRequest => throw new System.NotImplementedException();
+
+        public IDictionaryRequest DictionaryRequest => throw new System.NotImplementedException();
+
+        public IStringResult StringResult => throw new System.NotImplementedException();
+
+        public IDictionaryResult DictionaryResult => throw new System.NotImplementedException();
+
+        public ICharacterFrequency CharacterFrequency => throw new System.NotImplementedException();
     }
 }

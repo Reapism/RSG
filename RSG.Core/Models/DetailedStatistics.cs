@@ -1,4 +1,6 @@
 ﻿using RSG.Core.Interfaces;
+using RSG.Core.Interfaces.Request;
+using RSG.Core.Interfaces.Result;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -55,6 +57,16 @@ namespace RSG.Core.Models
 
         /// <inheritdoc/>
         public TimeSpan IterationsPerCentury { get; set; }
+
+        public IStringRequest StringRequest => throw new NotImplementedException();
+
+        public IDictionaryRequest DictionaryRequest => throw new NotImplementedException();
+
+        public IStringResult StringResult => throw new NotImplementedException();
+
+        public IDictionaryResult DictionaryResult => throw new NotImplementedException();
+
+        public ICharacterFrequency CharacterFrequency => throw new NotImplementedException();
 
         /// <inheritdoc/>
         public override string ToString()

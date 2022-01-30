@@ -1,15 +1,18 @@
-﻿using System.Numerics;
+﻿using RSG.Core.Interfaces.Request;
+using RSG.Core.Interfaces.Result;
+using System.Numerics;
 
 namespace RSG.Core.Interfaces
 {
     public interface IStatistics
     {
-        BigInteger StringLength { get; set; }
-        BigInteger Iterations { get; set; }
-        BigInteger Permutations { get; set; }
+        IStringRequest StringRequest { get; }
+        IDictionaryRequest DictionaryRequest { get; }
 
-        string RandomizationType { get; set; }
+        IStringResult StringResult { get; }
+        IDictionaryResult DictionaryResult { get; }
 
-        string CharacterList { get; set; }
+        ICharacterFrequency CharacterFrequency { get; }
+
     }
 }
