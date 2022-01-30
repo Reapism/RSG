@@ -11,16 +11,16 @@ namespace RSG.Core.Services
     /// Contains information about threads on the executing
     /// environment.
     /// </summary>
-    public sealed class ThreadCountService : IThreadCount, IThreadConfiguration
+    public sealed class ThreadBalancer : IThreadBalancer, IThreadConfiguration
     {
         private int minimumThreadCount;
         private int maximumThreadCount;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ThreadCountService"/> class
+        /// Initializes a new instance of the <see cref="ThreadBalancer"/> class
         /// defaulting the minimum and maximum thread count.
         /// </summary>
-        public ThreadCountService()
+        public ThreadBalancer()
         {
             MinimumThreadCount = 1;
             MaximumThreadCount = GetEnvironmentThreadsCount();
@@ -76,9 +76,9 @@ namespace RSG.Core.Services
         /// <param name="numberOfIterations">An arbitrarily large value representing the number
         /// of tasks in a sequence.</param>
         /// <returns>The number of threads.</returns>
-        public int GetThreadsCount(BigInteger numberOfIterations)
+        public int GetThreadCountByIterations(BigInteger numberOfIterations)
         {
-            return GetNumberOfThreadsEvenly(numberOfIterations);
+            return GetThreadCountByIterationsInternal(numberOfIterations);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace RSG.Core.Services
         /// <param name="numberOfIterations">An arbitrarily large value representing the number
         /// of tasks in a sequence.</param>
         /// <returns>The number of threads.</returns>
-        public int GetNumberOfThreadsEvenly(BigInteger numberOfIterations)
+        private int GetThreadCountByIterationsInternal(BigInteger numberOfIterations)
         {
             var numberOfThreadsToCreate = BigInteger.Divide(numberOfIterations, GetEnvironmentThreadsCount().ToBigInteger());
             var threads = int.Parse(numberOfThreadsToCreate.ToString());

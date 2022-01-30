@@ -5,7 +5,7 @@ namespace RSG.Core.Interfaces.Services
     /// <summary>
     /// Provides contracts for getting the thread count given an arbitrary criteria.
     /// </summary>
-    public interface IThreadCount
+    public interface IThreadBalancer
     {
         /// <summary>
         /// Gets the number of threads to use given the number
@@ -13,6 +13,6 @@ namespace RSG.Core.Interfaces.Services
         /// </summary>
         /// <param name="numberOfIterations">The number of iterations.</param>
         /// <returns>The number of threads given the iterations.</returns>
-        int GetThreadsCount(BigInteger numberOfIterations);
+        int GetThreadCountByIterations(BigInteger numberOfIterations);
     }
 }
