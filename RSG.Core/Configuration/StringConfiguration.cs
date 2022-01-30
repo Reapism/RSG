@@ -1,4 +1,5 @@
 ﻿using RSG.Core.Constants;
+using RSG.Core.Extensions;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Models;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace RSG.Core.Configuration
         }
 
         /// <summary>
-        /// Gets the default character sets. 
+        /// Gets the default character sets.
         /// </summary>
         public static IList<CharacterSet> Default
         {
@@ -38,6 +39,12 @@ namespace RSG.Core.Configuration
         public BigInteger StringLength { get; set; }
 
         public BigInteger Iterations { get; set; }
+
         public IList<CharacterSet> Characters { get; set; }
+
+        public char[] ToCharArray()
+        {
+            return Characters.ToCharArray();
+        }
     }
 }
