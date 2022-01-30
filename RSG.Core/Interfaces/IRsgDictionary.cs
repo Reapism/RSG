@@ -29,8 +29,13 @@
         string Source { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this dictionary is active.
+        /// Gets or sets a value indicating whether this dictionary is active or not.
         /// </summary>
         bool IsActive { get; set; }
+
+        /// <summary>
+        /// Gets the number of bytes the word list is.
+        /// </summary>
+        int NumberOfBytes { get; }
     }
 }
