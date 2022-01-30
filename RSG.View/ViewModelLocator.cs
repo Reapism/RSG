@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RSG.View.ViewModels;
 
 namespace RSG.View
@@ -7,15 +7,12 @@ namespace RSG.View
     {
         public ViewModelLocator()
         {
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
 
-            }
         }
 
         private T Get<T>()
         {
-            return IocContainer.Container.GetInstance<T>();
+            return IocContainer.ServiceProvider.GetService<T>();
         }
 
         public AboutViewModel AboutViewModel => Get<AboutViewModel>();

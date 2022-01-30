@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using RSG.Core.Enums;
 using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
@@ -14,11 +14,11 @@ namespace RSG.View.ViewModels
 {
     public class DictionaryEditViewModel : ViewModelBase
     {
-        private readonly IGeneratorEvents randomWordGenerator;
+        private readonly RandomWordGenerator randomWordGenerator;
         private int currentProgress;
         private string iterations;
 
-        public DictionaryEditViewModel(IGeneratorEvents randomWordGenerator)
+        public DictionaryEditViewModel(RandomWordGenerator randomWordGenerator)
         {
             ViewLogCommand = new RelayCommand(RunViewLog, CanExecuteViewLog);
             RandomizeSettingsCommand = new RelayCommand(RunRandomizeSettings, CanExecuteRandomizeSettings);

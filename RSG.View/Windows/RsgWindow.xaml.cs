@@ -1,4 +1,5 @@
-﻿using RSG.View.Managers;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RSG.View.Managers;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +28,7 @@ namespace RSG.View.Windows
 
         private void InitializeDependencies()
         {
-            pageManager = IocContainer.Container.GetInstance<PageManager>();
+            pageManager = IocContainer.ServiceProvider.GetService<PageManager>();
         }
 
         private void NavigationMenu_Click(object sender, RoutedEventArgs e)

@@ -72,15 +72,15 @@ namespace RSG.View.ViewModels
 
                 foreach (var kvp in stringConfiguration.Characters)
                 {
-                    if (kvp.Value.Enabled)
+                    if (kvp.Enabled)
                     {
-                        var indexOfAnyEnabledCharacter = kvp.Value.Characters.IndexOfAny(value.ToCharArray());
+                        var indexOfAnyEnabledCharacter = kvp.Characters.IndexOfAny(value.ToCharArray());
                         var characterSetToAdd = string.Empty;
                         while (indexOfAnyEnabledCharacter != -1)
                         {
                             characterSetToAdd = value.Remove(indexOfAnyEnabledCharacter);
                         }
-                        stringConfiguration.Characters.Add($"NewSet{characterSetToAdd}", new CharacterSet(characterSetToAdd, true));
+                        stringConfiguration.Characters.Add(new CharacterSet($"NewSet{characterSetToAdd}", characterSetToAdd, true));
                     }
                 }
             }
