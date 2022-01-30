@@ -1,10 +1,13 @@
-﻿using RSG.Core.Extensions;
+﻿using RSG.Core.Exceptions;
+using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RSG.Core.Models
 {
@@ -43,21 +46,11 @@ namespace RSG.Core.Models
         public bool IsNoisy { get; }
 
         /// <summary>
-        /// Clears all of the words stored in this instance.
-        /// </summary>
-        public void Clear()
-        {
-            foreach (var dictionary in PartitionedWords)
-            {
-                dictionary.Clear();
-            }
-        }
-
-        /// <summary>
         /// Returns a specific partition of words given the partition index.
         /// </summary>
         /// <param name="partitionIndex">The index of the parent collection.</param>
         /// <returns>A specific partition </returns>
+        /// <exception cref="PartitionIndexOutOfRange">Thrown if the partitionIndex is out of range.</exception>
         public IDictionary<int, IGeneratedWord> GetWordsAtIndex(int partitionIndex)
         {
             var count = PartitionedWords.Count();
@@ -65,7 +58,7 @@ namespace RSG.Core.Models
 
             if (partitionIndex < 0 || partitionIndex >= count)
             {
-                return emptyQueue;
+                throw new PartitionIndexOutOfRange(partitionIndex, nameof(partitionIndex));
             }
 
             return PartitionedWords.ElementAt(partitionIndex);
@@ -79,8 +72,14 @@ namespace RSG.Core.Models
             throw new NotImplementedException("Awaiting other functions");
         }
 
-        public bool Contains(string word)
+        /// <summary>
+        /// Checks every word 
+        /// </summary>
+        /// <param name="word">The word to check.</param>
+        /// <returns></returns>
+        public async Task<bool> ContainsAsync(string word, CancellationToken cancellationToken)
         {
+            // TODO convert to multithreaded 
             foreach (var kvp in PartitionedWords)
             {
                 if (kvp.Any(e => e.Value.Word.Equals(word, StringComparison.OrdinalIgnoreCase)))
@@ -191,7 +190,7 @@ namespace RSG.Core.Models
         /// <summary>
         /// Gets the number of noise appended to this generated word.
         /// </summary>
-        public int NumberOfNoiseAppended { get => Word.NoisyCharacterPositions.Count(); }
+        public int NumberOfNoiseAppended { get => Word.AdditionalCharacterPositions.Count(); }
 
         /// <summary>
         /// Gets or sets the probability of this word generating.
