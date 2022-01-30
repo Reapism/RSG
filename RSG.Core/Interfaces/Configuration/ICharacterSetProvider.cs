@@ -9,5 +9,6 @@ namespace RSG.Core.Interfaces.Configuration
     public interface ICharacterSetProvider
     {
         IList<CharacterSet> Characters { get; set; }
+        char[] ToCharArray();
     }
 }
