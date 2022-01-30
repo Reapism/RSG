@@ -49,7 +49,7 @@ namespace RSG.Core.Extensions
                 .AddTransient<IStringResult, StringResult>()
                 .AddTransient<IGeneratedWord, GeneratedWord>()
                 .AddTransient<IDictionaryWordList, DictionaryWordList>()
-                .AddTransient<IThreadCount, ThreadCountService>()
+                .AddTransient<IThreadBalancer, ThreadBalancer>()
                 .AddTransient<IShuffle<char>, Scrambler>()
                 .AddTransient<ICharacterSetService, CharacterSetService>()
                 .AddTransient<IRandomStringGenerator, RandomStringGenerator>()
