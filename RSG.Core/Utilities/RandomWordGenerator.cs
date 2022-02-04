@@ -182,7 +182,7 @@ namespace RSG.Core.Utilities
             for (var i = 0; i < iterations; i++)
             {
                 var word = GenerateRandomWord();
-                var additionalCharacterPositions = GenerateNoisyCharacterPositions(word.Length);
+                var additionalCharacterPositions = GenerateNoisyCharacterForWord(word.Length);
 
                 var generatedWord = new GeneratedWord(word, additionalCharacterPositions);
 
@@ -211,7 +211,7 @@ namespace RSG.Core.Utilities
         // same position. But this might not be a problem since list or Queue preserves order anyways.
         // have to choose whether to use IEnumerable and save memory but possibly convey a diff meaning
         // or use dictionary and use more memory but convey and order.
-        private IList<IPositionalCharacter> GenerateNoisyCharacterPositions(int wordLength)
+        private IEnumerable<IPositionalCharacter> GenerateNoisyCharacterForWord(int wordLength)
         {
             var noisePositions = new Queue<IPositionalCharacter>();
             var noiseFrequencyPercentage = dictionaryConfiguration.NoiseFrequency;
@@ -247,10 +247,10 @@ namespace RSG.Core.Utilities
                         Character = character,
                         Position = positionInWord
                     };
-                    noisePositions.Add(i, pair);
+                    noisePositions.Enqueue(pair);
                 }
             }
-            Queue
+
             return noisePositions;
         }
 
@@ -258,7 +258,7 @@ namespace RSG.Core.Utilities
         {
             if (!(GenerateChanged is null))
             {
-                GenerateChanged(this, args);
+                GenerateChanged(args);
             }
         }
 
@@ -266,7 +266,7 @@ namespace RSG.Core.Utilities
         {
             if (!(GenerateCompleted is null))
             {
-                GenerateCompleted(this, args);
+                GenerateCompleted(args);
             }
         }
     }

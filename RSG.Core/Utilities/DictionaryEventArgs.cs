@@ -10,7 +10,7 @@ namespace RSG.Core.Utilities
     /// </summary>
     /// <param name="sender">The object who fired the event.</param>
     /// <param name="e">The <see cref="ProgressChangedEventArgs"/>.</param>
-    public delegate void ProgressChanged(object sender, ProgressChangedEventArgs e);
+    public delegate void ProgressChanged(ProgressChangedEventArgs e);
 
     /// <summary>
     /// Event handler for when the <see cref="RandomWordGenerator.GenerateAsync(System.Numerics.BigInteger)"/>
@@ -18,7 +18,7 @@ namespace RSG.Core.Utilities
     /// </summary>
     /// <param name="sender">The object who fired the event.</param>
     /// <param name="e">The <see cref="DictionaryEventArgs"/> args.</param>
-    public delegate void Completed(object sender, DictionaryEventArgs e);
+    public delegate void Completed(DictionaryEventArgs e);
 
     public class DictionaryEventArgs : AsyncCompletedEventArgs
     {
