@@ -7,13 +7,13 @@ namespace RSG.Core.Services
 {
     public static class RandomProvider
     {
-        private static RandomzProvider psuedoRandom;
+        private static SystemRandomProvider psuedoRandom;
         private static CryptoRandomProvider cryptographicRandom;
 
         private static int seed = Environment.TickCount;
         static RandomProvider()
         {
-            psuedoRandom = new RandomzProvider();
+            psuedoRandom = new SystemRandomProvider();
             cryptographicRandom = new CryptoRandomProvider();
 
             SelectedRandomizationType = RandomizationType.Pseudorandom;

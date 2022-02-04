@@ -10,14 +10,14 @@ namespace RSG.Core.Interfaces.Services
         int Next(int minValue, int maxValue);
     }
 
-    public class RandomzProvider : IRandom
+    public class SystemRandomProvider : IRandom
     {
         private readonly Random random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RandomProvider"/> class.
         /// </summary>
-        public RandomzProvider()
+        public SystemRandomProvider()
             : this(Random.Shared)
         {
             random = Random.Shared;
@@ -27,7 +27,7 @@ namespace RSG.Core.Interfaces.Services
         /// Initializes a new instance of the <see cref="RandomProvider"/> class.
         /// </summary>
         /// <param name="random"></param>
-        public RandomzProvider(Random random)
+        public SystemRandomProvider(Random random)
         {
             this.random = random ?? throw new ArgumentNullException(nameof(random));
         }
