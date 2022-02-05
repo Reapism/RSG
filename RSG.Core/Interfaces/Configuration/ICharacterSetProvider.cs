@@ -8,7 +8,15 @@ namespace RSG.Core.Interfaces.Configuration
     /// </summary>
     public interface ICharacterSetProvider
     {
-        IList<CharacterSet> Characters { get; set; }
+        /// <summary>
+        /// Gets the collection of character(s) to be provided.
+        /// </summary>
+        IList<CharacterSet> Characters { get; }
+
+        /// <summary>
+        /// Converts the <see cref="Characters"/>
+        /// </summary>
+        /// <returns>Returns a <see cref="char[]"/></returns>
         char[] ToCharArray();
     }
 }
