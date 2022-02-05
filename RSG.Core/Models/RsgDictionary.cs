@@ -7,26 +7,52 @@ using System.Text.Json.Serialization;
 
 namespace RSG.Core.Models
 {
+    public class WordListOption
+    {
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance's
+        /// source is from a local or web source.
+        /// </summary>
+        public bool IsSourceLocal { get; }
+
+        /// <summary>
+        /// Gets or sets the source path.
+        /// <para>Can be a local file path or from a web source.</para>
+        /// </summary>
+        public string Source { get; }
+
+        /// <summary>
+        /// Gets the number of bytes the word list is.
+        /// </summary>
+        public int NumberOfBytes { get; }
+
+        /// <summary>
+        /// Gets the delimiter used to seperate words from other words in the word list source.
+        /// </summary>
+        public string Delimiter { get; }
+    }
     /// <summary>
     /// Represents a fully constructed <see cref="IRsgDictionary"/>.
     /// </summary>
     public class RsgDictionary : IRsgDictionary, IDictionaryWordList, IComparer<RsgDictionary>
     {
-        public string Name { get; set; }
+        /// <inheritdoc/>
+        public string Name { get; }
 
-        public string Description { get; set; }
+        /// <inheritdoc/>
+        public string Description { get; }
 
-        public bool IsSourceLocal { get; set; }
-
-        public string Source { get; set; }
-
-        public bool IsActive { get; set; }
-
-        [JsonIgnore]
-        public IDictionary<int, string> WordList { get; set; }
+        /// <inheritdoc/>
+        public bool IsActive { get; }
 
         [JsonIgnore]
-        public BigInteger Count { get; set; }
+        public IDictionary<int, string> WordList { get; }
+
+        [JsonIgnore]
+        public BigInteger Count { get; }
+
+        /// <inheritdoc/>
+        public WordListOption WordListOptions { get; }
 
         /// <summary>
         /// Compares the <see cref="Name"/>
@@ -54,28 +80,24 @@ namespace RSG.Core.Models
                 return false;
             }
 
-            return this.Count == dictionary.Count &&
-                this.Description == dictionary.Description &&
-                this.IsActive == dictionary.IsActive &&
-                this.IsSourceLocal == dictionary.IsSourceLocal &&
-                this.Source == dictionary.Source &&
-                this.Name == dictionary.Name;
+            return Count == dictionary.Count &&
+                Description == dictionary.Description &&
+                IsActive == dictionary.IsActive &&
+                WordListOptions.IsSourceLocal == dictionary.WordListOptions.IsSourceLocal &&
+                WordListOptions.Source == dictionary.WordListOptions.Source &&
+                WordListOptions.NumberOfBytes == dictionary.WordListOptions.NumberOfBytes &&
+                WordListOptions.Delimiter == dictionary.WordListOptions.Delimiter &&
+                Name == dictionary.Name;
         }
 
+        /// <summary>
+        /// Returns the <see cref="Name"/> and <see cref="Description"/>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            string words;
-
-            if (WordList is null)
-            {
-                words = string.Empty;
-            }
-            else
-            {
-                words = string.Join(", ", WordList.Values);
-            }
-
-            return $"Name: {Name}\nDescription: {Description}\nSource: {Source}\nIsActive: {IsActive}\nIsSourceLocal: {IsSourceLocal}\nCount: {Count}\nWordList: {words}";
+            return $"Name: {Name}\nDescription: {Description}";
         }
     }
 }

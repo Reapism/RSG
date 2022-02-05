@@ -1,4 +1,6 @@
-﻿namespace RSG.Core.Interfaces
+﻿using RSG.Core.Models;
+
+namespace RSG.Core.Interfaces
 {
     /// <summary>
     /// Represents the minimal information needed for a
@@ -7,35 +9,23 @@
     public interface IRsgDictionary
     {
         /// <summary>
-        /// Gets or sets the name of the dictionary.
+        /// Gets the name of the dictionary.
         /// </summary>
-        string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
-        /// Gets or sets the description of the dictionary.
+        /// Gets the description of the dictionary.
         /// </summary>
-        string Description { get; set; }
+        string Description { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance's
-        /// source is from a local or web source.
+        /// Gets a value indicating whether this dictionary is active or not.
         /// </summary>
-        bool IsSourceLocal { get; set; }
+        bool IsActive { get; }
 
         /// <summary>
-        /// Gets or sets the source path.
-        /// <para>Can be a local file path or from a web source.</para>
+        /// Gets a value indicating the options of the word list.
         /// </summary>
-        string Source { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this dictionary is active or not.
-        /// </summary>
-        bool IsActive { get; set; }
-
-        /// <summary>
-        /// Gets the number of bytes the word list is.
-        /// </summary>
-        int NumberOfBytes { get; }
+        WordListOption WordListOptions { get; }
     }
 }
