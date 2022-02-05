@@ -4,14 +4,15 @@ using System.Numerics;
 
 namespace RSG.Core.Interfaces.Result
 {
+    /// <summary>
+    /// Represents a simple contract for all results created by
+    /// <see cref="RSG"/>.
+    /// </summary>
     public interface IResult
     {
-        RandomizationType RandomizationType { get; set; }
-
-        BigInteger Iterations { get; set; }
-
-        DateTime StartTime { get; set; }
-
-        DateTime EndTime { get; set; }
+        /// <summary>
+        /// Gets the duration for generating a result.
+        /// </summary>
+        TimeSpan Duration { get; }
     }
 }

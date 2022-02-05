@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
+﻿using RSG.Core.Interfaces.Request;
+using System.Collections.Generic;
 
 namespace RSG.Core.Interfaces.Result
 {
@@ -9,18 +9,13 @@ namespace RSG.Core.Interfaces.Result
     public interface IStringResult : IResult
     {
         /// <summary>
-        /// Gets or sets the characters list.
+        /// Gets the request that was used to create this result.
         /// </summary>
-        string Characters { get; set; }
+        IStringRequest Request { get; }
 
         /// <summary>
-        /// Gets or sets the strings generated.
+        /// Gets the strings generated.
         /// </summary>
-        IEnumerable<string> Strings { get; set; }
-
-        /// <summary>
-        /// Gets or sets the string length.
-        /// </summary>
-        BigInteger StringLength { get; set; }
+        IEnumerable<string> Strings { get; }
     }
 }
