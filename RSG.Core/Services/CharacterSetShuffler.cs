@@ -8,24 +8,24 @@ using System.Text;
 namespace RSG.Core.Services
 {
     /// <summary>
-    /// A service for creating a <see cref="ICharacterSet"/>
+    /// A service for shuffling the character list around.
     /// </summary>
-    public class CharacterSetService : ICharacterSetService
+    public class CharacterSetShuffler : ICharacterSetShuffler
     {
-        private readonly ICharacterSetProvider stringConfiguration;
+        private readonly ICharacterSetProvider characterSetProvider;
         private readonly IShuffle<char> shuffle;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CharacterSetService"/> class.
+        /// Initializes a new instance of the <see cref="CharacterSetShuffler"/> class.
         /// </summary>
-        /// <param name="stringConfiguration">An instance of the <see cref="ICharacterSetProvider"/>.</param>
+        /// <param name="characterSetProvider">An instance of the <see cref="ICharacterSetProvider"/>.</param>
         /// <param name="shuffle">An instance of <see cref="IShuffle{T}"/> of type
         /// <see langword="char"/>.</param>
-        public CharacterSetService(
-            ICharacterSetProvider stringConfiguration,
+        public CharacterSetShuffler(
+            ICharacterSetProvider characterSetProvider,
             IShuffle<char> shuffle)
         {
-            this.stringConfiguration = stringConfiguration;
+            this.characterSetProvider = characterSetProvider;
             this.shuffle = shuffle;
         }
 
@@ -34,7 +34,12 @@ namespace RSG.Core.Services
         /// <para>Each invocation triggers a new scrambled
         /// character list.</para>
         /// </summary>
-        public char[] CharacterList => GetNewCharacterList();
+        /// <param name="chars">The characters to shuffle.</param>
+        /// <returns></returns>
+        public char[] Shuffle()
+        {
+            return GetNewCharacterList();
+        }
 
         private char[] GetNewCharacterList()
         {
@@ -59,7 +64,7 @@ namespace RSG.Core.Services
 
         private char[] GetCharacterListAsString()
         {
-            var enabledCharacterSets = stringConfiguration.Characters.ToCharArray();
+            var enabledCharacterSets = characterSetProvider.Characters.ToCharArray();
 
             return enabledCharacterSets;
         }
