@@ -19,7 +19,7 @@ namespace RSG.Core.Utilities
         /// <param name="delimiter">The delimiter to split the contents of the file by.</param>
         /// <returns>A sequence of strings delimited by new line characters.</returns>
         /// <exception cref="FileNotFoundException">Thrown if the file doesnt exist.</exception>
-        public static async Task<IEnumerable<string>> ReadLinesASync(string filePath, string delimiter = "\n")
+        public static async Task<IEnumerable<string>> ReadLinesAsync(string filePath, string delimiter = "\n")
         {
             if (!DoesFileExist(filePath))
             {
@@ -31,7 +31,7 @@ namespace RSG.Core.Utilities
 
             var fileText = await streamReader.ReadToEndAsync();
 
-            return fileText.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+            return fileText.Split(delimiter, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         }
 
         /// <summary>
