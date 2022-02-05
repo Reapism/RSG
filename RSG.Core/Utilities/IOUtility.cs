@@ -21,6 +21,11 @@ namespace RSG.Core.Utilities
         /// <exception cref="FileNotFoundException">Thrown if the file doesnt exist.</exception>
         public static async Task<IEnumerable<string>> ReadLinesAsync(string filePath, string delimiter = "\n")
         {
+            return await ReadLinesAsyncInternal(filePath, delimiter);
+        }
+
+        private static async Task<IEnumerable<string>> ReadLinesAsyncInternal(string filePath, string delimiter)
+        {
             if (!DoesFileExist(filePath))
             {
                 throw new FileNotFoundException($"Cannot find file located at '{filePath}'.");
