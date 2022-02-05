@@ -3,6 +3,7 @@ using RSG.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Services
@@ -18,15 +19,20 @@ namespace RSG.Core.Services
         /// <para>Returns an empty sequence if unable to read/download dictionary from
         /// the source.</para>
         /// </summary>
-        /// <param name="dictionary">A contract representing a
-        /// <see cref="IRsgDictionary"/>.</param>
+        /// <param name="dictionary">A contract representing a <see cref="IRsgDictionary"/>.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel this task.</param>
         /// <returns>A new <see cref="IEnumerable{string}"/> containing the new word list.</returns>
-        public async Task<IDictionary<int, string>> CreateAsync(IRsgDictionary dictionary)
+        public async Task<IDictionary<int, string>> CreateAsync(IRsgDictionary dictionary, CancellationToken cancellationToken)
+        {
+            return await CreateAsyncInternal(dictionary, cancellationToken);
+        }
+
+        private async Task<IDictionary<int, string>> CreateAsyncInternal(IRsgDictionary dictionary, CancellationToken cancellationToken)
         {
             var wordDictionary = new Dictionary<int, string>();
             var wordList = dictionary.IsSourceLocal
-                ? await CreateWordListFromFile(dictionary.Source)
-                : await CreateWordListFromHttp(dictionary.Source);
+                ? await CreateWordListFromFile(dictionary, cancellationToken)
+                : await CreateWordListFromHttp(dictionary, cancellationToken);
 
             var index = 0;
             wordDictionary = wordList.ToDictionary(e => { return index++; });
@@ -34,31 +40,31 @@ namespace RSG.Core.Services
             return wordDictionary;
         }
 
-        private async Task<IEnumerable<string>> CreateWordListFromFile(string source)
+        private async Task<IEnumerable<string>> CreateWordListFromFile(IRsgDictionary dictionary, CancellationToken cancellationToken)
         {
             try
             {
-                var wordList = await IOUtility.ReadLinesASync(source);
+                var wordList = await IOUtility.ReadLinesAsync(dictionary.Source, dictionary.Delimiter);
                 return wordList;
             }
             catch
             {
-                return new string[] { };
+                return Enumerable.Empty<string>();
             }
         }
 
-        private async Task<IEnumerable<string>> CreateWordListFromHttp(string source)
+        private async Task<IEnumerable<string>> CreateWordListFromHttp(IRsgDictionary dictionary, CancellationToken cancellationToken)
         {
             try
             {
-                var resource = await DownloadUtility.DownloadFileAsString(source);
-                var wordList = resource.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+                var wordListAsString = await DownloadUtility.DownloadFileAsStringAsync(dictionary.Source, cancellationToken);
+                var wordList = wordListAsString.Split(dictionary.Delimiter, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 return wordList;
             }
             catch
             {
-                return new string[] { };
+                return Enumerable.Empty<string>();
             }
         }
     }
