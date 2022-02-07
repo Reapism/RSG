@@ -4,15 +4,11 @@ using System.Numerics;
 
 namespace RSG.Core.Interfaces
 {
-    public interface IStatistics
+    public interface IStatistics<TResult>
+        where TResult : class, IResult
     {
-        IStringRequest StringRequest { get; }
-        IDictionaryRequest DictionaryRequest { get; }
-
-        IStringResult StringResult { get; }
-        IDictionaryResult DictionaryResult { get; }
+        TResult Result { get; }
 
         ICharacterFrequency CharacterFrequency { get; }
-
     }
 }
