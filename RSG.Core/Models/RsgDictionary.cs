@@ -7,35 +7,13 @@ using System.Text.Json.Serialization;
 
 namespace RSG.Core.Models
 {
-    public class WordListOption
-    {
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance's
-        /// source is from a local or web source.
-        /// </summary>
-        public bool IsSourceLocal { get; }
-
-        /// <summary>
-        /// Gets or sets the source path.
-        /// <para>Can be a local file path or from a web source.</para>
-        /// </summary>
-        public string Source { get; }
-
-        /// <summary>
-        /// Gets the number of bytes the word list is.
-        /// </summary>
-        public int NumberOfBytes { get; }
-
-        /// <summary>
-        /// Gets the delimiter used to seperate words from other words in the word list source.
-        /// </summary>
-        public string Delimiter { get; }
-    }
     /// <summary>
     /// Represents a fully constructed <see cref="IRsgDictionary"/>.
     /// </summary>
     public class RsgDictionary : IRsgDictionary, IDictionaryWordList, IComparer<RsgDictionary>
     {
+        private readonly IDictionary<int, string> wordList;
+
         /// <inheritdoc/>
         public string Name { get; }
 
@@ -46,10 +24,7 @@ namespace RSG.Core.Models
         public bool IsActive { get; }
 
         [JsonIgnore]
-        public IDictionary<int, string> WordList { get; }
-
-        [JsonIgnore]
-        public BigInteger Count { get; }
+        public IDictionary<int, string> WordList { get; private set; } = new Dictionary<int, string>();
 
         /// <inheritdoc/>
         public WordListOption WordListOptions { get; }
@@ -75,12 +50,12 @@ namespace RSG.Core.Models
         /// <returns>Whether the object parameter and this instance are equal.</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is RsgDictionary dictionary))
+            if (obj is not RsgDictionary dictionary)
             {
                 return false;
             }
 
-            return Count == dictionary.Count &&
+            return
                 Description == dictionary.Description &&
                 IsActive == dictionary.IsActive &&
                 WordListOptions.IsSourceLocal == dictionary.WordListOptions.IsSourceLocal &&
@@ -98,6 +73,11 @@ namespace RSG.Core.Models
         public override string ToString()
         {
             return $"Name: {Name}\nDescription: {Description}";
+        }
+
+        public void SetWordList(IDictionary<int, string> wordList)
+        {
+            WordList = wordList;
         }
     }
 }
