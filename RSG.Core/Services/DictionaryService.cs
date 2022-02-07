@@ -5,6 +5,7 @@ using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Services
@@ -128,12 +129,11 @@ namespace RSG.Core.Services
             isFullyInitialized = true;
         }
 
-        private async Task GetWordListFor()
+        private async Task GetWordListFor(CancellationToken cancellationToken)
         {
-            var wordList = await wordListService.CreateAsync(selectedDictionary);
+            var wordList = await wordListService.CreateAsync(selectedDictionary, cancellationToken);
 
-            selectedDictionary.WordList = wordList;
-            selectedDictionary.Count = selectedDictionary.WordList.Count().ToBigInteger();
+            selectedDictionary.SetWordList(wordList);
         }
 
         private bool DoesDictionaryExist(string dictionaryName)
