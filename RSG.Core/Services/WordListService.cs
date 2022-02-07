@@ -30,7 +30,7 @@ namespace RSG.Core.Services
         private async Task<IDictionary<int, string>> CreateAsyncInternal(IRsgDictionary dictionary, CancellationToken cancellationToken)
         {
             var wordDictionary = new Dictionary<int, string>();
-            var wordList = dictionary.IsSourceLocal
+            var wordList = dictionary.WordListOptions.IsSourceLocal
                 ? await CreateWordListFromFile(dictionary, cancellationToken)
                 : await CreateWordListFromHttp(dictionary, cancellationToken);
 
@@ -44,7 +44,7 @@ namespace RSG.Core.Services
         {
             try
             {
-                var wordList = await IOUtility.ReadLinesAsync(dictionary.Source, dictionary.Delimiter);
+                var wordList = await IOUtility.ReadLinesAsync(dictionary.WordListOptions.Source, dictionary.WordListOptions.Delimiter);
                 return wordList;
             }
             catch
@@ -57,8 +57,8 @@ namespace RSG.Core.Services
         {
             try
             {
-                var wordListAsString = await DownloadUtility.DownloadFileAsStringAsync(dictionary.Source, cancellationToken);
-                var wordList = wordListAsString.Split(dictionary.Delimiter, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                var wordListAsString = await DownloadUtility.DownloadFileAsStringAsync(dictionary.WordListOptions.Source, cancellationToken);
+                var wordList = wordListAsString.Split(dictionary.WordListOptions.Delimiter, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 return wordList;
             }
