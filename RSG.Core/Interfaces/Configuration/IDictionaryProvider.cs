@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace RSG.Core.Interfaces.Configuration
 {
+    /// <summary>
+    /// Provides a type with access to <see cref="RsgDictionary"/>(s).
+    /// </summary>
     public interface IDictionaryProvider
     {
         /// <summary>

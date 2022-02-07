@@ -11,6 +11,7 @@ namespace RSG.Core.Services
         private static CryptoRandomProvider cryptographicRandom;
 
         private static int seed = Environment.TickCount;
+
         static RandomProvider()
         {
             psuedoRandom = new SystemRandomProvider();

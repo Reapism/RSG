@@ -3,8 +3,8 @@
 namespace RSG.Core.Interfaces
 {
     /// <summary>
-    /// Represents the minimal information needed for a
-    /// dictionary.
+    /// Represents the minimal information needed for describing
+    /// a dictionary.
     /// </summary>
     public interface IRsgDictionary
     {
