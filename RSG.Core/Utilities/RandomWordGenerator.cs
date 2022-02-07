@@ -1,15 +1,14 @@
 ﻿using RSG.Core.Configuration;
-using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
+using RSG.Core.Interfaces.Request;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
-using RSG.Core.Models.Result;
+using RSG.Core.Models.Results;
 using RSG.Core.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -75,20 +74,25 @@ namespace RSG.Core.Utilities
         /// <para>Subscribe to <see cref="GenerateChanged"/> and
         /// <see cref="GenerateCompleted"/> events.</para>
         /// </summary>
-        /// <param name="numberOfIterations">The number of words to generate.</param>
+        /// <param name="request">The request used to generate.</param>
         /// <returns>Returns an empty task.</returns>
-        public async Task GenerateAsync(BigInteger numberOfIterations)
+        public async Task GenerateAsync(IDictionaryRequest request)
+        {
+            await GenerateAsyncInternal(request);
+        }
+
+        private async Task GenerateAsyncInternal(IDictionaryRequest request)
         {
             progressPercentage = 0;
             try
             {
                 await LazyInitialization();
 
-                var partitionInfo = PartitionInfo.Get(numberOfIterations, threadService.GetThreadCountByIterations(numberOfIterations));
+                var partitionInfo = PartitionInfo.Get(request.Iterations, threadService.GetThreadCountByIterations(request.Iterations));
 
                 FireGenerateChanged(new ProgressChangedEventArgs(progressPercentage += 5, $"Created {partitionInfo.NumberOfPartitions} partitions."));
 
-                GenerateWords(partitionInfo);
+                GenerateWords(request, partitionInfo);
             }
             catch (Exception e)
             {
@@ -101,7 +105,7 @@ namespace RSG.Core.Utilities
             dictionary = await dictionaryService.SelectedAsync();
         }
 
-        private void GenerateWords(PartitionInfo partitionInfo)
+        private void GenerateWords(IDictionaryRequest request, PartitionInfo partitionInfo)
         {
             var partitionedWords = new ConcurrentQueue<IDictionary<int, IGeneratedWord>>();
             var useNoise = dictionaryConfiguration.UseNoise;
@@ -138,15 +142,14 @@ namespace RSG.Core.Utilities
                     PartitionedWords = partitionedWords
                 };
 
-                var result = new DictionaryResult()
+                var endTime = DateTime.Now;
+                var duration = endTime - startTime;
+
+                var result = new DictionaryResult(request, duration, words)
                 {
-                    Dictionary = dictionary,
-                    StartTime = startTime,
-                    EndTime = DateTime.Now,
-                    Iterations = partitionInfo.TotalIterations,
-                    RandomizationType = RandomProvider.SelectedRandomizationType,
                     Words = words
                 };
+
                 FireGenerateChanged(new ProgressChangedEventArgs(100, null));
                 FireGenerateCompleted(new DictionaryEventArgs(null, false, null, result));
             }
