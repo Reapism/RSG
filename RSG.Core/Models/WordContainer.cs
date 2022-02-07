@@ -131,7 +131,7 @@ namespace RSG.Core.Models
             return counter;
         }
 
-        private int GetPartitionIndexFromIteration(int iteration)
+        private int GetPartitionIndexFromIteration(BigInteger iteration)
         {
             var count = Count;
             if (iteration >= count)
