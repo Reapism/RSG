@@ -10,8 +10,8 @@ namespace RSG.Core.Interfaces.Request
     public interface IStringRequest : IRequest, ICharacterSetProvider
     {
         /// <summary>
-        /// Gets the length of the string in the from of a <see cref="BigInteger"/>.
+        /// Gets the length of the string.
         /// </summary>
-        BigInteger StringLength { get; }
+        int StringLength { get; }
     }
 }
