@@ -1,75 +1,49 @@
-﻿using RSG.Core.Interfaces;
+﻿using RSG.Core.Interfaces.Request;
 using RSG.Core.Interfaces.Result;
 using RSG.Core.Interfaces.Services;
-using RSG.Core.Models;
-using RSG.Core.Models.Result;
+using RSG.Core.Models.Results;
 using RSG.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
 {
     public class RandomStringGenerator : IRandomStringGenerator
     {
-        private readonly ICharacterSetService characterSetService;
-        private char[] characterList;
+        private Lazy<char[]> characterList;
 
-        public RandomStringGenerator(ICharacterSetService characterSetService)
+        public RandomStringGenerator()
         {
-            this.characterSetService = characterSetService;
-            characterList = this.characterSetService.CharacterList;
+            characterList = new Lazy<char[]>();
         }
 
         /// <summary>
         /// Generates <paramref name="numberOfIterations"/> of random string(s) of
         /// <paramref name="stringLength"/>.
         /// </summary>
-        /// <param name="numberOfIterations">The number of strings to generate.</param>
-        /// <param name="stringLength">The string length to generate.</param>
-        /// <returns></returns>
-        public IStringResult Generate(int numberOfIterations, int stringLength)
+        /// <param name="stringRequest">The request holding information about how to generate strings.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>A <see cref="IStringResult"/> as a result.</returns>
+        public IStringResult Generate(IStringRequest stringRequest, CancellationToken cancellationToken)
         {
-            return Generate(BigInteger.Parse(numberOfIterations.ToString()), BigInteger.Parse(stringLength.ToString()));
+            return GenerateInternal(stringRequest, cancellationToken);
         }
 
-        /// <summary>
-        /// Generates <paramref name="numberOfIterations"/> of random string(s) of
-        /// <paramref name="stringLength"/>.
-        /// </summary>
-        /// <param name="numberOfIterations">The number of strings to generate.</param>
-        /// <param name="stringLength">The string length to generate.</param>
-        /// <returns></returns>
-        public async Task<IStringResult> GenerateAsync(int numberOfIterations, int stringLength)
+        private IStringResult GenerateInternal(IStringRequest stringRequest, CancellationToken cancellationToken)
         {
-            return await GenerateAsync(BigInteger.Parse(numberOfIterations.ToString()), BigInteger.Parse(stringLength.ToString()));
-        }
+            characterList = new Lazy<char[]>(stringRequest.ToCharArray());
 
-        /// <summary>
-        /// Generates <paramref name="numberOfIterations"/> of random string(s) of
-        /// <paramref name="stringLength"/>.
-        /// </summary>
-        /// <param name="numberOfIterations">The number of strings to generate.</param>
-        /// <param name="stringLength">The length of the string to generate.</param>
-        /// <returns></returns>
-        public IStringResult Generate(BigInteger numberOfIterations, BigInteger stringLength)
-        {
             var startTime = DateTime.Now;
-            var strings = GenerateRandomStrings(numberOfIterations, stringLength);
+            var strings = GenerateRandomStrings(stringRequest, cancellationToken);
             var endTime = DateTime.Now;
 
-            var result = new StringResult()
-            {
-                Characters = characterList.ToString() ?? string.Empty,
-                StringLength = stringLength,
-                Iterations = numberOfIterations,
-                RandomizationType = RandomProvider.SelectedRandomizationType,
-                Strings = strings,
-                StartTime = startTime,
-                EndTime = endTime
-            };
+            var duration = endTime - startTime;
+
+            var result = new StringResult(stringRequest, strings, duration);
 
             return result;
         }
@@ -81,46 +55,40 @@ namespace RSG.Core.Utilities
         /// <param name="numberOfIterations">The number of strings to generate.</param>
         /// <param name="stringLength">The length of the string to generate.</param>
         /// <returns></returns>
-        public async Task<IStringResult> GenerateAsync(BigInteger numberOfIterations, BigInteger stringLength)
+        public async Task<IStringResult> GenerateAsync(IStringRequest stringRequest, CancellationToken cancellationToken)
         {
             var startTime = DateTime.Now;
-            var strings = await Task.Run(() => GenerateRandomStrings(numberOfIterations, stringLength));
+            var strings = await Task.Run(() => GenerateRandomStrings(stringRequest, cancellationToken));
             var endTime = DateTime.Now;
 
-            var result = new StringResult()
-            {
-                Characters = characterList.ToString() ?? string.Empty,
-                StringLength = stringLength,
-                Iterations = numberOfIterations,
-                RandomizationType = RandomProvider.SelectedRandomizationType,
-                Strings = strings,
-                StartTime = startTime,
-                EndTime = endTime
-            };
+            var duration = endTime - startTime;
+
+            var result = new StringResult(stringRequest, strings, duration);
 
             return result;
         }
 
-        private IEnumerable<string> GenerateRandomStrings(BigInteger numberOfIterations, BigInteger stringLength)
+        // TODO convert to multithreaded usage
+        private IEnumerable<string> GenerateRandomStrings(IStringRequest stringRequest, CancellationToken cancellationToken)
         {
             var strings = new Queue<string>(1000);
 
-            for (var bi = BigInteger.Zero; bi < numberOfIterations; bi++)
+            for (var bi = BigInteger.Zero; bi < stringRequest.Iterations; bi++)
             {
-                strings.Enqueue(GenerateRandomString(stringLength));
+                cancellationToken.ThrowIfCancellationRequested();
+                strings.Enqueue(GenerateRandomString(stringRequest.StringLength, characterList.Value.Length));
             }
 
             return strings;
         }
 
-        private string GenerateRandomString(BigInteger length)
+        private string GenerateRandomString(int stringLength, int maxLength)
         {
             var stringBuilder = new StringBuilder();
-            var maxLength = characterList.Length;
 
-            for (var bi = BigInteger.Zero; bi < length; bi++)
+            for (var i = BigInteger.Zero; i < stringLength; i++)
             {
-                stringBuilder.Append(characterList[RandomProvider.Random.Next(maxLength)]);
+                stringBuilder.Append(characterList.Value[RandomProvider.Random.Next(maxLength)]);
             }
 
             return stringBuilder.ToString();
