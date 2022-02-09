@@ -12,15 +12,15 @@ namespace RSG.Core.Factories
     public static class StatisticsFactory
     {
         /// <summary>
-        /// Creates a <see cref="DetailedStatistics"/> instance based on
+        /// Creates a <see cref="DictionaryStatistic"/> instance based on
         /// a <see cref="Result"/> instance.
         /// </summary>
         /// <param name="result">A <see cref="Result"/> instance used to
-        /// construct the <see cref="DetailedStatistics"/> instance.</param>
-        /// <returns>A <see cref="DetailedStatistics"/> instance.</returns>
-        public static DetailedStatistics CreateDetailedStatistics(in IStringResult result)
+        /// construct the <see cref="DictionaryStatistic"/> instance.</param>
+        /// <returns>A <see cref="DictionaryStatistic"/> instance.</returns>
+        public static DictionaryStatistic CreateDetailedStatistics(in IStringResult result)
         {
-            var statistics = new DetailedStatistics()
+            var statistics = new DictionaryStatistic()
             {
                 CharacterList = result.Characters,
                 Duration = result.EndTime - result.StartTime,
@@ -44,24 +44,24 @@ namespace RSG.Core.Factories
 
             var characterModel = GetCommonCharacters(result.Strings);
 
-            statistics.LeastFrequentCharacter = characterModel.LeastFrequentCharacter;
-            statistics.LeastFrequentCharacterCount = characterModel.LeastFrequentCharacterCount;
-            statistics.MostFrequentCharacter = characterModel.MostFrequentCharacter;
-            statistics.MostFrequentCharacterCount = characterModel.MostFrequentCharacterCount;
+            statistics.LeastFrequentCharacters = characterModel.LeastFrequentCharacters;
+            statistics.LeastFrequentCharacterCounts = characterModel.LeastFrequentCharacterCounts;
+            statistics.MostFrequentCharacters = characterModel.CharactersByCha;
+            statistics.MostFrequentCharacterCounts = characterModel.MostFrequentCharacterCounts;
 
             return statistics;
         }
 
         /// <summary>
-        /// Creates a <see cref="Statistics"/> instance based on
+        /// Creates a <see cref="StringStatistic"/> instance based on
         /// a <see cref="Result"/> instance.
         /// </summary>
         /// <param name="result">A <see cref="Result"/> instance used to
-        /// construct the <see cref="Statistics"/> instance.</param>
-        /// <returns>A <see cref="Statistics"/> instance.</returns>
-        public static Statistics CreateStatistics(in IStringResult result)
+        /// construct the <see cref="StringStatistic"/> instance.</param>
+        /// <returns>A <see cref="StringStatistic"/> instance.</returns>
+        public static StringStatistic CreateStatistics(in IStringResult result)
         {
-            var statistics = new Statistics()
+            var statistics = new StringStatistic()
             {
                 CharacterList = result.Characters,
                 Iterations = result.Iterations,
@@ -76,10 +76,10 @@ namespace RSG.Core.Factories
             var characterModel = GetCommonCharacters(
                 new List<string> { result.Strings.FirstOrDefault() });
 
-            statistics.LeastFrequentCharacter = characterModel.LeastFrequentCharacter;
-            statistics.LeastFrequentCharacterCount = characterModel.LeastFrequentCharacterCount;
-            statistics.MostFrequentCharacter = characterModel.MostFrequentCharacter;
-            statistics.MostFrequentCharacterCount = characterModel.MostFrequentCharacterCount;
+            statistics.LeastFrequentCharacter = characterModel.LeastFrequentCharacters;
+            statistics.LeastFrequentCharacterCount = characterModel.LeastFrequentCharacterCounts;
+            statistics.MostFrequentCharacter = characterModel.CharactersByCha;
+            statistics.MostFrequentCharacterCount = characterModel.MostFrequentCharacterCounts;
 
             return statistics;
         }
@@ -131,10 +131,10 @@ namespace RSG.Core.Factories
 
             var model = new CharacterFrequency()
             {
-                LeastFrequentCharacter = leastFreqCharQueue,
-                LeastFrequentCharacterCount = leastFreqCharCountQueue,
-                MostFrequentCharacter = mostFreqCharQueue,
-                MostFrequentCharacterCount = mostFreqCharCountQueue,
+                LeastFrequentCharacters = leastFreqCharQueue,
+                LeastFrequentCharacterCounts = leastFreqCharCountQueue,
+                MostFrequentCharacters = mostFreqCharQueue,
+                MostFrequentCharacterCounts = mostFreqCharCountQueue,
             };
 
             return model;

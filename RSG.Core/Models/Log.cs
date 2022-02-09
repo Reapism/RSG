@@ -24,7 +24,7 @@ namespace RSG.Core.Models
         /// <param name="name">The name of the log.</param>
         /// <param name="description">The description of the log.</param>
         /// <param name="statistics">An instance of <see cref="StatisticsDetailed"/></param>
-        public Log(string name, string description, DetailedStatistics statistics)
+        public Log(string name, string description, DictionaryStatistic statistics)
         {
             identifier = Guid.NewGuid();
             DateCreated = DateTime.Now;
@@ -54,7 +54,7 @@ namespace RSG.Core.Models
         /// <summary>
         /// Gets or sets represents the detailed statics for the log.
         /// </summary>
-        public DetailedStatistics Statistics { get; set; }
+        public DictionaryStatistic Statistics { get; set; }
 
         public async Task ExportLogFile(string path, Encoding encoding)
         {
