@@ -1,9 +1,6 @@
-﻿using RSG.Core.Factories;
-using RSG.Core.Interfaces;
-using RSG.Core.Interfaces.Request;
+﻿using RSG.Core.Interfaces.Request;
 using RSG.Core.Interfaces.Result;
 using System;
-using System.Numerics;
 
 namespace RSG.Core.Models.Results
 {
@@ -17,14 +14,12 @@ namespace RSG.Core.Models.Results
         /// </summary>
         /// <param name="request">The request used to generate this result.</param>
         /// <param name="duration">The duration of generating this result.</param>
+        /// <param name="wordContainer">The duration of generating this result.</param>
         public DictionaryResult(IDictionaryRequest request, TimeSpan duration, WordContainer wordContainer)
             : base(request, duration)
         {
             Words = wordContainer;
         }
-
-        /// <inheritdoc/>
-        public IDictionaryRequest Request { get; }
 
         /// <inheritdoc/>
         public WordContainer Words { get; set; }

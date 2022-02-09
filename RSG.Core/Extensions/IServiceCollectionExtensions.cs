@@ -5,7 +5,7 @@ using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Result;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
-using RSG.Core.Models.Result;
+using RSG.Core.Models.Results;
 using RSG.Core.Services;
 using RSG.Core.Utilities;
 using System;
@@ -41,17 +41,15 @@ namespace RSG.Core.Extensions
             services
                 .AddTransient<IRsgDictionary, RsgDictionary>()
                 .AddTransient<ICharacterFrequency, CharacterFrequency>()
-                .AddTransient<IResult, Result>()
                 .AddTransient<IStringResult, StringResult>()
                 .AddTransient<IDictionaryResult, DictionaryResult>()
                 .AddTransient<IIterationsFrequency, IterationsFrequency>()
-                .AddTransient<IStatistics, Statistics>()
                 .AddTransient<IStringResult, StringResult>()
                 .AddTransient<IGeneratedWord, GeneratedWord>()
                 .AddTransient<IDictionaryWordList, DictionaryWordList>()
                 .AddTransient<IThreadBalancer, ThreadBalancer>()
                 .AddTransient<IShuffle<char>, Scrambler>()
-                .AddTransient<ICharacterSetService, CharacterSetService>()
+                .AddTransient<ICharacterSetShuffler, CharacterSetShuffler>()
                 .AddTransient<IRandomStringGenerator, RandomStringGenerator>()
                 .AddTransient<IGeneratorEvents, RandomWordGenerator>()
                 .AddTransient<IWordListService, WordListService>()

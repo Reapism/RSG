@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace RSG.Core.Extensions
 {
@@ -17,6 +12,26 @@ namespace RSG.Core.Extensions
         internal static BigInteger ToBigInteger(this int value)
         {
             return new BigInteger(value);
+        }
+
+        internal static BigInteger ToBigInteger(this byte value)
+        {
+            return new BigInteger(value);
+        }
+
+        internal static BigInteger ToBigInteger(this short value)
+        {
+            return new BigInteger(value);
+        }
+
+        internal static BigInteger ToBigInteger(this long value)
+        {
+            return new BigInteger(value);
+        }
+
+        internal static BigInteger ToBigInteger(this string value)
+        {
+            return BigInteger.Parse(value);
         }
     }
 }

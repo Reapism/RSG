@@ -27,12 +27,15 @@ namespace RSG.Core.Models
 
             // Queue is number of partitions, Dictionary is number of words K: index, V: IGeneratedWord
             PartitionedWords = new ConcurrentQueue<IDictionary<int, IGeneratedWord>>();
+            IterationsByThread = new Dictionary<int, int>();
         }
 
         /// <summary>
         /// Gets a value that maps a partitioned collection of <see cref="IGeneratedWord"/>(s).
         /// </summary>
-        public ConcurrentQueue<IDictionary<int, IGeneratedWord>> PartitionedWords { get; internal set; }
+        private ConcurrentQueue<IDictionary<int, IGeneratedWord>> PartitionedWords { get; set; }
+
+        private Dictionary<int, int> IterationsByThread { get; set; }
 
         /// <summary>
         /// Gets the number of total words stored in this instance.
@@ -54,7 +57,7 @@ namespace RSG.Core.Models
         public IDictionary<int, IGeneratedWord> GetWordsAtIndex(int partitionIndex)
         {
             var count = PartitionedWords.Count();
-            var emptyQueue = new ConcurrentDictionary<int, IGeneratedWord>();
+            var emptyWordSet = new ConcurrentDictionary<int, IGeneratedWord>();
 
             if (partitionIndex < 0 || partitionIndex >= count)
             {
@@ -76,6 +79,7 @@ namespace RSG.Core.Models
         /// Checks every word 
         /// </summary>
         /// <param name="word">The word to check.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> ContainsAsync(string word, CancellationToken cancellationToken)
         {
