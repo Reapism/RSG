@@ -4,11 +4,9 @@ using System.Numerics;
 
 namespace RSG.Core.Interfaces
 {
-    public interface IStatistics<TResult>
+    public interface IStatistic<TResult>
         where TResult : class, IResult
     {
         TResult Result { get; }
-
-        ICharacterFrequency CharacterFrequency { get; }
     }
 }
