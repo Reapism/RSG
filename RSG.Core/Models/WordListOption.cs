@@ -41,10 +41,12 @@ namespace RSG.Core.Models
         /// </summary>
         /// <param name="source">The source to load the wordlist from.</param>
         /// <param name="isSourceLocal">Specifies whether the <paramref name="source"/> is local or not.</param>
-        public void SetSource(string source, bool isSourceLocal)
+        /// <param name="delimiter">delimiter for the word list.</param>
+        public void SetSource(string source, bool isSourceLocal, string delimiter)
         {
             Source = source;
             IsSourceLocal = isSourceLocal;
+            Delimiter = delimiter;
         }
     }
 }
