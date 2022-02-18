@@ -9,8 +9,8 @@ namespace RSG.Core.Interfaces.Configuration
     public interface IDictionaryProvider
     {
         /// <summary>
-        /// Gets or sets a <see cref="IList{T}"/> of <see cref="RsgDictionary"/>(s).
+        /// Gets a <see cref="IList{T}"/> of <see cref="RsgDictionary"/>(s).
         /// </summary>
-        IList<RsgDictionary> Dictionaries { get; set; }
+        IList<RsgDictionary> Dictionaries { get; }
     }
 }
