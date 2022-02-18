@@ -13,13 +13,13 @@ namespace RSG.Core.Services
     /// <summary>
     /// Holds a collection of dictionaries, and provides methods for CRUD
     /// operations on the collection of <see cref="IRsgDictionary"/>(s).
-    /// <para>Lazily initalizes the selected dictionary until <see cref="SelectedAsync"/>
+    /// <para>Lazily initalizes the selected dictionary until <see cref="GetSelectedDictionaryAsync"/>
     /// or <see cref="SelectAsync(string)"/> is called.</para>
     /// </summary>
-    public class DictionaryService : IDictionaryService
+    public class DictionaryLoader : IDictionaryLoader
     {
         // Dependencies
-        private readonly IWordListService wordListService;
+        private readonly IWordListCreator wordListService;
         private readonly IDictionaryProvider dictionaryConfiguration;
 
         // Members
@@ -27,13 +27,13 @@ namespace RSG.Core.Services
         private bool isFullyInitialized;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DictionaryService"/> class.
+        /// Initializes a new instance of the <see cref="DictionaryLoader"/> class.
         /// </summary>
         /// <param name="wordListService">Used to construct the wordlist contained in
         /// the <see cref="IDictionaryProvider.Dictionaries"/>.</param>
         /// <param name="dictionaryConfiguration">The dictionary configuration.</param>
-        public DictionaryService(
-            IWordListService wordListService,
+        public DictionaryLoader(
+            IWordListCreator wordListService,
             IDictionaryProvider dictionaryConfiguration)
         {
             this.wordListService = wordListService;
@@ -83,11 +83,11 @@ namespace RSG.Core.Services
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <exception cref="ArgumentException">Thrown if the dictionary
         /// name was not found.</exception>
-        public async Task SelectAsync(string dictionaryName)
+        public async Task SelectAsync(string dictionaryName, CancellationToken cancellationToken)
         {
             if (!isFullyInitialized)
             {
-                await LazyInitialize();
+                await LazyInitialize(cancellationToken);
             }
 
             var dictionary = dictionaryConfiguration.Dictionaries.FirstOrDefault(d => d.Name.Equals(dictionaryName, StringComparison.OrdinalIgnoreCase));
@@ -96,26 +96,27 @@ namespace RSG.Core.Services
                 throw new ArgumentException($"The {dictionaryName} dictionary was not found.");
             }
 
-            await GetWordListFor();
+            await GetWordListFor(cancellationToken);
         }
 
         /// <summary>
         /// Returns the selected dictionary in an asynchronous operation.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<RsgDictionary> SelectedAsync()
+        public async Task<RsgDictionary> GetSelectedDictionaryAsync(CancellationToken cancellationToken = default)
         {
             if (!isFullyInitialized)
             {
-                await LazyInitialize();
+                await LazyInitialize(cancellationToken);
             }
 
             return selectedDictionary;
         }
 
-        private async Task LazyInitialize()
+        private async Task LazyInitialize(CancellationToken cancellationToken)
         {
             // Ensure the dictionary instance is not null.
+            cancellationToken.ThrowIfCancellationRequested();
             if (selectedDictionary == null)
             {
                 selectedDictionary = dictionaryConfiguration.Dictionaries.FirstOrDefault();
@@ -125,13 +126,13 @@ namespace RSG.Core.Services
                 }
             }
 
-            await GetWordListFor();
+            await GetWordListFor(cancellationToken);
             isFullyInitialized = true;
         }
 
         private async Task GetWordListFor(CancellationToken cancellationToken)
         {
-            var wordList = await wordListService.CreateAsync(selectedDictionary, cancellationToken);
+            var wordList = await wordListService.CreateWordListAsync(selectedDictionary, cancellationToken);
 
             selectedDictionary.SetWordList(wordList);
         }
