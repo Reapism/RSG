@@ -1,12 +1,18 @@
-﻿using RSG.Core.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace RSG.Core.Interfaces
 {
-    public interface IIterationsFrequency
+    /// <summary>
+    /// Provides a mechanism for retrieving specific
+    /// units of frequencies.
+    /// </summary>
+    public interface IIterationsFrequencyProvider
     {
+        /// <summary>
+        /// Gets a value indicating a sequence of <see cref="FrequencyUnit"/>(s).
+        /// </summary>
         IEnumerable<FrequencyUnit> IterationFrequencies { get; }
     }
 
@@ -22,17 +28,24 @@ namespace RSG.Core.Interfaces
         /// <param name="unit">The unit to compute to.</param>
         /// <param name="iterationsPerSecond">The number of iterations something completes in.</param>
         /// <param name="iterationsPerUnitFunc">A function to return the number of iterations it would take to reach <paramref name="unit"/></param>
-        public FrequencyUnit(string unit, BigInteger iterationsPerSecond, Func<BigInteger> iterationsPerUnitFunc)
+        public FrequencyUnit(string unit, BigInteger iterationPerSecond, Func<BigInteger> iterationsPerUnitFunc)
         {
             Unit = unit;
-            IterationsPerSecond = iterationsPerSecond;
+            IterationsPerSecond = iterationPerSecond;
             ComputeIterationsPerUnit = iterationsPerUnitFunc ?? throw new ArgumentNullException(nameof(iterationsPerUnitFunc));
         }
 
+        /// <summary>
+        /// The unit to comput
+        /// </summary>
         public string Unit { get; }
 
         public BigInteger IterationsPerSecond { get; }
 
+        /// <summary>
+        /// Returns the number of iterations it would take to compute a single
+        /// <see cref="Unit"/> given the number of <see cref="IterationsPerSecond"/>.
+        /// </summary>
         public Func<BigInteger> ComputeIterationsPerUnit { get; }
 
         public override string ToString()
@@ -45,10 +58,9 @@ namespace RSG.Core.Interfaces
     {
         private readonly BigInteger iterationsPerSecond;
 
-        public Test(BigInteger iterationsPerSecond)
+        public Test()
         {
             var freqUnit = new FrequencyUnit("Day", iterationsPerSecond, GetIterationsPerDay);
-            this.iterationsPerSecond = iterationsPerSecond;
             freqUnit.ToString();
         }
 
