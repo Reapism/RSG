@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace RSG.Core.Models
 {
-    public class DictionaryStatistic : IStatistic<IDictionaryResult>, ICharacterFrequency, IIterationsFrequency
+    public class DictionaryStatistic : IStatistic<IWordResult>, ICharacterFrequency, IIterationsFrequencyProvider
     {
         public IDictionary<char, int> OccurrencesByCharacter { get; set; }
 
         public IEnumerable<FrequencyUnit> IterationFrequencies { get; }
 
-        public IDictionaryResult Result { get; }
+        public IWordResult Result { get; }
     }
 }

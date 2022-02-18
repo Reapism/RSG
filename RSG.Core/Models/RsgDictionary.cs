@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Numerics;
 using System.Text.Json.Serialization;
 
@@ -28,6 +29,11 @@ namespace RSG.Core.Models
 
         /// <inheritdoc/>
         public WordListOption WordListOptions { get; }
+
+        public RsgDictionary(string name, string description, IDictionary<int, string> wordList)
+        {
+
+        }
 
         /// <summary>
         /// Compares the <see cref="Name"/>
@@ -62,6 +68,7 @@ namespace RSG.Core.Models
                 WordListOptions.Source == dictionary.WordListOptions.Source &&
                 WordListOptions.NumberOfBytes == dictionary.WordListOptions.NumberOfBytes &&
                 WordListOptions.Delimiter == dictionary.WordListOptions.Delimiter &&
+                WordListOptions.IsLoaded == dictionary.WordListOptions.IsLoaded &&
                 Name == dictionary.Name;
         }
 
@@ -77,7 +84,11 @@ namespace RSG.Core.Models
 
         public void SetWordList(IDictionary<int, string> wordList)
         {
-            WordList = wordList;
+            if (wordList is not null && wordList.Any())
+            {
+                WordList = wordList;
+                this.WordListOptions.IsLoaded = true;
+            }
         }
     }
 }

@@ -92,7 +92,7 @@ namespace RSG.Core.Factories
             return BigInteger.Pow(value, exp);
         }
 
-        private static IIterationsFrequency GetDurations(long currentTicks, BigInteger iterations)
+        private static IIterationsFrequencyProvider GetDurations(long currentTicks, BigInteger iterations)
         {
             var model = new IterationsFrequency();
             var timeSpan = new TimeSpan(currentTicks);
