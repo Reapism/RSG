@@ -7,7 +7,7 @@ namespace RSG.Core.Models.Results
     /// <summary>
     /// Represents properties of an RSG dictionary.
     /// </summary>
-    public class DictionaryResult : Result<IDictionaryRequest>, IDictionaryResult
+    public class DictionaryResult : Result<IDictionaryRequest>, IWordResult
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryResult"/> class.
