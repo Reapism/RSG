@@ -42,8 +42,8 @@ namespace RSG.Core.Extensions
                 .AddTransient<IRsgDictionary, RsgDictionary>()
                 .AddTransient<ICharacterFrequency, CharacterFrequency>()
                 .AddTransient<IStringResult, StringResult>()
-                .AddTransient<IDictionaryResult, DictionaryResult>()
-                .AddTransient<IIterationsFrequency, IterationsFrequency>()
+                .AddTransient<IWordResult, DictionaryResult>()
+                .AddTransient<IIterationsFrequencyProvider, IterationsFrequency>()
                 .AddTransient<IStringResult, StringResult>()
                 .AddTransient<IGeneratedWord, GeneratedWord>()
                 .AddTransient<IDictionaryWordList, DictionaryWordList>()
@@ -52,8 +52,8 @@ namespace RSG.Core.Extensions
                 .AddTransient<ICharacterSetShuffler, CharacterSetShuffler>()
                 .AddTransient<IRandomStringGenerator, RandomStringGenerator>()
                 .AddTransient<IGeneratorEvents, RandomWordGenerator>()
-                .AddTransient<IWordListService, WordListService>()
-                .AddTransient<IDictionaryService, DictionaryService>();
+                .AddTransient<IWordListCreator, WordListService>()
+                .AddTransient<IDictionaryLoader, DictionaryLoader>();
 
             return services;
         }
