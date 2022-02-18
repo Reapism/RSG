@@ -24,13 +24,13 @@ namespace RSG.Core.Utilities
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DictionaryEventArgs"/> class with a
-        /// <see cref="IDictionaryResult"/> instance.
+        /// <see cref="IWordResult"/> instance.
         /// </summary>
         /// <param name="e"></param>
         /// <param name="isCancelled"></param>
         /// <param name="errorState"></param>
         /// <param name="result"></param>
-        public DictionaryEventArgs(Exception e, bool isCancelled, object errorState, IDictionaryResult result)
+        public DictionaryEventArgs(Exception e, bool isCancelled, object errorState, IWordResult result)
             : base(e, isCancelled, errorState)
         {
             Result = result;
@@ -40,6 +40,6 @@ namespace RSG.Core.Utilities
         /// Gets the result of the <see cref="RandomWordGenerator.GenerateAsync(System.Numerics.BigInteger)"/>
         /// member function.
         /// </summary>
-        public IDictionaryResult Result { get; }
+        public IWordResult Result { get; }
     }
 }
