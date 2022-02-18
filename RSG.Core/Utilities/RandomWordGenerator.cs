@@ -2,6 +2,7 @@
 using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Request;
+using RSG.Core.Interfaces.Result;
 using RSG.Core.Interfaces.Services;
 using RSG.Core.Models;
 using RSG.Core.Models.Results;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RSG.Core.Utilities
@@ -21,9 +23,9 @@ namespace RSG.Core.Utilities
     /// <remarks>
     /// This class cannot be inherited.
     /// </remarks>
-    public sealed class RandomWordGenerator : IGeneratorEvents
+    public sealed class RandomWordGenerator : IRandomWordGenerator, IGeneratorEvents
     {
-        private readonly IDictionaryService dictionaryService;
+        private readonly IDictionaryLoader dictionaryService;
         private readonly IThreadBalancer threadService;
         private readonly DictionaryConfiguration dictionaryConfiguration;
         private readonly char[] characterList;
@@ -41,7 +43,7 @@ namespace RSG.Core.Utilities
         /// <param name="threadService">A service for getting the number of threads.</param>
         /// <param name="dictionaryConfiguration">The dictionary configuration settings.</param>
         public RandomWordGenerator(
-            IDictionaryService dictionaryService,
+            IDictionaryLoader dictionaryService,
             ICharacterSetProvider characterSetProvider,
             IThreadBalancer threadService,
             DictionaryConfiguration dictionaryConfiguration)
@@ -69,6 +71,16 @@ namespace RSG.Core.Utilities
         /// </summary>
         public event ProgressChanged GenerateChanged;
 
+        public void GenerateWords(IDictionaryRequest dictionaryRequest, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GenerateWordsAsync(IDictionaryRequest dictionaryRequest, CancellationToken cancellationToken)
+        {
+            await GenerateAsyncInternal(request, cancellationToken);
+        }
+
         /// <summary>
         /// Runs the <see cref="GenerateAsync(BigInteger)"/> routine.
         /// <para>Subscribe to <see cref="GenerateChanged"/> and
@@ -81,7 +93,7 @@ namespace RSG.Core.Utilities
             await GenerateAsyncInternal(request);
         }
 
-        private async Task GenerateAsyncInternal(IDictionaryRequest request)
+        private async Task GenerateAsyncInternal(IDictionaryRequest request, CancellationToken cancellationToken)
         {
             progressPercentage = 0;
             try
@@ -102,7 +114,7 @@ namespace RSG.Core.Utilities
 
         private async Task LazyInitialization()
         {
-            dictionary = await dictionaryService.SelectedAsync();
+            dictionary = await dictionaryService.GetSelectedDictionaryAsync();
         }
 
         private void GenerateWords(IDictionaryRequest request, PartitionInfo partitionInfo)
