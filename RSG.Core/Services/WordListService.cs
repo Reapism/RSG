@@ -12,7 +12,7 @@ namespace RSG.Core.Services
     /// Contains methods for generating wordlists from an
     /// <see cref="IRsgDictionary"/>.
     /// </summary>
-    public class WordListService : IWordListService
+    public class WordListService : IWordListCreator
     {
         /// <summary>
         /// Creates a sequence of words from an <see cref="IRsgDictionary"/>.
@@ -22,7 +22,7 @@ namespace RSG.Core.Services
         /// <param name="dictionary">A contract representing a <see cref="IRsgDictionary"/>.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel this task.</param>
         /// <returns>A new <see cref="IEnumerable{string}"/> containing the new word list.</returns>
-        public async Task<IDictionary<int, string>> CreateAsync(IRsgDictionary dictionary, CancellationToken cancellationToken)
+        public async Task<IDictionary<int, string>> CreateWordListAsync(IRsgDictionary dictionary, CancellationToken cancellationToken)
         {
             return await CreateAsyncInternal(dictionary, cancellationToken);
         }
