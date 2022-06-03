@@ -3,7 +3,6 @@ using RSG.Core.Interfaces;
 using RSG.Core.Interfaces.Configuration;
 using RSG.Core.Interfaces.Services;
 using System.Linq;
-using System.Text;
 
 namespace RSG.Core.Services
 {

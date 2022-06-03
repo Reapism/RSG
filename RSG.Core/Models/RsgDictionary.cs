@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-using System.Numerics;
 using System.Text.Json.Serialization;
 
 namespace RSG.Core.Models
 {
+    // TODO fix the structure of this class. 
+    // The interface should be 1to1 with this class.
+    // ability to set wordlist outside ctor via method or something.
     /// <summary>
     /// Represents a fully constructed <see cref="IRsgDictionary"/>.
     /// </summary>
@@ -87,7 +89,8 @@ namespace RSG.Core.Models
             if (wordList is not null && wordList.Any())
             {
                 WordList = wordList;
-                this.WordListOptions.IsLoaded = true;
+                //TODO need to set source
+                //WordListOptions.SetSource(...)
             }
         }
     }

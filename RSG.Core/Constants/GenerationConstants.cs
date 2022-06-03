@@ -1,5 +1,8 @@
 ﻿namespace RSG.Core.Constants
 {
+    // TODO this will require refactor of how we generate anything.
+    // Will require a Func<string> where we use functions to tell
+    // RSG how it will generate using these types of generations.
     /// <summary>
     /// Represents constants for generating string with particular character sets.
     /// </summary>

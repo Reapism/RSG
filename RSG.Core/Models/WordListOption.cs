@@ -37,7 +37,8 @@ namespace RSG.Core.Models
         public string Delimiter { get; set; }
 
         /// <summary>
-        /// Sets the source and whether the source is local or not.
+        /// Sets the source and whether the source is local or not. Doing so, will require setting
+        /// additional values.
         /// </summary>
         /// <param name="source">The source to load the wordlist from.</param>
         /// <param name="isSourceLocal">Specifies whether the <paramref name="source"/> is local or not.</param>
