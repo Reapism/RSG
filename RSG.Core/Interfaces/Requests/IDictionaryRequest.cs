@@ -1,4 +1,5 @@
-﻿using RSG.Core.Interfaces.Requests;
+﻿using RSG.Core.Configuration;
+using RSG.Core.Interfaces.Requests;
 using RSG.Core.Models;
 
 namespace RSG.Core.Interfaces.Request
@@ -12,5 +13,6 @@ namespace RSG.Core.Interfaces.Request
         /// Gets or sets the dictionary used to make this request.
         /// </summary>
         RsgDictionary SelectedDictionary { get; set; }
+        DictionaryConfiguration dictionaryConfiguration { get; set; }
     }
 }

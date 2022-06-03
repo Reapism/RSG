@@ -13,7 +13,7 @@ namespace RSG.Core.Interfaces
         /// <summary>
         /// Gets a value indicating a sequence of <see cref="FrequencyUnit"/>(s).
         /// </summary>
-        IEnumerable<FrequencyUnit> IterationFrequencies { get; }
+        IEnumerable<FrequencyUnit> FrequencyUnits { get; }
     }
 
     /// <summary>
@@ -28,18 +28,21 @@ namespace RSG.Core.Interfaces
         /// <param name="unit">The unit to compute to.</param>
         /// <param name="iterationsPerSecond">The number of iterations something completes in.</param>
         /// <param name="iterationsPerUnitFunc">A function to return the number of iterations it would take to reach <paramref name="unit"/></param>
-        public FrequencyUnit(string unit, BigInteger iterationPerSecond, Func<BigInteger> iterationsPerUnitFunc)
+        public FrequencyUnit(string unit, BigInteger iterationsPerSecond, Func<BigInteger> iterationsPerUnitFunc)
         {
             Unit = unit;
-            IterationsPerSecond = iterationPerSecond;
+            IterationsPerSecond = iterationsPerSecond;
             ComputeIterationsPerUnit = iterationsPerUnitFunc ?? throw new ArgumentNullException(nameof(iterationsPerUnitFunc));
         }
 
         /// <summary>
-        /// The unit to comput
+        /// Gets a value indicating the unit to compute.
         /// </summary>
         public string Unit { get; }
 
+        /// <summary>
+        /// Gets a value indicating the number of iterations per second.
+        /// </summary>
         public BigInteger IterationsPerSecond { get; }
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace RSG.Core.Interfaces
         /// <see cref="Unit"/> given the number of <see cref="IterationsPerSecond"/>.
         /// </summary>
         public Func<BigInteger> ComputeIterationsPerUnit { get; }
+
 
         public override string ToString()
         {

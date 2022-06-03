@@ -1,4 +1,5 @@
-﻿using RSG.Core.Exceptions;
+﻿using RSG.Core.Configuration;
+using RSG.Core.Exceptions;
 using RSG.Core.Extensions;
 using RSG.Core.Interfaces;
 using System;
@@ -21,19 +22,20 @@ namespace RSG.Core.Models
         /// and if it's noisy.
         /// </summary>
         /// <param name="isNoisy">Whether this instance is Noisy.</param>
-        public WordContainer(bool isNoisy)
+        public WordContainer(DictionaryConfiguration dictionaryConfiguration)
         {
-            IsNoisy = isNoisy;
+            IsNoisy = dictionaryConfiguration.UseNoise;
 
             // Queue is number of partitions, Dictionary is number of words K: index, V: IGeneratedWord
             PartitionedWords = new ConcurrentQueue<IDictionary<int, IGeneratedWord>>();
             IterationsByThread = new Dictionary<int, int>();
         }
 
+        //TODO change to private, to hide this complex dataset.
         /// <summary>
         /// Gets a value that maps a partitioned collection of <see cref="IGeneratedWord"/>(s).
         /// </summary>
-        private ConcurrentQueue<IDictionary<int, IGeneratedWord>> PartitionedWords { get; set; }
+        public ConcurrentQueue<IDictionary<int, IGeneratedWord>> PartitionedWords { get; set; }
 
         private Dictionary<int, int> IterationsByThread { get; set; }
 

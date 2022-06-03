@@ -55,10 +55,17 @@ namespace RSG.Core.Tests.Unit.Configuration
 
         private DictionaryConfiguration CreateConfiguration()
         {
-            var dictionaries = new ObservableCollection<RsgDictionary>
+            var dictionaries = new ObservableCollection<IRsgDictionary>
             {
-                new RsgDictionary()
+                new RsgDictionary(
+                    "Corncob",
+                    "Corncob is a wordlist made by Mieliestronk found at http://www.mieliestronk.com/wordlist.html. Hyphenated words are included without the hypen, and a few word groups included are not delimited.",
+                    null)
                 {
+                    WordListOptions = new WordListOption()
+                    {
+                        Source = "https://drive.google.com/uc?export=download&id=1WR002XgSPtw37xNob-obmnzzyC6sLmN5"
+                    }
                     IsActive = true,
                     Name = "Corncob",
                     Description = "Corncob is a wordlist made by Mieliestronk found at http://www.mieliestronk.com/wordlist.html. Hyphenated words are included without the hypen, and a few word groups included are not delimited.",
