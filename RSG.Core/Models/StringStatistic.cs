@@ -10,6 +10,6 @@ namespace RSG.Core.Models
     {
         public IStringResult Result { get; }
 
-        public IDictionary<char, int> OccurrencesByCharacter { get; set; }
+        public IDictionary<char, int> CharacterOccurrences { get; set; }
     }
 }

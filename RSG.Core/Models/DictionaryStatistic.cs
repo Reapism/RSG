@@ -6,9 +6,9 @@ namespace RSG.Core.Models
 {
     public class DictionaryStatistic : IStatistic<IWordResult>, ICharacterFrequency, IIterationsFrequencyProvider
     {
-        public IDictionary<char, int> OccurrencesByCharacter { get; set; }
+        public IDictionary<char, int> CharacterOccurrences { get; set; }
 
-        public IEnumerable<FrequencyUnit> IterationFrequencies { get; }
+        public IEnumerable<FrequencyUnit> FrequencyUnits { get; }
 
         public IWordResult Result { get; }
     }

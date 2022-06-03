@@ -13,11 +13,11 @@ namespace RSG.Core.Models
 
         }
 
-        public IEnumerable<FrequencyUnit> IterationFrequencies { get; }
+        public IEnumerable<FrequencyUnit> FrequencyUnits { get; }
 
         public FrequencyUnit FromUnit(string unit)
         {
-            return IterationFrequencies.FirstOrDefault(e => e.Unit == unit);
+            return FrequencyUnits.FirstOrDefault(e => e.Unit == unit);
         }
 
         public static BigInteger IterationsPerMinute(BigInteger iterationsPerSecond)
