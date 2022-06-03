@@ -76,9 +76,9 @@ namespace RSG.Core.Utilities
             throw new NotImplementedException();
         }
 
-        public Task GenerateWordsAsync(IDictionaryRequest dictionaryRequest, CancellationToken cancellationToken)
+        public async Task GenerateWordsAsync(IDictionaryRequest dictionaryRequest, CancellationToken cancellationToken)
         {
-            await GenerateAsyncInternal(request, cancellationToken);
+            await GenerateAsyncInternal(dictionaryRequest, cancellationToken);
         }
 
         /// <summary>
@@ -88,9 +88,9 @@ namespace RSG.Core.Utilities
         /// </summary>
         /// <param name="request">The request used to generate.</param>
         /// <returns>Returns an empty task.</returns>
-        public async Task GenerateAsync(IDictionaryRequest request)
+        public async Task GenerateAsync(IDictionaryRequest request, CancellationToken cancellationToken)
         {
-            await GenerateAsyncInternal(request);
+            await GenerateAsyncInternal(request, cancellationToken);
         }
 
         private async Task GenerateAsyncInternal(IDictionaryRequest request, CancellationToken cancellationToken)
@@ -98,7 +98,7 @@ namespace RSG.Core.Utilities
             progressPercentage = 0;
             try
             {
-                await LazyInitialization();
+                await LazyInitialization(cancellationToken);
 
                 var partitionInfo = PartitionInfo.Get(request.Iterations, threadService.GetThreadCountByIterations(request.Iterations));
 
@@ -112,9 +112,9 @@ namespace RSG.Core.Utilities
             }
         }
 
-        private async Task LazyInitialization()
+        private async Task LazyInitialization(CancellationToken cancellationToken)
         {
-            dictionary = await dictionaryService.GetSelectedDictionaryAsync();
+            dictionary = await dictionaryService.GetSelectedDictionaryAsync(cancellationToken);
         }
 
         private void GenerateWords(IDictionaryRequest request, PartitionInfo partitionInfo)
@@ -131,25 +131,14 @@ namespace RSG.Core.Utilities
             var index = 0;
             for (; index < partitionInfo.NumberOfPartitions; index++)
             {
-                tasks[index] = Task.Run(() =>
-                {
-                    var iterations = index == partitionInfo.NumberOfPartitions - 1 ?
-                        partitionInfo.LastPartitionSize :
-                        partitionInfo.FullPartitionSize;
-
-                    var wordsPartition = useNoise ?
-                        GeneratePartitionedWordsWithNoise(iterations) :
-                        GeneratePartitionedWords(iterations);
-
-                    partitionedWords.Enqueue(wordsPartition);
-                });
+                tasks[index] = Task.Run(GetGenerateWordsAction(partitionInfo, partitionedWords, useNoise, index));
             }
 
             try
             {
                 Task.WaitAll(tasks);
 
-                var words = new WordContainer(dictionaryConfiguration.UseNoise)
+                var words = new WordContainer(dictionaryConfiguration)
                 {
                     PartitionedWords = partitionedWords
                 };
@@ -169,6 +158,22 @@ namespace RSG.Core.Utilities
             {
                 FireGenerateCompleted(new DictionaryEventArgs(ae.Flatten(), false, ae, null));
             }
+        }
+
+        private Action GetGenerateWordsAction(PartitionInfo partitionInfo, ConcurrentQueue<IDictionary<int, IGeneratedWord>> partitionedWords, bool useNoise, int index)
+        {
+            return () =>
+            {
+                var iterations = index == partitionInfo.NumberOfPartitions - 1 ?
+                    partitionInfo.LastPartitionSize :
+                    partitionInfo.FullPartitionSize;
+
+                var wordsPartition = useNoise ?
+                    GeneratePartitionedWordsWithNoise(iterations) :
+                    GeneratePartitionedWords(iterations);
+
+                partitionedWords.Enqueue(wordsPartition);
+            };
         }
 
         private IDictionary<int, IGeneratedWord> GeneratePartitionedWords(int iterations)
