@@ -1,0 +1,31 @@
+{
+  "Length": "10",
+  "CharacterSet": {
+    "Characters": {
+      "Lowercase": {
+        "Characters": "abcdefghijklmnopqrstuvwxyz",
+        "Enabled": true
+      },
+      "Uppercase": {
+        "Characters": "ABCDEFGHIJKLMNAOPQRSTUVWXYZ",
+        "Enabled": true
+      },
+      "Numbers": {
+        "Characters": "0123456789",
+        "Enabled": true
+      },
+      "Punctuation": {
+        "Characters": "!,.?",
+        "Enabled": false
+      },
+      "Space": {
+        "Characters": " ",
+        "Enabled": false
+      },
+      "Symbols": {
+        "Characters": "!@#$%^\u0026*()-=_\u002B,./;\\\u0027\\\u003C\u003E?:[]{}|\u0060~",
+        "Enabled": false
+      }
+    }
+  }
+}
