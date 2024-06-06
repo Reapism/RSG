@@ -1,7 +1,11 @@
 # RSG Random String Generator
-The new Random string generator thats backed up by a core library in .NET Core and using WPF as an interface for it.
+The new Random string generator that's backed up by a core library in .NET Core and using WPF as an interface for it.
 
 This is a fun project in the meantime to inspire other work that comes along. 
+
+# 2024 Update
+Overtime, as a pet project, I want to modernize and minimize this API with a simple UI and maybe a CLI to integrate with other applications to generate random strings and words.
+I will adopting most of my 2022 updates for this going forward.
 
 ## 2022 Update
 I have revisted this project recently, and want to finish tidying up the core library before creating a nuget package.
