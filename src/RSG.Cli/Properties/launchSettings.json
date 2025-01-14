@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "StringDebug": {
+      "commandName": "Project",
+      "commandLineArgs": "string -l 10 -i 10 -c \"ABCDEF\" -s false",
+      "launchBrowser": false
+    }
+  }
+}

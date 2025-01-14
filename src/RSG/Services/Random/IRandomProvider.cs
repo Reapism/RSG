@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace RSG
+﻿namespace RSG.Services
 {
     /// <summary>
     /// Provides a contract for generating random int(s).
@@ -36,71 +34,5 @@ namespace RSG
         /// equals maxValue, minValue is returned.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
         T Next(T minValue, T maxValue);
-    }
-
-    /// <summary>
-    /// A <see cref="Random"/> provider that uses a threadsafe <see cref="Random"/> instance.
-    /// </summary>
-    public class SystemRandomProvider : IRandomProvider<int>
-    {
-        private readonly Random random;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SystemRandomProvider"/> class.
-        /// </summary>
-        public SystemRandomProvider()
-            : this(Random.Shared)
-        { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SystemRandomProvider"/> class.
-        /// </summary>
-        /// <param name="random">A random instance.</param>
-        public SystemRandomProvider(Random random)
-        {
-            this.random = random ?? throw new ArgumentNullException(nameof(random));
-        }
-
-        /// <inheritdoc/>
-        public int Next()
-        {
-            return random.Next();
-        }
-
-        /// <inheritdoc/>
-        public int Next(int maxValue)
-        {
-            return random.Next(maxValue);
-        }
-
-        /// <inheritdoc/>
-        public int Next(int minValue, int maxValue)
-        {
-            return random.Next(minValue, maxValue);
-        }
-    }
-
-    /// <summary>
-    /// Use <see cref="RandomNumberGenerator"/> to generate cryptographically random numbers.
-    /// </summary>
-    public class CryptoRandomProvider : IRandomProvider<int>
-    {
-        /// <inheritdoc/>
-        public int Next()
-        {
-            return RandomNumberGenerator.GetInt32(0, int.MaxValue);
-        }
-
-        /// <inheritdoc/>
-        public int Next(int maxValue)
-        {
-            return RandomNumberGenerator.GetInt32(maxValue);
-        }
-
-        /// <inheritdoc/>
-        public int Next(int minValue, int maxValue)
-        {
-            return RandomNumberGenerator.GetInt32(minValue, maxValue);
-        }
     }
 }

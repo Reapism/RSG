@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG.Tests", "tests\RSG.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSG", "src\RSG\RSG.csproj", "{4A45ED38-5514-42C5-B594-E67BA0472261}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSG.Cli", "src\RSG.Cli\RSG.Cli.csproj", "{992BA2BB-2193-468B-B1AC-B98974549FC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{4A45ED38-5514-42C5-B594-E67BA0472261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A45ED38-5514-42C5-B594-E67BA0472261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A45ED38-5514-42C5-B594-E67BA0472261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{992BA2BB-2193-468B-B1AC-B98974549FC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992BA2BB-2193-468B-B1AC-B98974549FC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992BA2BB-2193-468B-B1AC-B98974549FC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992BA2BB-2193-468B-B1AC-B98974549FC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

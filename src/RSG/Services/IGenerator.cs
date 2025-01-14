@@ -1,4 +1,4 @@
-﻿namespace RSG
+﻿namespace RSG.Services
 {
     public interface IGenerator<TRequest, TResult>
     {

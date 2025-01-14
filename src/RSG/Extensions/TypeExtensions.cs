@@ -18,7 +18,7 @@ namespace RSG.Extensions
         /// in the class <paramref name="type"/>.</returns>
         public static IEnumerable<T> GetPublicConstants<T>(this Type type)
         {
-            var types =  type
+            var types = type
                 .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(field => field.IsLiteral && !field.IsInitOnly && field.FieldType == typeof(T))
                 .Select(constType => constType.GetRawConstantValue())
